@@ -18,8 +18,6 @@ const PropertyCarousel = () => {
       subtitle: "From consultation to ownership in 30 days"
     }
   ];
-
-  // Duplicate slides for seamless infinite loop
   const duplicatedSlides = [...slides, ...slides, ...slides];
 
   return (

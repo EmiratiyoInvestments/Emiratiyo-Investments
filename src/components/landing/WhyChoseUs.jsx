@@ -105,7 +105,6 @@ const WhyDubai = () => {
               ))}
             </div>
           </div>
-
         </div>
       </div>
     </section>
