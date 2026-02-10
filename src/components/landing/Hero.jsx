@@ -11,7 +11,6 @@ import {
 } from "recharts";
 
 const Hero = () => {
-  // Different data for each chart
   const data1 = [
     { v: 30 },
     { v: 50 },
@@ -68,7 +67,7 @@ const Hero = () => {
         </div>
 
         {/* Content */}
-        <div className="absolute inset-0 flex items-center justify-center pb-24">
+        <div className="absolute inset-0 flex items-center justify-center pb-14">
           <div className="w-full max-w-5xl px-6 text-center">
             {/* Headline */}
             <h1
@@ -104,7 +103,6 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* ONE Floating Stats Box - 3 COLUMNS */}
         <div className="absolute bottom-[-80px] left-1/2  transform -translate-x-1/2 z-50 w-full max-w-6xl px-6">
           <div className="bg-white rounded-xl shadow-2xl p-8">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -172,7 +170,6 @@ const Hero = () => {
       {/* Stats Section with padding for floating card */}
       <div className="bg-[#f7f7f7] pt-32 pb-24">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Additional content can go here */}
         </div>
       </div>
     </section>

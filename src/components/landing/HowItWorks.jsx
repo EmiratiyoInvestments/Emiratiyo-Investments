@@ -2,7 +2,7 @@ import React from "react";
 
 const HowItWorks = () => {
   return (
-    <section className="max-w-6xl mx-auto py-16 sm:py-20 lg:py-28 px-4">
+    <section className="max-w-6xl mx-auto py-10 sm:py-20 md:-mt-30 lg:py-28 px-4">
       {/* Section Heading */}
       <div className="text-center mb-16 sm:mb-20">
         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-4">
@@ -19,8 +19,12 @@ const HowItWorks = () => {
         <div className="flex flex-row">
           <div className="hidden md:flex flex-col items-center">
             <div className="w-32 py-5 border-2 border-[#e83f25] rounded mr-4 uppercase flex flex-col items-center justify-center bg-white hover:bg-[#e83f25] hover:text-white transition-colors duration-300 group">
-              <div className="text-3xl font-black text-[#e83f25] group-hover:text-white">01</div>
-              <div className="text-gray-600 text-sm font-semibold group-hover:text-white">Step 1</div>
+              <div className="text-3xl font-black text-[#e83f25] group-hover:text-white">
+                01
+              </div>
+              <div className="text-gray-600 text-sm font-semibold group-hover:text-white">
+                Step 1
+              </div>
             </div>
             <div className="h-full border-l-4 border-transparent">
               <div className="border-l-4 mr-4 h-full border-gray-300 border-dashed"></div>
@@ -32,15 +36,29 @@ const HowItWorks = () => {
                 <div className="md:hidden text-sm font-normal uppercase pt-3 pl-3 text-gray-500">
                   <span className="font-black text-[#e83f25]">Step 1</span>
                 </div>
-                <div className="p-6 text-2xl sm:text-3xl text-black font-bold">Free Consultation</div>
+                <div className="p-6 text-2xl sm:text-3xl text-black font-bold">
+                  Free Consultation
+                </div>
                 <div className="px-6 pb-6 text-gray-600 leading-relaxed">
-                  Share your investment goals with our experts. We'll understand your budget, preferences, and investment strategy to create a personalized plan.
+                  Share your investment goals with our experts. We'll understand
+                  your budget, preferences, and investment strategy to create a
+                  personalized plan.
                 </div>
               </div>
               <div className="md:w-40 w-full p-8 flex items-center justify-center">
                 {/* Consultation Icon */}
-                <svg className="w-24 h-24 text-[#e83f25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                <svg
+                  className="w-24 h-24 text-[#e83f25]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  />
                 </svg>
               </div>
             </div>
@@ -62,8 +80,12 @@ const HowItWorks = () => {
         <div className="flex flex-row-reverse">
           <div className="hidden md:flex flex-col items-center">
             <div className="w-32 py-5 border-2 border-[#e83f25] rounded ml-4 uppercase flex flex-col items-center justify-center bg-white hover:bg-[#e83f25] hover:text-white transition-colors duration-300 group">
-              <div className="text-3xl font-black text-[#e83f25] group-hover:text-white">02</div>
-              <div className="text-gray-600 text-sm font-semibold group-hover:text-white">Step 2</div>
+              <div className="text-3xl font-black text-[#e83f25] group-hover:text-white">
+                02
+              </div>
+              <div className="text-gray-600 text-sm font-semibold group-hover:text-white">
+                Step 2
+              </div>
             </div>
             <div className="h-full border-r-4 border-transparent">
               <div className="border-l-4 ml-4 h-full border-gray-300 border-dashed"></div>
@@ -75,17 +97,36 @@ const HowItWorks = () => {
                 <div className="md:hidden text-sm font-normal uppercase pt-3 pl-3 text-gray-500">
                   <span className="font-black text-[#e83f25]">Step 2</span>
                 </div>
-                <div className="p-6 text-2xl sm:text-3xl text-black font-bold">AI-Powered Matching</div>
+                <div className="p-6 text-2xl sm:text-3xl text-black font-bold">
+                  AI-Powered Matching
+                </div>
                 <div className="px-6 pb-6 text-gray-600 leading-relaxed">
-                  Our AI finds the perfect properties for your portfolio. Advanced algorithms analyze market data and match you with high-ROI opportunities.
+                  Our AI finds the perfect properties for your portfolio.
+                  Advanced algorithms analyze market data and match you with
+                  high-ROI opportunities.
                 </div>
               </div>
               <div className="md:w-40 w-full p-8 flex items-center justify-center">
                 {/* AI Matching Icon */}
-                <svg className="w-24 h-24 text-[#e83f25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                  <circle cx="12" cy="10" r="2" strokeWidth="2"/>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M16 10h.01"/>
+                <svg
+                  className="w-24 h-24 text-[#e83f25]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                  <circle cx="12" cy="10" r="2" strokeWidth="2" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M8 10h.01M16 10h.01"
+                  />
                 </svg>
               </div>
             </div>
@@ -107,8 +148,12 @@ const HowItWorks = () => {
         <div className="flex flex-row">
           <div className="hidden md:flex flex-col items-center">
             <div className="w-32 py-5 border-2 border-[#e83f25] rounded mr-4 uppercase flex flex-col items-center justify-center bg-white hover:bg-[#e83f25] hover:text-white transition-colors duration-300 group">
-              <div className="text-3xl font-black text-[#e83f25] group-hover:text-white">03</div>
-              <div className="text-gray-600 text-sm font-semibold group-hover:text-white">Step 3</div>
+              <div className="text-3xl font-black text-[#e83f25] group-hover:text-white">
+                03
+              </div>
+              <div className="text-gray-600 text-sm font-semibold group-hover:text-white">
+                Step 3
+              </div>
             </div>
             <div className="h-full border-l-4 border-transparent">
               <div className="border-l-4 mr-4 h-full border-gray-300 border-dashed"></div>
@@ -120,15 +165,29 @@ const HowItWorks = () => {
                 <div className="md:hidden text-sm font-normal uppercase pt-3 pl-3 text-gray-500">
                   <span className="font-black text-[#e83f25]">Step 3</span>
                 </div>
-                <div className="p-6 text-2xl sm:text-3xl text-black font-bold">Legal Support</div>
+                <div className="p-6 text-2xl sm:text-3xl text-black font-bold">
+                  Legal Support
+                </div>
                 <div className="px-6 pb-6 text-gray-600 leading-relaxed">
-                  Complete documentation and legal assistance. Our team handles all paperwork, contracts, and regulatory requirements for a smooth transaction.
+                  Complete documentation and legal assistance. Our team handles
+                  all paperwork, contracts, and regulatory requirements for a
+                  smooth transaction.
                 </div>
               </div>
               <div className="md:w-40 w-full p-8 flex items-center justify-center">
                 {/* Document Icon */}
-                <svg className="w-24 h-24 text-[#e83f25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                <svg
+                  className="w-24 h-24 text-[#e83f25]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
                 </svg>
               </div>
             </div>
@@ -150,8 +209,12 @@ const HowItWorks = () => {
         <div className="flex flex-row-reverse">
           <div className="hidden md:flex flex-col items-center">
             <div className="w-32 py-5 border-2 border-[#e83f25] rounded ml-4 uppercase flex flex-col items-center justify-center bg-white hover:bg-[#e83f25] hover:text-white transition-colors duration-300 group">
-              <div className="text-3xl font-black text-[#e83f25] group-hover:text-white">04</div>
-              <div className="text-gray-600 text-sm font-semibold group-hover:text-white">Step 4</div>
+              <div className="text-3xl font-black text-[#e83f25] group-hover:text-white">
+                04
+              </div>
+              <div className="text-gray-600 text-sm font-semibold group-hover:text-white">
+                Step 4
+              </div>
             </div>
           </div>
           <div className="flex-auto border-2 rounded border-gray-200 hover:border-[#e83f25] hover:shadow-lg transition-all duration-300">
@@ -160,15 +223,28 @@ const HowItWorks = () => {
                 <div className="md:hidden text-sm font-normal uppercase pt-3 pl-3 text-gray-500">
                   <span className="font-black text-[#e83f25]">Step 4</span>
                 </div>
-                <div className="p-6 text-2xl sm:text-3xl text-black font-bold">After-Sales Care</div>
+                <div className="p-6 text-2xl sm:text-3xl text-black font-bold">
+                  After-Sales Care
+                </div>
                 <div className="px-6 pb-6 text-gray-600 leading-relaxed">
-                  Ongoing support and property management. We provide continuous assistance, maintenance coordination, and investment tracking.
+                  Ongoing support and property management. We provide continuous
+                  assistance, maintenance coordination, and investment tracking.
                 </div>
               </div>
               <div className="md:w-40 w-full p-8 flex items-center justify-center">
                 {/* Key/House Icon */}
-                <svg className="w-24 h-24 text-[#e83f25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                <svg
+                  className="w-24 h-24 text-[#e83f25]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                  />
                 </svg>
               </div>
             </div>
@@ -178,7 +254,9 @@ const HowItWorks = () => {
 
       {/* Bottom CTA */}
       <div className="mt-16 text-center">
-        <p className="text-gray-600 mb-6">Ready to start your investment journey?</p>
+        <p className="text-gray-600 mb-6">
+          Ready to start your investment journey?
+        </p>
         <button className="px-8 py-3 text-base rounded-md font-semibold text-white bg-[#e83f25] hover:bg-[#c73519] transition-colors duration-300 shadow-lg hover:shadow-xl">
           Schedule Free Consultation
         </button>
