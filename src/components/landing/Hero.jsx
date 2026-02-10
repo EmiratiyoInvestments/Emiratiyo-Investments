@@ -67,7 +67,7 @@ const Hero = () => {
         </div>
 
         {/* Content */}
-        <div className="absolute inset-0 flex items-center justify-center pb-24">
+        <div className="absolute inset-0 flex items-center justify-center pb-14">
           <div className="w-full max-w-5xl px-6 text-center">
             {/* Headline */}
             <h1

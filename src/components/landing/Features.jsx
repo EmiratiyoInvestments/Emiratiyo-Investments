@@ -2,7 +2,7 @@ import React from "react";
 
 const AIFeatures = () => {
   return (
-    <section className="relative py-16 sm:py-20 lg:py-28 bg-white overflow-hidden">
+    <section className="relative py-9 sm:py-20 md:-mt-25 lg:py-28 bg-white overflow-hidden">
       {/* Decorative geometric background */}
       <div className="absolute inset-0 pointer-events-none opacity-5">
         <div

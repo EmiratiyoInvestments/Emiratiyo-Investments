@@ -12,14 +12,14 @@ const LandingPage = () => {
   return (
     <div >
       <Header />
-      <main className="pt-0">
+      <main>
         <div className="min-h-screen flex items-center justify-center">
           <Hero />
         </div>
         <div>
             <PropertyCarousel/>
         </div>
-        <div className="mt-[0px]">
+        <div>
           <WhyChoseUs />
         </div>
         <div>
