@@ -1,12 +1,12 @@
 import React from "react";
-import Header from "../../components/landing/Header";
-import Hero from "../../components/landing/Hero";
-import WhyChoseUs from "../../components/landing/WhyChoseUs";
-import Features from "../../components/landing/Features";
-import HowItWorks from "../../components/landing/HowItWorks";
-import Testimonials from "../../components/landing/Testimonials";
-import Footer from "../../components/landing/Footer";
-import PropertyCarousel from "../../components/landing/PropertyCarousel";
+import Header from "../components/global/Header";
+import Hero from "../components/landing/Hero";
+import WhyChoseUs from "../components/landing/WhyChoseUs";
+import Features from "../components/landing/Features";
+import HowItWorks from "../components/landing/HowItWorks";
+import Testimonials from "../components/landing/Testimonials";
+import Footer from "../components/global/Footer";
+import PropertyCarousel from "../components/landing/PropertyCarousel";
 
 const LandingPage = () => {
   return (
