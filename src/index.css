@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+/* ========== CUSTOM FONT - Fields Display ========== */
+@font-face {
+  font-family: "Fields Display";
+  src: url("/fonts/fields-display.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ========== COLORS - FROM PDF ========== */
+  --primary: #e83f25; /* Bright Red */
+  --black: #000000; /* True Black */
+  --grey: #939393; /* Light Grey */
+  --white: #f7f7f7; /* Almost White */
+
+  /* ========== TYPOGRAPHY - FROM PDF ========== */
+  --font-display: "Fields Display", sans-serif; /* Title and Headings */
+  --font-body: "Raleway", sans-serif; /* Subheadings and Body */
+
+  /* ========== KERNING - FROM PDF ========== */
+  --kerning-max: 560px;
+  --kerning-min: 260px;
+
+  /* ========== GRADIENT OVERLAYS - FROM PDF ========== */
+  --gradient-red-overlay: linear-gradient(
+    135deg,
+    rgba(232, 63, 37, 0.85) 0%,
+    rgba(232, 63, 37, 0.6) 100%
+  );
+  --gradient-black-overlay: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  --gradient-diagonal: linear-gradient(
+    45deg,
+    var(--primary) 0%,
+    var(--black) 100%
+  );
+  --gradient-red-to-grey: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--grey) 100%
+  );
+}
+
+/* ========== GLOBAL RESET ========== */
+
+body {
+  font-family: var(--font-body);
+  color: var(--black);
+  background-color: #ffffff;
+}
+
+/* ========== TYPOGRAPHY ========== */
+
+* {
+  font-family: var(--font-body);
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  color: var(--black);
+}
+
+h3,
+h4,
+h5,
+h6,
+span,
+p {
+  font-family: var(--font-body);
+}
+
+a {
+  font-family: var(--font-body);
+}
+
+/* Apply kerning to subheadings */
+h3,
+h4 {
+  letter-spacing: 0.05em;
+}
+
+/* ========== PATTERN SYSTEM - FROM PDF ========== */
+
+/* Pattern 1: Diagonal Split with Gradient Overlay */
+.pattern-diagonal-split {
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+}
+
+.pattern-diagonal-split::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-red-overlay);
+  z-index: 2;
+}
+
+.pattern-diagonal-split img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+/* Pattern 2: Circular Mask with Gradient */
+.pattern-circle {
+  position: relative;
+  overflow: hidden;
+  clip-path: circle(50% at 50% 50%);
+  border-radius: 50%;
+}
+
+.pattern-circle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-red-overlay);
+  z-index: 2;
+  mix-blend-mode: multiply;
+}
+
+.pattern-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Pattern 3: Hexagon Shape with Gradient Overlay */
+.pattern-hexagon {
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.pattern-hexagon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-black-overlay);
+  z-index: 2;
+}
+
+.pattern-hexagon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Pattern 4: Triangle Corner Cutout with Gradient */
+.pattern-triangle-cut {
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+}
+
+.pattern-triangle-cut::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-diagonal);
+  opacity: 0.7;
+  z-index: 2;
+}
+
+.pattern-triangle-cut img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Pattern 5: Parallelogram Skew with Red Gradient */
+.pattern-parallelogram {
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+}
+
+.pattern-parallelogram::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-red-to-grey);
+  opacity: 0.6;
+  z-index: 2;
+}
+
+.pattern-parallelogram img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Pattern 6: Multiple Overlapping Shapes (Complex Pattern from PDF) */
+.pattern-complex {
+  position: relative;
+  overflow: hidden;
+}
+
+.pattern-complex::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60%;
+  height: 80%;
+  background: var(--primary);
+  opacity: 0.3;
+  clip-path: polygon(
+    30% 0%,
+    70% 0%,
+    100% 30%,
+    100% 70%,
+    70% 100%,
+    30% 100%,
+    0% 70%,
+    0% 30%
+  );
+  z-index: 3;
+}
+
+.pattern-complex::after {
+  content: "";
+  position: absolute;
+  bottom: -15%;
+  left: -5%;
+  width: 50%;
+  height: 70%;
+  background: var(--black);
+  opacity: 0.2;
+  clip-path: circle(50% at 50% 50%);
+  z-index: 3;
+}
+
+.pattern-complex img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* ========== GRADIENT BACKGROUNDS (NO IMAGE) ========== */
+.bg-gradient-red {
+  background: var(--gradient-red-overlay);
+}
+
+.bg-gradient-black {
+  background: var(--gradient-black-overlay);
+}
+
+.bg-gradient-diagonal {
+  background: var(--gradient-diagonal);
+}
+
+/* ========== IMAGE CONTAINER BASE ========== */
+.image-with-pattern {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.image-with-pattern img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
