@@ -5,7 +5,7 @@ import { PortableText } from '@portabletext/react'
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react'
 import Header from '../components/global/Header'
 import { client, urlFor } from '../services/sanityClient'
-import { SINGLE_BLOG_QUERY } from '../lib/sanityQueries'
+import { SINGLE_BLOG_QUERY } from '../lib/blogQueries'
 
 const BlogDetailPage = () => {
   const { slug } = useParams()

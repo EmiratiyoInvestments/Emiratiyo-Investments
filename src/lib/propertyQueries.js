@@ -1,98 +1,3 @@
-// Get all blogs (for blog listing page)
-export const ALL_BLOGS_QUERY = `*[_type == "blog"] | order(publishedAt desc) {
-  _id,
-  title,
-  slug,
-  mainImage,
-  excerpt,
-  publishedAt,
-  readTime,
-  featured,
-  tags,
-  "author": author->{
-    name,
-    image,
-    role
-  },
-  "categories": categories[]->{
-    title,
-    slug
-  }
-}`
-
-// Get single blog by slug (for blog detail page)
-export const SINGLE_BLOG_QUERY = `*[_type == "blog" && slug.current == $slug][0] {
-  _id,
-  title,
-  slug,
-  mainImage,
-  body,
-  excerpt,
-  publishedAt,
-  readTime,
-  featured,
-  tags,
-  "author": author->{
-    name,
-    image,
-    role,
-    bio
-  },
-  "categories": categories[]->{
-    title,
-    slug
-  },
-  seo
-}`
-
-// Get featured blogs only
-export const FEATURED_BLOGS_QUERY = `*[_type == "blog" && featured == true] | order(publishedAt desc)[0...3] {
-  _id,
-  title,
-  slug,
-  mainImage,
-  excerpt,
-  publishedAt,
-  readTime,
-  "author": author->{
-    name,
-    image,
-    role
-  },
-  "categories": categories[]->{
-    title,
-    slug
-  }
-}`
-
-// Get blogs by category
-export const BLOGS_BY_CATEGORY_QUERY = `*[_type == "blog" && $category in categories[]->slug.current] | order(publishedAt desc) {
-  _id,
-  title,
-  slug,
-  mainImage,
-  excerpt,
-  publishedAt,
-  readTime,
-  "author": author->{
-    name,
-    image,
-    role
-  },
-  "categories": categories[]->{
-    title,
-    slug
-  }
-}`
-
-// Get all categories
-export const ALL_CATEGORIES_QUERY = `*[_type == "category"] {
-  _id,
-  title,
-  slug,
-  description
-}`
-
 // ==================== PROPERTY QUERIES ====================
 
 // Get all properties (for properties listing page)
@@ -116,7 +21,15 @@ export const ALL_PROPERTIES_QUERY = `*[_type == "property"] | order(publishedAt 
   amenities,
   featured,
   publishedAt,
-  tags
+  tags,
+  "agent": agent->{
+    name,
+    image,
+    role,
+    phone,
+    email,
+    whatsapp
+  }
 }`
 
 // Get single property by slug (for property detail page)
@@ -146,7 +59,19 @@ export const SINGLE_PROPERTY_QUERY = `*[_type == "property" && slug.current == $
   handoverDate,
   publishedAt,
   tags,
-  seo
+  seo,
+  "agent": agent->{
+    name,
+    image,
+    role,
+    phone,
+    email,
+    whatsapp,
+    bio,
+    licenseNumber,
+    languages,
+    specialization
+  }
 }`
 
 // Get featured properties only
@@ -167,7 +92,15 @@ export const FEATURED_PROPERTIES_QUERY = `*[_type == "property" && featured == t
   areaUnit,
   location,
   featured,
-  tags
+  tags,
+  "agent": agent->{
+    name,
+    image,
+    role,
+    phone,
+    email,
+    whatsapp
+  }
 }`
 
 // Get properties by status (for-sale, for-rent, etc.)
@@ -188,7 +121,15 @@ export const PROPERTIES_BY_STATUS_QUERY = `*[_type == "property" && status == $s
   areaUnit,
   location,
   featured,
-  tags
+  tags,
+  "agent": agent->{
+    name,
+    image,
+    role,
+    phone,
+    email,
+    whatsapp
+  }
 }`
 
 // Get properties by type (apartment, villa, etc.)
@@ -209,5 +150,47 @@ export const PROPERTIES_BY_TYPE_QUERY = `*[_type == "property" && propertyType =
   areaUnit,
   location,
   featured,
-  tags
+  tags,
+  "agent": agent->{
+    name,
+    image,
+    role,
+    phone,
+    email,
+    whatsapp
+  }
+}`
+
+// ==================== AGENT QUERIES ====================
+
+// Get all agents
+export const ALL_AGENTS_QUERY = `*[_type == "agent"] | order(name asc) {
+  _id,
+  name,
+  slug,
+  image,
+  role,
+  phone,
+  email,
+  whatsapp,
+  bio,
+  licenseNumber,
+  languages,
+  specialization
+}`
+
+// Get single agent by slug
+export const SINGLE_AGENT_QUERY = `*[_type == "agent" && slug.current == $slug][0] {
+  _id,
+  name,
+  slug,
+  image,
+  role,
+  phone,
+  email,
+  whatsapp,
+  bio,
+  licenseNumber,
+  languages,
+  specialization
 }`

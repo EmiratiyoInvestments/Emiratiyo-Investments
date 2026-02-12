@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Calendar, Clock, ChevronRight, Tag } from 'lucide-react'
 import Header from '../components/global/Header';
 import { client, urlFor } from '../services/sanityClient'
-import { ALL_BLOGS_QUERY, ALL_CATEGORIES_QUERY } from '../lib/sanityQueries'
+import { ALL_BLOGS_QUERY, ALL_CATEGORIES_QUERY } from '../lib/blogQueries'
 
 const BlogsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all')

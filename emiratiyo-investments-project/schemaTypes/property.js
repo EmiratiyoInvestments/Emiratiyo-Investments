@@ -22,6 +22,13 @@ export default {
       description: 'Internal reference number'
     },
     {
+      name: 'agent',
+      title: 'Assigned Agent',
+      type: 'reference',
+      to: [{ type: 'agent' }],
+      description: 'Agent responsible for this property'
+    },
+    {
       name: 'mainImage',
       title: 'Main Image',
       type: 'image',
@@ -269,15 +276,17 @@ export default {
       title: 'title',
       price: 'price',
       media: 'mainImage',
-      status: 'status'
+      status: 'status',
+      agent: 'agent.name'
     },
     prepare(selection) {
-      const { title, price, status } = selection
+      const { title, price, status, agent } = selection
       const priceFormatted = price ? `AED ${price.toLocaleString()}` : 'Price not set'
       const statusLabel = status ? ` • ${status}` : ''
+      const agentLabel = agent ? ` • Agent: ${agent}` : ''
       return {
         ...selection,
-        subtitle: `${priceFormatted}${statusLabel}`
+        subtitle: `${priceFormatted}${statusLabel}${agentLabel}`
       }
     }
   }
