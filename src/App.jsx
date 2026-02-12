@@ -9,11 +9,14 @@ import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
 import BlogsPage from './pages/BlogsPage';
 import BlogDetailPage from './pages/BlogsDetailsPage';
+import Header from './components/global/Header';
+import Footer from './components/global/Footer';
 import './index.css';
 
 const App = () => {
   return (
     <Router>
+      <Header />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<LandingPage />} />
@@ -26,6 +29,7 @@ const App = () => {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };

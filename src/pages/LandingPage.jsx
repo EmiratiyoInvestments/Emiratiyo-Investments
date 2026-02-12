@@ -1,38 +1,32 @@
 import React from "react";
-import Header from "../components/global/Header";
 import Hero from "../components/landing/Hero";
 import WhyChoseUs from "../components/landing/WhyChoseUs";
 import Features from "../components/landing/Features";
 import HowItWorks from "../components/landing/HowItWorks";
 import Testimonials from "../components/landing/Testimonials";
-import Footer from "../components/global/Footer";
 import PropertyCarousel from "../components/landing/PropertyCarousel";
 
 const LandingPage = () => {
   return (
-    <div >
-      <Header />
+    <div>
       <main>
         <div className="min-h-screen flex items-center justify-center">
           <Hero />
         </div>
         <div>
-            <PropertyCarousel/>
+          <PropertyCarousel />
         </div>
         <div>
           <WhyChoseUs />
         </div>
         <div>
-            <Features/>
+          <Features />
         </div>
         <div>
-            <HowItWorks/>
+          <HowItWorks />
         </div>
         <div>
-            <Testimonials/>
-        </div>
-        <div>
-            <Footer/>
+          <Testimonials />
         </div>
       </main>
     </div>

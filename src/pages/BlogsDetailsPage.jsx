@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { PortableText } from '@portabletext/react'
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react'
-import Header from '../components/global/Header'
 import { client, urlFor } from '../services/sanityClient'
 import { SINGLE_BLOG_QUERY } from '../lib/blogQueries'
 
@@ -25,45 +24,38 @@ const BlogDetailPage = () => {
 
   if (isLoading) {
     return (
-      <>
-        <Header />
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-[#e83f25] border-t-transparent rounded-full animate-spin"></div>
-            <p style={{ fontFamily: 'var(--font-body)' }} className="text-gray-500">
-              Loading article...
-            </p>
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[#e83f25] border-t-transparent rounded-full animate-spin"></div>
+          <p style={{ fontFamily: 'var(--font-body)' }} className="text-gray-500">
+            Loading article...
+          </p>
         </div>
-      </>
+      </div>
     )
   }
 
   if (!blog) {
     return (
-      <>
-        <Header />
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-display)' }}>
-              Article not found
-            </h2>
-            <Link
-              to="/blog"
-              className="text-[#e83f25] font-medium"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
-              Back to Blog
-            </Link>
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-display)' }}>
+            Article not found
+          </h2>
+          <Link
+            to="/blog"
+            className="text-[#e83f25] font-medium"
+            style={{ fontFamily: 'var(--font-body)' }}
+          >
+            Back to Blog
+          </Link>
         </div>
-      </>
+      </div>
     )
   }
 
   return (
     <div>
-      <Header />
       <main className="min-h-screen bg-white pt-24 pb-20">
         <div className="max-w-4xl mx-auto px-6">
 

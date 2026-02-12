@@ -19,7 +19,6 @@ import {
   X,
 } from "lucide-react";
 import { PortableText } from "@portabletext/react";
-import Header from "../components/global/Header";
 import { client, urlFor } from "../services/sanityClient";
 import { SINGLE_PROPERTY_QUERY } from "../lib/propertyQueries";
 
@@ -239,51 +238,44 @@ const PropertyDetailPage = () => {
 
   if (isLoading) {
     return (
-      <>
-        <Header />
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-[#e83f25] border-t-transparent rounded-full animate-spin"></div>
-            <p
-              style={{ fontFamily: "var(--font-body)" }}
-              className="text-gray-500"
-            >
-              Loading property...
-            </p>
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[#e83f25] border-t-transparent rounded-full animate-spin"></div>
+          <p
+            style={{ fontFamily: "var(--font-body)" }}
+            className="text-gray-500"
+          >
+            Loading property...
+          </p>
         </div>
-      </>
+      </div>
     );
   }
 
   if (!property) {
     return (
-      <>
-        <Header />
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <h2
-              className="text-2xl font-bold text-black mb-4"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Property Not Found
-            </h2>
-            <Link
-              to="/properties"
-              className="text-[#e83f25] hover:underline"
-              style={{ fontFamily: "var(--font-body)" }}
-            >
-              ← Back to Properties
-            </Link>
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2
+            className="text-2xl font-bold text-black mb-4"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Property Not Found
+          </h2>
+          <Link
+            to="/properties"
+            className="text-[#e83f25] hover:underline"
+            style={{ fontFamily: "var(--font-body)" }}
+          >
+            ← Back to Properties
+          </Link>
         </div>
-      </>
+      </div>
     );
   }
 
   return (
     <div>
-      <Header />
       <main className="min-h-screen bg-white pt-24 pb-20">
         <div className="max-w-6xl mx-auto px-6">
           {/* BACK BUTTON */}
@@ -356,11 +348,10 @@ const PropertyDetailPage = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`relative h-20 rounded-lg overflow-hidden ${
-                        index === currentImageIndex
+                      className={`relative h-20 rounded-lg overflow-hidden ${index === currentImageIndex
                           ? "ring-2 ring-[#e83f25]"
                           : "opacity-60 hover:opacity-100"
-                      } transition-all`}
+                        } transition-all`}
                     >
                       <img
                         src={urlFor(image).width(200).url()}

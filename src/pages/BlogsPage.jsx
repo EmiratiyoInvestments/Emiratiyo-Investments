@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { Calendar, Clock, ChevronRight, Tag } from 'lucide-react'
-import Header from '../components/global/Header';
 import { client, urlFor } from '../services/sanityClient'
 import { ALL_BLOGS_QUERY, ALL_CATEGORIES_QUERY } from '../lib/blogQueries'
 
@@ -22,8 +21,8 @@ const BlogsPage = () => {
   const filteredBlogs = selectedCategory === 'all'
     ? blogs
     : blogs?.filter(blog =>
-        blog.categories?.some(cat => cat.slug.current === selectedCategory)
-      )
+      blog.categories?.some(cat => cat.slug.current === selectedCategory)
+    )
 
   const featuredBlog = filteredBlogs?.[0]
   const remainingBlogs = filteredBlogs?.slice(1)
@@ -38,23 +37,19 @@ const BlogsPage = () => {
 
   if (blogsLoading) {
     return (
-      <>
-        <Header />
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-[#e83f25] border-t-transparent rounded-full animate-spin"></div>
-            <p style={{ fontFamily: 'var(--font-body)' }} className="text-gray-500">
-              Loading articles...
-            </p>
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[#e83f25] border-t-transparent rounded-full animate-spin"></div>
+          <p style={{ fontFamily: 'var(--font-body)' }} className="text-gray-500">
+            Loading articles...
+          </p>
         </div>
-      </>
+      </div>
     )
   }
 
   return (
     <div>
-      <Header />
       <main className="min-h-screen bg-white pt-24 pb-20">
         <div className="max-w-6xl mx-auto px-6">
 
@@ -84,11 +79,10 @@ const BlogsPage = () => {
           <div className="flex flex-wrap gap-3 justify-center mb-12">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                selectedCategory === 'all'
-                  ? 'bg-[#e83f25] text-white'
-                  : 'bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white'
-              }`}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === 'all'
+                ? 'bg-[#e83f25] text-white'
+                : 'bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white'
+                }`}
               style={{ fontFamily: 'var(--font-body)' }}
             >
               All
@@ -97,11 +91,10 @@ const BlogsPage = () => {
               <button
                 key={category._id}
                 onClick={() => setSelectedCategory(category.slug.current)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                  selectedCategory === category.slug.current
-                    ? 'bg-[#e83f25] text-white'
-                    : 'bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white'
-                }`}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === category.slug.current
+                  ? 'bg-[#e83f25] text-white'
+                  : 'bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white'
+                  }`}
                 style={{ fontFamily: 'var(--font-body)' }}
               >
                 {category.title}
@@ -122,7 +115,7 @@ const BlogsPage = () => {
           {featuredBlog && (
             <Link to={`/blog/${featuredBlog.slug.current}`} className="block mb-16 group">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-xl">
-                
+
                 {/* Featured Image */}
                 <div className="relative h-72 lg:h-full min-h-[400px] overflow-hidden">
                   {featuredBlog.mainImage ? (

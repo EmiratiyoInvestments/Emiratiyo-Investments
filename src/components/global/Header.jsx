@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Framer Motion Variants
@@ -60,17 +60,34 @@ const menuLinkVariants = {
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const activeClassName = "text-primary font-bold";
+  const inactiveClassName = "text-black  duration-300 hover:text-red-500 dark:hover:text-red-500";
+
+  const getClassName = ({ isActive }) =>
+    `block font-medium text-[15px] transition-all ${isActive ? activeClassName : inactiveClassName}`;
+
+  const getMobileClassName = ({ isActive }) =>
+    `block font-medium text-2xl text-center transition-all ${isActive ? activeClassName : inactiveClassName}`;
+
   return (
-    <header className="sticky top-0 flex border-b border-gray-300 py-2 px-4 sm:px-10 bg-white min-h-[60px] max-sm:min-h-[80px] tracking-wide relative z-50">
+    <header className="sticky top-0 flex items-center border-b border-gray-300 px-4 sm:px-10 bg-white h-[70px] tracking-wide relative z-50">
       <div className="flex flex-wrap items-center gap-4 w-full max-w-6xl mx-auto">
         {/* Logo - Desktop */}
-        <Link to="/" className="max-sm:hidden">
-          <img src="/logos/transparent_1.png" alt="EMIRATIYO" className="h-20 scale-125" />
+        <Link to="/" className="max-sm:hidden relative h-12 w-52">
+          <img
+            src="/logos/transparent_1.png"
+            alt="EMIRATIYO"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-auto max-w-none"
+          />
         </Link>
 
         {/* Logo - Mobile */}
-        <Link to="/" className="hidden max-sm:block">
-          <img src="/logos/transparent_1.png" alt="EMIRATIYO" className="h-24 scale-110" />
+        <Link to="/" className="hidden max-sm:block relative h-10 w-32">
+          <img
+            src="/logos/transparent_1.png"
+            alt="EMIRATIYO"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-44 w-auto max-w-none"
+          />
         </Link>
 
         {/* Desktop Navigation Menu - Static */}
@@ -79,64 +96,43 @@ const Header = () => {
             {/* Main Navigation Links */}
             <ul className="lg:flex lg:gap-x-8">
               <li>
-                <Link
-                  to="/home"
-                  className="hover:text-[#e83f25] text-[#e83f25] block font-medium text-[15px] transition-colors duration-300"
-                >
+                <NavLink to="/" end className={getClassName}>
                   Home
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
-                  to="/services"
-                  className="hover:text-[#e83f25] text-slate-900 block font-medium text-[15px] transition-colors duration-300"
-                >
+                <NavLink to="/services" className={getClassName}>
                   Services
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
-                  to="/properties"
-                  className="hover:text-[#e83f25] text-slate-900 block font-medium text-[15px] transition-colors duration-300"
-                >
+                <NavLink to="/properties" className={getClassName}>
                   Properties
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
-                  to="/business-setup"
-                  className="hover:text-[#e83f25] text-slate-900 block font-medium text-[15px] transition-colors duration-300"
-                >
+                <NavLink to="/business-setup" className={getClassName}>
                   Business Setup
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
-                  to="/contact"
-                  className="hover:text-[#e83f25] text-slate-900 block font-medium text-[15px] transition-colors duration-300"
-                >
+                <NavLink to="/contact" className={getClassName}>
                   Contact
-                </Link>
+                </NavLink>
               </li>
             </ul>
 
             {/* Secondary Links */}
             <ul className="lg:flex lg:items-center ml-auto lg:space-x-8">
               <li>
-                <Link
-                  to="/about"
-                  className="hover:text-[#e83f25] text-slate-900 block font-medium text-[15px] transition-colors duration-300"
-                >
+                <NavLink to="/about" className={getClassName}>
                   About Us
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
-                  to="/blog"
-                  className="hover:text-[#e83f25] text-slate-900 block font-medium text-[15px] transition-colors duration-300"
-                >
+                <NavLink to="/blog" className={getClassName}>
                   Blog
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </div>
@@ -185,74 +181,75 @@ const Header = () => {
 
                   {/* Main Navigation Links */}
                   <motion.div variants={menuLinkVariants} className="w-full border-b border-gray-300 pb-4">
-                    <Link
-                      to="/home"
+                    <NavLink
+                      to="/"
+                      end
                       onClick={() => setIsMenuOpen(false)}
-                      className="hover:text-[#e83f25] text-[#e83f25] block font-medium text-2xl text-center transition-colors duration-300"
+                      className={getMobileClassName}
                     >
                       Home
-                    </Link>
+                    </NavLink>
                   </motion.div>
 
                   <motion.div variants={menuLinkVariants} className="w-full border-b border-gray-300 pb-4">
-                    <Link
+                    <NavLink
                       to="/services"
                       onClick={() => setIsMenuOpen(false)}
-                      className="hover:text-[#e83f25] text-slate-900 block font-medium text-2xl text-center transition-colors duration-300"
+                      className={getMobileClassName}
                     >
                       Services
-                    </Link>
+                    </NavLink>
                   </motion.div>
 
                   <motion.div variants={menuLinkVariants} className="w-full border-b border-gray-300 pb-4">
-                    <Link
+                    <NavLink
                       to="/properties"
                       onClick={() => setIsMenuOpen(false)}
-                      className="hover:text-[#e83f25] text-slate-900 block font-medium text-2xl text-center transition-colors duration-300"
+                      className={getMobileClassName}
                     >
                       Properties
-                    </Link>
+                    </NavLink>
                   </motion.div>
 
                   <motion.div variants={menuLinkVariants} className="w-full border-b border-gray-300 pb-4">
-                    <Link
+                    <NavLink
                       to="/business-setup"
                       onClick={() => setIsMenuOpen(false)}
-                      className="hover:text-[#e83f25] text-slate-900 block font-medium text-2xl text-center transition-colors duration-300"
+                      className={getMobileClassName}
                     >
                       Business Setup
-                    </Link>
+                    </NavLink>
                   </motion.div>
 
                   <motion.div variants={menuLinkVariants} className="w-full border-b border-gray-300 pb-4">
-                    <Link
+                    <NavLink
                       to="/contact"
                       onClick={() => setIsMenuOpen(false)}
-                      className="hover:text-[#e83f25] text-slate-900 block font-medium text-2xl text-center transition-colors duration-300"
+                      className={getMobileClassName}
                     >
                       Contact
-                    </Link>
+                    </NavLink>
                   </motion.div>
 
                   {/* Secondary Links */}
                   <motion.div variants={menuLinkVariants} className="w-full border-b border-gray-300 pb-4 pt-4">
-                    <Link
+                    <NavLink
                       to="/about"
                       onClick={() => setIsMenuOpen(false)}
-                      className="hover:text-[#e83f25] text-slate-900 block font-medium text-2xl text-center transition-colors duration-300"
+                      className={getMobileClassName}
                     >
                       About Us
-                    </Link>
+                    </NavLink>
                   </motion.div>
 
                   <motion.div variants={menuLinkVariants} className="w-full border-b border-gray-300 pb-4">
-                    <Link
+                    <NavLink
                       to="/blog"
                       onClick={() => setIsMenuOpen(false)}
-                      className="hover:text-[#e83f25] text-slate-900 block font-medium text-2xl text-center transition-colors duration-300"
+                      className={getMobileClassName}
                     >
                       Blog
-                    </Link>
+                    </NavLink>
                   </motion.div>
                 </motion.div>
               </div>

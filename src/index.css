@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: var(--primary);
+}
+
 /* ========== CUSTOM FONT - Fields Display ========== */
 @font-face {
   font-family: "Fields Display";
@@ -27,7 +31,7 @@
   /* ========== GRADIENT OVERLAYS - FROM PDF ========== */
   --gradient-red-overlay: linear-gradient(
     135deg,
-    rgba(232, 63, 37, 0.85) 0%,
+    rgba(232, 63, 37, 0.85) 0%, 
     rgba(232, 63, 37, 0.6) 100%
   );
   --gradient-black-overlay: linear-gradient(
@@ -64,7 +68,6 @@ body {
 h1,
 h2 {
   font-family: var(--font-display);
-  color: var(--black);
 }
 
 h3,
