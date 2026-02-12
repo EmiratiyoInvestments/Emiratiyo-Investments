@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom'
 import { Calendar, Bed, Bath, Maximize, MapPin, Building2, CheckCircle, ExternalLink, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
 import { PortableText } from '@portabletext/react'
 import Header from '../components/global/Header';
-import { client, urlFor } from '../lib/sanityClient'
+import { client, urlFor } from '../services/sanityClient'
 import { SINGLE_PROPERTY_QUERY } from '../lib/sanityQueries'
 
 const PropertyDetailPage = () => {

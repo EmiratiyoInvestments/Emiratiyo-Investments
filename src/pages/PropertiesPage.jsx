@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { Bed, Bath, Maximize, MapPin, Tag } from 'lucide-react'
 import Header from '../components/global/Header';
-import { client, urlFor } from '../lib/sanityClient'
+import { client, urlFor } from '../services/sanityClient'
 import { ALL_PROPERTIES_QUERY } from '../lib/sanityQueries'
 
 const PropertiesPage = () => {
