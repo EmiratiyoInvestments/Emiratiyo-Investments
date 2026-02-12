@@ -36,7 +36,7 @@ const PropertyCarousel = () => {
                 alt={slide.title}
                 className="w-full h-full object-cover"
               />
-              
+
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
 
@@ -44,7 +44,7 @@ const PropertyCarousel = () => {
               <div className="absolute inset-0 flex items-end pb-16 sm:pb-20 lg:pb-24">
                 <div className="w-full px-6 sm:px-8 lg:px-12">
                   <div className="max-w-4xl">
-                    <h2 style={{ color:"white" }} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 leading-tight">
+                    <h2 style={{ color: "white" }} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 leading-tight">
                       {slide.title}
                     </h2>
                     <p className="text-base sm:text-lg md:text-xl text-white/90">
@@ -57,7 +57,7 @@ const PropertyCarousel = () => {
           ))}
         </div>
 
-        <style jsx>{`
+        <style>{`
           @keyframes infinite-scroll {
             0% {
               transform: translateX(0);

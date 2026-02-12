@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
@@ -6,7 +7,7 @@ const Footer = () => {
     <footer className="bg-gray-100">
       {/* CTA Section */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
-        <div 
+        <div
           className="relative overflow-hidden py-12 sm:py-16 px-6 sm:px-10 lg:px-16 rounded-2xl"
           style={{
             background: 'linear-gradient(135deg, #e83f25 0%, #ff5733 50%, #ff8566 100%)'
@@ -15,7 +16,7 @@ const Footer = () => {
           {/* Decorative Elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-black/10 rounded-full blur-3xl"></div>
-          
+
           <div className="relative z-10 grid md:grid-cols-2 grid-cols-1 gap-8 items-center">
             <div>
               <h2 className="text-white text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4">
@@ -40,13 +41,17 @@ const Footer = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
             {/* Company Info */}
             <div className="col-span-1 sm:col-span-2 lg:col-span-2">
-              <div className="mb-6">
-                <h1 className="text-4xl font-bold text-black">EMIRATIYO</h1>
+              <div className="mb-8 relative h-12">
+                <img
+                  src="/logos/transparent_1.png"
+                  alt="EMIRATIYO"
+                  className="absolute top-1/2 -translate-y-1/2 h-44 w-auto -ml-8 max-w-none"
+                />
               </div>
               <p className="text-gray-600 leading-relaxed mb-6">
                 Your trusted partner in Dubai real estate investment. We leverage AI technology to match investors with their perfect properties, ensuring maximum ROI and seamless transactions.
               </p>
-              
+
               {/* Contact Info */}
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-gray-600 hover:text-[#e83f25] transition-colors duration-300 cursor-pointer">
@@ -69,28 +74,40 @@ const Footer = () => {
               <h4 className="font-bold text-black uppercase mb-6 tracking-wider">Quick Links</h4>
               <div className="space-y-3">
                 <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#services">
+                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/home">
                     <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Our Services
-                  </a>
+                    Home
+                  </Link>
                 </p>
                 <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#properties">
+                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/services">
+                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
+                    Services
+                  </Link>
+                </p>
+                <p>
+                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/properties">
                     <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
                     Properties
-                  </a>
+                  </Link>
                 </p>
                 <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#about">
+                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/business-setup">
                     <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    About Us
-                  </a>
+                    Business Setup
+                  </Link>
                 </p>
                 <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#contact">
+                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/contact">
                     <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
                     Contact
-                  </a>
+                  </Link>
+                </p>
+                <p>
+                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/about">
+                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
+                    About Us
+                  </Link>
                 </p>
               </div>
             </div>
@@ -100,10 +117,10 @@ const Footer = () => {
               <h4 className="font-bold text-black uppercase mb-6 tracking-wider">Resources</h4>
               <div className="space-y-3">
                 <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#blog">
+                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/blog">
                     <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
                     Blog & News
-                  </a>
+                  </Link>
                 </p>
                 <p>
                   <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#market">
@@ -164,32 +181,24 @@ const Footer = () => {
               {/* Copyright */}
               <div className="text-center sm:text-left">
                 <p className="text-sm text-gray-600">
-                  © {new Date().getFullYear()} EMIRATIYO. All rights reserved. Dubai Real Estate Investment Platform.
+                  © {new Date().getFullYear()} <Link to="/" className="hover:text-[#e83f25] transition-colors duration-300 font-semibold text-gray-800">EMIRATIYO</Link>. All rights reserved. Dubai Real Estate Investment Platform.
                 </p>
               </div>
 
               {/* Social Media Icons */}
               <div className="flex items-center gap-3">
-                <a 
-                  href="#facebook" 
-                  className="w-10 h-10 inline-flex justify-center items-center rounded-lg border border-gray-300 text-gray-600 hover:text-white hover:bg-[#e83f25] hover:border-[#e83f25] transition-all duration-300"
-                >
-                  <Facebook className="w-5 h-5" />
-                </a>
-                <a 
-                  href="#instagram" 
+                <a
+                  href="https://www.instagram.com/emiratiyo/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 inline-flex justify-center items-center rounded-lg border border-gray-300 text-gray-600 hover:text-white hover:bg-[#e83f25] hover:border-[#e83f25] transition-all duration-300"
                 >
                   <Instagram className="w-5 h-5" />
                 </a>
-                <a 
-                  href="#twitter" 
-                  className="w-10 h-10 inline-flex justify-center items-center rounded-lg border border-gray-300 text-gray-600 hover:text-white hover:bg-[#e83f25] hover:border-[#e83f25] transition-all duration-300"
-                >
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a 
-                  href="#linkedin" 
+                <a
+                  href="https://www.linkedin.com/company/emiratiyo/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 inline-flex justify-center items-center rounded-lg border border-gray-300 text-gray-600 hover:text-white hover:bg-[#e83f25] hover:border-[#e83f25] transition-all duration-300"
                 >
                   <Linkedin className="w-5 h-5" />

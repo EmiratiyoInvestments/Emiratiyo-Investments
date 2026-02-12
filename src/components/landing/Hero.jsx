@@ -38,22 +38,21 @@ const Hero = () => {
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-white"
-      style={{ backgroundColor: "white" }}
+      className="relative w-full overflow-hidden  bg-white"
     >
-      {/* Background Image Section - TALLER */}
-      <div className="relative w-full z-40" style={{ height: "100vh" }}>
+      {/* Background Image Section with Responsive Height */}
+      <div className="relative w-full z-40 h-[90vh] min-h-[600px] sm:min-h-[750px] flex items-center justify-center pt-10 sm:pt-0">
         <img
           src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1920"
           alt="Luxury Dubai Property"
-          className="w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* DARKER Overlay */}
-        <div className="absolute inset-0 bg-black/60"></div>
+        {/* Premium Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80 z-10"></div>
 
-         {/* Wave Shape */}
-        <div className="absolute bottom-[-10px] z-40 left-0 w-full">
+        {/* Wave Shape */}
+        <div className="absolute bottom-[-1px] z-20 left-0 w-full">
           <svg
             className="w-full block"
             style={{ height: "120px" }}
@@ -67,49 +66,50 @@ const Hero = () => {
         </div>
 
         {/* Content */}
-        <div className="absolute inset-0 flex items-center justify-center pb-14">
-          <div className="w-full max-w-5xl px-6 text-center">
-            {/* Headline */}
-            <h1
-              style={{ color: "white" }}
-              className="text-5xl sm:text-7xl lg:text-8xl font-bold text-white mb-1 leading-tight"
+        <div className="relative cursor-pointer z-30 w-full max-w-5xl px-6 text-center transform translate-y-[-20px] sm:translate-y-0">
+          {/* Headline */}
+          <h1
+            style={{ color: "white" }}
+            className="text-3xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight tracking-tight"
+          >
+            AI-Powered Real Estate Investments
+            <br />
+            <span
+              className="text-[#e83f25]"
+              style={{ fontFamily: "var(--font-display)" }}
             >
-              AI-Powered Real Estate Investments
-              <br />
-              <span
-                className="text-[#e83f25]"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                in Dubai{" "}
-              </span>
-            </h1>
+              in UAE
+            </span>
+          </h1>
 
-            {/* Description */}
-            <p className="text-lg sm:text-xl text-white mb-4 leading-relaxed max-w-3xl mx-auto">
-              Discover luxury real estate investments in Dubai's most
+          {/* Description Group */}
+          <div className="space-y-2 mb-8 sm:mb-10">
+            <p className="text-sm sm:text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl mx-auto">
+              Discover luxury real estate investments in UAE's most
               prestigious locations.
             </p>
-            <p className="text-lg sm:text-xl text-white mb-12 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-sm sm:text-lg md:text-xl text-white leading-relaxed max-w-3xl mx-auto">
               AI-powered insights for smarter investment decisions.
             </p>
+          </div>
 
-            {/* Button */}
-            <div className="flex justify-center">
-              <button className="group px-10 py-5 text-lg font-bold text-white bg-[#e83f25] rounded-md hover:bg-[#c73519] transition-all duration-300 shadow-2xl flex items-center gap-3">
-                Start Investing
-                <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
+          {/* Button */}
+          <div className="flex justify-center">
+            <button className="group px-7 py-4 sm:px-10 sm:py-5 text-base sm:text-lg font-bold text-white bg-[#e83f25] rounded-md hover:bg-[#c73519] transition-all duration-300 shadow-2xl flex items-center gap-3">
+              Start Investing
+              <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+            </button>
           </div>
         </div>
 
-        <div className="absolute bottom-[-80px] left-1/2  transform -translate-x-1/2 z-50 w-full max-w-6xl px-6">
-          <div className="bg-white rounded-xl shadow-2xl p-8">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+
+        <div className="absolute bottom-[-120px] sm:bottom-[-80px] left-1/2 transform -translate-x-1/2 z-50 w-full max-w-6xl px-4 sm:px-6">
+          <div className="bg-white rounded-xl shadow-2xl p-5 sm:p-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
               {/* Stat 1 - Line Chart */}
               <div className="text-center">
-                <div className="mb-3">
-                  <ResponsiveContainer width="100%" height={50}>
+                <div className="mb-2">
+                  <ResponsiveContainer width="100%" height={40}>
                     <LineChart data={data1}>
                       <Line
                         type="monotone"
@@ -121,31 +121,31 @@ const Hero = () => {
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
-                <p className="text-5xl font-bold text-[#e83f25] mb-2">500+</p>
-                <p className="text-sm text-[#939393] font-medium">
+                <p className="text-4xl sm:text-5xl font-bold text-[#e83f25] mb-1">500+</p>
+                <p className="text-xs sm:text-sm text-[#939393] font-semibold uppercase tracking-wider">
                   Properties Sold
                 </p>
               </div>
 
               {/* Stat 2 - Bar Chart */}
               <div className="text-center">
-                <div className="mb-3">
-                  <ResponsiveContainer width="100%" height={50}>
+                <div className="mb-2">
+                  <ResponsiveContainer width="100%" height={40}>
                     <BarChart data={data2}>
                       <Bar dataKey="v" fill="#e83f25" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
-                <p className="text-5xl font-bold text-[#e83f25] mb-2">1000+</p>
-                <p className="text-sm text-[#939393] font-medium">
+                <p className="text-4xl sm:text-5xl font-bold text-[#e83f25] mb-1">1000+</p>
+                <p className="text-xs sm:text-sm text-[#939393] font-semibold uppercase tracking-wider">
                   Happy Investors
                 </p>
               </div>
 
               {/* Stat 3 - Area Chart */}
               <div className="text-center">
-                <div className="mb-3">
-                  <ResponsiveContainer width="100%" height={50}>
+                <div className="mb-2">
+                  <ResponsiveContainer width="100%" height={40}>
                     <AreaChart data={data3}>
                       <Area
                         type="monotone"
@@ -157,14 +157,15 @@ const Hero = () => {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
-                <p className="text-5xl font-bold text-[#e83f25] mb-2">10%</p>
-                <p className="text-sm text-[#939393] font-medium">
+                <p className="text-4xl sm:text-5xl font-bold text-[#e83f25] mb-1">10%</p>
+                <p className="text-xs sm:text-sm text-[#939393] font-semibold uppercase tracking-wider">
                   Average ROI
                 </p>
               </div>
             </div>
           </div>
         </div>
+
       </div>
 
       {/* Stats Section with padding for floating card */}
@@ -172,6 +173,7 @@ const Hero = () => {
         <div className="max-w-7xl mx-auto px-6">
         </div>
       </div>
+
     </section>
   );
 };
