@@ -5,6 +5,7 @@ import Features from "../components/landing/Features";
 import HowItWorks from "../components/landing/HowItWorks";
 import Testimonials from "../components/landing/Testimonials";
 import PropertyCarousel from "../components/landing/PropertyCarousel";
+import FAQ from "../components/landing/FAQ";
 
 const LandingPage = () => {
   return (
@@ -28,6 +29,7 @@ const LandingPage = () => {
         <div>
           <Testimonials />
         </div>
+        <FAQ />
       </main>
     </div>
   );

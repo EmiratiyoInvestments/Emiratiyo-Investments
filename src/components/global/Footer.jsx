@@ -56,11 +56,11 @@ const Footer = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-gray-600 hover:text-[#e83f25] transition-colors duration-300 cursor-pointer">
                   <Phone className="w-5 h-5 flex-shrink-0" />
-                  <span>+971 4 XXX XXXX</span>
+                  <span>+971 58 581 1040</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-600 hover:text-[#e83f25] transition-colors duration-300 cursor-pointer">
                   <Mail className="w-5 h-5 flex-shrink-0" />
-                  <span>info@emiratiyo.ae</span>
+                  <span>Cxo@emiratiyo.com</span>
                 </div>
                 <div className="flex items-start gap-3 text-gray-600 hover:text-[#e83f25] transition-colors duration-300 cursor-pointer">
                   <MapPin className="w-5 h-5 flex-shrink-0 mt-1" />
