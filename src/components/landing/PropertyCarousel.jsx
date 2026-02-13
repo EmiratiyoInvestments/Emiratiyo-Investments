@@ -23,7 +23,7 @@ const PropertyCarousel = () => {
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-gray-100 md:mt-[-170px]">
       <div className="relative overflow-hidden px-4 sm:px-6 lg:px-8">
-        {/* Infinite Scrolling Container */}
+        {/* Infinite Scrolling Container*/}
         <div className="flex h-[400px] sm:h-[500px] lg:h-[600px] animate-infinite-scroll gap-6">
           {duplicatedSlides.map((slide, index) => (
             <div
