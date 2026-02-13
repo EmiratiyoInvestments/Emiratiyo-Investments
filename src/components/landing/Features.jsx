@@ -37,8 +37,8 @@ const AIFeatures = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           {/* Card 1: AI Property Matcher */}
           <FeatureCard
-            title="AI Property Matcher"
-            description="Our AI algorithm analyzes your investment goals and matches you with perfect properties tailored to your portfolio strategy"
+            title="Propeye™"
+            description="Propeye analyzes your investment goals, risk appetite, and return expectations to intelligently identify properties that align with your long-term portfolio strategy—so every decision is precise, data-backed, and confident."
             ctaText="Try Now"
             ctaLink="#"
             imageSrc="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80"
@@ -61,7 +61,7 @@ const AIFeatures = () => {
             description="Real-time Dubai market insights powered by AI analytics to keep you ahead of market trends and opportunities"
             ctaText="View Insights"
             ctaLink="#"
-            imageSrc="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80"
+            imageSrc="https://images.unsplash.com/photo-1721184367933-5b0d8bb8360c?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             imageAlt="Dubai Marina Skyline"
           />
         </div>

@@ -98,12 +98,10 @@ const HowItWorks = () => {
                   <span className="font-black text-[#e83f25]">Step 2</span>
                 </div>
                 <div className="p-6 text-2xl sm:text-3xl text-black font-bold">
-                  AI-Powered Matching
+                  Propeye: AI-Powered Property Matching
                 </div>
                 <div className="px-6 pb-6 text-gray-600 leading-relaxed">
-                  Our AI finds the perfect properties for your portfolio.
-                  Advanced algorithms analyze market data and match you with
-                  high-ROI opportunities.
+                  Propeye combines market intelligence, predictive analysis, and portfolio logic to match you with properties designed for higher returns and lower risk.
                 </div>
               </div>
               <div className="md:w-40 w-full p-8 flex items-center justify-center">

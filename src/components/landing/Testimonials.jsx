@@ -160,7 +160,7 @@ const Testimonials = () => {
       <div className="mt-16 text-center px-4">
         <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12 max-w-4xl mx-auto">
           <div className="text-center">
-            <div className="text-4xl sm:text-5xl font-bold text-[#e83f25]">2,500+</div>
+            <div className="text-4xl sm:text-5xl font-bold text-[#e83f25]">Very</div>
             <div className="text-sm text-gray-600 mt-2">Happy Investors</div>
           </div>
           <div className="hidden sm:block w-px h-16 bg-gray-300"></div>
@@ -170,8 +170,8 @@ const Testimonials = () => {
           </div>
           <div className="hidden sm:block w-px h-16 bg-gray-300"></div>
           <div className="text-center">
-            <div className="text-4xl sm:text-5xl font-bold text-[#e83f25]">$500M+</div>
-            <div className="text-sm text-gray-600 mt-2">Properties Sold</div>
+            <div className="text-4xl sm:text-5xl font-bold text-[#e83f25]">High-Growth</div>
+            <div className="text-sm text-gray-600 mt-2">Market Exposure</div>
           </div>
         </div>
       </div>

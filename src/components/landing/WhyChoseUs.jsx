@@ -50,31 +50,31 @@ const WhyDubai = () => {
             </p>
 
             {/* Stats - 3 columns with borders */}
-            <div className="grid grid-cols-3 gap-0 mb-10">
-              <div className="pr-6 border-r border-gray-300">
-                <p className="text-5xl font-bold text-[#e83f25] mb-2">20</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 mb-10">
+              <div className="md:pr-6 md:border-r border-gray-300">
+                <p className="text-3xl lg:text-4xl font-bold text-[#e83f25] mb-2">20+</p>
                 <p className="text-sm text-[#939393]">
-                  Year of
+                  Years of
                   <br />
-                  Experience
+                  Combined Market Exposure
                 </p>
               </div>
 
-              <div className="px-6 border-r border-gray-300">
-                <p className="text-5xl font-bold text-[#e83f25] mb-2">50+</p>
+              <div className="md:px-6 md:border-r border-gray-300">
+                <p className="text-2xl lg:text-3xl font-bold text-[#e83f25] mb-2">Multiple</p>
                 <p className="text-sm text-[#939393]">
-                  Successful
+                  Asset Classes
                   <br />
-                  Project
+                  Covered
                 </p>
               </div>
 
-              <div className="pl-6">
-                <p className="text-5xl font-bold text-[#e83f25] mb-2">94</p>
+              <div className="md:pl-6">
+                <p className="text-2xl lg:text-3xl font-bold text-[#e83f25] mb-2 break-words">End-to-End</p>
                 <p className="text-sm text-[#939393]">
-                  Trusted
+                  Investment
                   <br />
-                  Workers
+                  Support
                 </p>
               </div>
             </div>

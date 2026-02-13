@@ -43,7 +43,7 @@ const Hero = () => {
       {/* Background Image Section with Responsive Height */}
       <div className="relative w-full z-40 h-[90vh] min-h-[600px] sm:min-h-[750px] flex items-center justify-center pt-10 sm:pt-0">
         <img
-          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1920"
+          src="https://plus.unsplash.com/premium_photo-1661964298224-7747aa0ac10c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Luxury Dubai Property"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -157,7 +157,7 @@ const Hero = () => {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
-                <p className="text-4xl sm:text-5xl font-bold text-[#e83f25] mb-1">10%</p>
+                <p className="text-4xl sm:text-5xl font-bold text-[#e83f25] mb-1">18%</p>
                 <p className="text-xs sm:text-sm text-[#939393] font-semibold uppercase tracking-wider">
                   Average ROI
                 </p>

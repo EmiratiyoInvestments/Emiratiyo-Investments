@@ -13,7 +13,7 @@ const PropertyCarousel = () => {
       subtitle: "2,500+ satisfied investors • $500M+ properties sold"
     },
     {
-      image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1920&q=80",
+      image: "https://images.unsplash.com/photo-1691664054347-cc39d34afee3?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Smart Investing Made Simple",
       subtitle: "From consultation to ownership in 30 days"
     }
