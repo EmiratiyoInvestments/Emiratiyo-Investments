@@ -115,25 +115,16 @@ const ContactPage = () => {
                 </h2>
 
                 <form className="space-y-6">
-                  {/* Name | Company */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Name</label>
-                      <input
-                        type="text"
-                        placeholder="Your name"
-                        className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Company</label>
-                      <input
-                        type="text"
-                        placeholder="Company name"
-                        className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body"
-                      />
-                    </div>
+                  {/* Name */}
+                  <div className="space-y-2">
+                    <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Your Name</label>
+                    <input
+                      type="text"
+                      placeholder="Your name"
+                      className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body"
+                    />
                   </div>
+
 
                   {/* Phone | Email */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
