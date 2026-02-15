@@ -19,6 +19,7 @@ import {
   X,
 } from "lucide-react";
 import { PortableText } from "@portabletext/react";
+import PropertyMap from "../components/global/PropertyMap";
 import { client, urlFor } from "../services/sanityClient";
 import { SINGLE_PROPERTY_QUERY } from "../lib/propertyQueries";
 
@@ -348,10 +349,11 @@ const PropertyDetailPage = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`relative h-20 rounded-lg overflow-hidden ${index === currentImageIndex
+                      className={`relative h-20 rounded-lg overflow-hidden ${
+                        index === currentImageIndex
                           ? "ring-2 ring-[#e83f25]"
                           : "opacity-60 hover:opacity-100"
-                        } transition-all`}
+                      } transition-all`}
                     >
                       <img
                         src={urlFor(image).width(200).url()}
@@ -397,7 +399,6 @@ const PropertyDetailPage = () => {
                   </div>
                 )}
               </div>
-
               {/* Key Details */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 p-6 bg-[#f7f7f7] rounded-xl">
                 {property.bedrooms && (
@@ -469,7 +470,6 @@ const PropertyDetailPage = () => {
                   </div>
                 )}
               </div>
-
               {/* Excerpt */}
               {property.excerpt && (
                 <div className="mb-8">
@@ -481,7 +481,6 @@ const PropertyDetailPage = () => {
                   </p>
                 </div>
               )}
-
               {/* Full Description */}
               {property.description && (
                 <div className="mb-8">
@@ -499,7 +498,6 @@ const PropertyDetailPage = () => {
                   </div>
                 </div>
               )}
-
               {/* Amenities */}
               {property.amenities && property.amenities.length > 0 && (
                 <div className="mb-8">
@@ -525,6 +523,14 @@ const PropertyDetailPage = () => {
                 </div>
               )}
 
+              {(property.location?.geopoint || property.location?.area) && (
+                <PropertyMap
+                  address={property.location.area}
+                  geopoint={property.location.geopoint}
+                  title={property.title}
+                />
+              )}
+
               {/* Virtual Tour */}
               {property.virtualTourUrl && (
                 <div className="mb-8">
@@ -540,7 +546,6 @@ const PropertyDetailPage = () => {
                   </a>
                 </div>
               )}
-
               {/* Tags */}
               {property.tags && property.tags.length > 0 && (
                 <div className="mb-8">

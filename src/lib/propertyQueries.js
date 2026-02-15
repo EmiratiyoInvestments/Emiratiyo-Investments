@@ -16,7 +16,15 @@ export const ALL_PROPERTIES_QUERY = `*[_type == "property"] | order(publishedAt 
   bathrooms,
   area,
   areaUnit,
-  location,
+  location {
+    area,
+    city,
+    fullAddress,
+    geopoint {
+      lat,
+      lng
+    }
+  },
   completionStatus,
   amenities,
   featured,
@@ -50,7 +58,15 @@ export const SINGLE_PROPERTY_QUERY = `*[_type == "property" && slug.current == $
   bathrooms,
   area,
   areaUnit,
-  location,
+  location {
+    area,
+    city,
+    fullAddress,
+    geopoint {
+      lat,
+      lng
+    }
+  },
   completionStatus,
   amenities,
   featured,
@@ -90,7 +106,15 @@ export const FEATURED_PROPERTIES_QUERY = `*[_type == "property" && featured == t
   bathrooms,
   area,
   areaUnit,
-  location,
+  location {
+    area,
+    city,
+    fullAddress,
+    geopoint {
+      lat,
+      lng
+    }
+  },
   featured,
   tags,
   "agent": agent->{
@@ -119,7 +143,15 @@ export const PROPERTIES_BY_STATUS_QUERY = `*[_type == "property" && status == $s
   bathrooms,
   area,
   areaUnit,
-  location,
+  location {
+    area,
+    city,
+    fullAddress,
+    geopoint {
+      lat,
+      lng
+    }
+  },
   featured,
   tags,
   "agent": agent->{
@@ -148,7 +180,15 @@ export const PROPERTIES_BY_TYPE_QUERY = `*[_type == "property" && propertyType =
   bathrooms,
   area,
   areaUnit,
-  location,
+  location {
+    area,
+    city,
+    fullAddress,
+    geopoint {
+      lat,
+      lng
+    }
+  },
   featured,
   tags,
   "agent": agent->{
