@@ -19,7 +19,7 @@ import {
   X,
 } from "lucide-react";
 import { PortableText } from "@portabletext/react";
-import PropertyMap from "../components/global/PropertyMap";
+import PropertyMap from "../components/market-insights/PropertyMap";
 import { client, urlFor } from "../services/sanityClient";
 import { SINGLE_PROPERTY_QUERY } from "../lib/propertyQueries";
 
