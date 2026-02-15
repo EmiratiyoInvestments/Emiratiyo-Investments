@@ -152,8 +152,9 @@ export default {
     },
     {
       name: 'location',
-      title: 'Location/Address',
+      title: 'Location',
       type: 'object',
+      description: 'Property location details',
       fields: [
         {
           name: 'area',
@@ -164,13 +165,20 @@ export default {
         {
           name: 'city',
           title: 'City',
-          type: 'string'
+          type: 'string',
+          initialValue: 'Dubai'
         },
         {
           name: 'fullAddress',
           title: 'Full Address',
           type: 'text',
           rows: 2
+        },
+        {
+          name: 'geopoint',
+          title: '📍 Map Location (Click to Set)',
+          type: 'geopoint',
+          description: 'Click on the map or search for an address to set the exact location'
         }
       ]
     },

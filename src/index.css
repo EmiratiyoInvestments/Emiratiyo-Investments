@@ -295,3 +295,24 @@ h4 {
   height: 100%;
   object-fit: cover;
 }
+
+.custom-price-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.leaflet-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.map-fullscreen-container:fullscreen {
+  height: 100vh !important;
+  width: 100vw !important;
+  border-radius: 0 !important;
+}
+
+.map-fullscreen-container:fullscreen .leaflet-container {
+  height: 100vh !important;
+  border-radius: 0 !important;
+}
