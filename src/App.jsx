@@ -13,6 +13,7 @@ import BlogDetailPage from "./pages/BlogsDetailsPage";
 import Header from "./components/global/Header";
 import Footer from "./components/global/Footer";
 import "./index.css";
+import ROICalculator from "./components/global/ROICalculator";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/about" element={<AboutPage />} />
       </Routes>
       <Footer />
+      <ROICalculator /> 
     </Router>
   );
 };
