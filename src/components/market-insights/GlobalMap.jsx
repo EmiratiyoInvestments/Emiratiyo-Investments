@@ -226,7 +226,7 @@ const GlobalMap = ({ properties }) => {
       {/* MAP */}
       <MapContainer
         center={[25.2048, 55.2708]}
-        zoom={10}
+        zoom={8}
         style={{ height: "100%", width: "100%", borderRadius: "16px" }}
         scrollWheelZoom={true}
       >
