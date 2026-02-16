@@ -1,89 +1,94 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query'
-import { Link } from 'react-router-dom'
-import { Calendar, Clock, ChevronRight, Tag } from 'lucide-react'
-import { client, urlFor } from '../services/sanityClient'
-import { ALL_BLOGS_QUERY, ALL_CATEGORIES_QUERY } from '../lib/blogQueries'
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { Calendar, Clock, ChevronRight, Tag } from "lucide-react";
+import { client, urlFor } from "../services/sanityClient";
+import { ALL_BLOGS_QUERY, ALL_CATEGORIES_QUERY } from "../lib/blogQueries";
 
 const BlogsPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const { data: blogs, isLoading: blogsLoading } = useQuery({
-    queryKey: ['blogs'],
-    queryFn: () => client.fetch(ALL_BLOGS_QUERY)
-  })
+    queryKey: ["blogs"],
+    queryFn: () => client.fetch(ALL_BLOGS_QUERY),
+  });
 
   const { data: categories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () => client.fetch(ALL_CATEGORIES_QUERY)
-  })
+    queryKey: ["categories"],
+    queryFn: () => client.fetch(ALL_CATEGORIES_QUERY),
+  });
 
-  const filteredBlogs = selectedCategory === 'all'
-    ? blogs
-    : blogs?.filter(blog =>
-      blog.categories?.some(cat => cat.slug.current === selectedCategory)
-    )
+  const filteredBlogs =
+    selectedCategory === "all"
+      ? blogs
+      : blogs?.filter((blog) =>
+          blog.categories?.some((cat) => cat.slug.current === selectedCategory),
+        );
 
-  const featuredBlog = filteredBlogs?.[0]
-  const remainingBlogs = filteredBlogs?.slice(1)
+  const featuredBlog = filteredBlogs?.[0];
+  const remainingBlogs = filteredBlogs?.slice(1);
 
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   if (blogsLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-[#e83f25] border-t-transparent rounded-full animate-spin"></div>
-          <p style={{ fontFamily: 'var(--font-body)' }} className="text-gray-500">
+          <p
+            style={{ fontFamily: "var(--font-body)" }}
+            className="text-gray-500"
+          >
             Loading articles...
           </p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div>
       <main className="min-h-screen bg-white pt-24 pb-20">
         <div className="max-w-6xl mx-auto px-6">
-
           {/* PAGE HEADER */}
           <div className="mb-12 text-center">
             <p
               className="text-sm font-semibold uppercase tracking-widest text-[#e83f25] mb-3"
-              style={{ fontFamily: 'var(--font-body)' }}
+              style={{ fontFamily: "var(--font-body)" }}
             >
               Our Blog
             </p>
             <h1
               className="text-5xl font-bold text-black mb-4"
-              style={{ fontFamily: 'var(--font-display)' }}
+              style={{ fontFamily: "var(--font-display)" }}
             >
               Market Insights & News
             </h1>
             <p
               className="text-gray-500 text-lg max-w-2xl mx-auto"
-              style={{ fontFamily: 'var(--font-body)' }}
+              style={{ fontFamily: "var(--font-body)" }}
             >
-              Stay ahead with the latest Dubai real estate trends, investment strategies, and market analysis.
+              Stay ahead with the latest Dubai real estate trends, investment
+              strategies, and market analysis.
             </p>
           </div>
 
           {/* CATEGORY FILTER */}
           <div className="flex flex-wrap gap-3 justify-center mb-12">
             <button
-              onClick={() => setSelectedCategory('all')}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === 'all'
-                ? 'bg-[#e83f25] text-white'
-                : 'bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white'
-                }`}
-              style={{ fontFamily: 'var(--font-body)' }}
+              onClick={() => setSelectedCategory("all")}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                selectedCategory === "all"
+                  ? "bg-[#e83f25] text-white"
+                  : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+              }`}
+              style={{ fontFamily: "var(--font-body)" }}
             >
               All
             </button>
@@ -91,11 +96,12 @@ const BlogsPage = () => {
               <button
                 key={category._id}
                 onClick={() => setSelectedCategory(category.slug.current)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === category.slug.current
-                  ? 'bg-[#e83f25] text-white'
-                  : 'bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white'
-                  }`}
-                style={{ fontFamily: 'var(--font-body)' }}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                  selectedCategory === category.slug.current
+                    ? "bg-[#e83f25] text-white"
+                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                }`}
+                style={{ fontFamily: "var(--font-body)" }}
               >
                 {category.title}
               </button>
@@ -105,7 +111,10 @@ const BlogsPage = () => {
           {/* NO BLOGS STATE */}
           {filteredBlogs?.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-gray-400 text-lg" style={{ fontFamily: 'var(--font-body)' }}>
+              <p
+                className="text-gray-400 text-lg"
+                style={{ fontFamily: "var(--font-body)" }}
+              >
                 No articles found in this category.
               </p>
             </div>
@@ -113,9 +122,11 @@ const BlogsPage = () => {
 
           {/* FEATURED BLOG */}
           {featuredBlog && (
-            <Link to={`/blog/${featuredBlog.slug.current}`} className="block mb-16 group">
+            <Link
+              to={`/blog/${featuredBlog.slug.current}`}
+              className="block mb-16 group"
+            >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-xl">
-
                 {/* Featured Image */}
                 <div className="relative h-72 lg:h-full min-h-[400px] overflow-hidden">
                   {featuredBlog.mainImage ? (
@@ -130,7 +141,7 @@ const BlogsPage = () => {
                   <div className="absolute top-4 left-4">
                     <span
                       className="bg-[#e83f25] text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full"
-                      style={{ fontFamily: 'var(--font-body)' }}
+                      style={{ fontFamily: "var(--font-body)" }}
                     >
                       Featured
                     </span>
@@ -144,7 +155,7 @@ const BlogsPage = () => {
                       <span
                         key={cat.title}
                         className="text-xs font-semibold text-[#e83f25] uppercase tracking-wide"
-                        style={{ fontFamily: 'var(--font-body)' }}
+                        style={{ fontFamily: "var(--font-body)" }}
                       >
                         {cat.title}
                       </span>
@@ -153,14 +164,14 @@ const BlogsPage = () => {
 
                   <h2
                     className="text-3xl lg:text-4xl font-bold text-black mb-4 leading-tight group-hover:text-[#e83f25] transition-colors"
-                    style={{ fontFamily: 'var(--font-display)' }}
+                    style={{ fontFamily: "var(--font-display)" }}
                   >
                     {featuredBlog.title}
                   </h2>
 
                   <p
                     className="text-gray-500 text-base leading-relaxed mb-6 line-clamp-3"
-                    style={{ fontFamily: 'var(--font-body)' }}
+                    style={{ fontFamily: "var(--font-body)" }}
                   >
                     {featuredBlog.excerpt}
                   </p>
@@ -168,13 +179,13 @@ const BlogsPage = () => {
                   <div className="flex items-center gap-6 mb-6">
                     <div className="flex items-center gap-2 text-sm text-gray-400">
                       <Calendar className="w-4 h-4" />
-                      <span style={{ fontFamily: 'var(--font-body)' }}>
+                      <span style={{ fontFamily: "var(--font-body)" }}>
                         {formatDate(featuredBlog.publishedAt)}
                       </span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-400">
                       <Clock className="w-4 h-4" />
-                      <span style={{ fontFamily: 'var(--font-body)' }}>
+                      <span style={{ fontFamily: "var(--font-body)" }}>
                         {featuredBlog.readTime} min read
                       </span>
                     </div>
@@ -185,7 +196,10 @@ const BlogsPage = () => {
                       <div className="flex items-center gap-3">
                         {featuredBlog.author.image ? (
                           <img
-                            src={urlFor(featuredBlog.author.image).width(40).height(40).url()}
+                            src={urlFor(featuredBlog.author.image)
+                              .width(40)
+                              .height(40)
+                              .url()}
                             alt={featuredBlog.author.name}
                             className="w-10 h-10 rounded-full object-cover"
                           />
@@ -195,17 +209,25 @@ const BlogsPage = () => {
                           </div>
                         )}
                         <div>
-                          <p className="text-sm font-semibold text-black" style={{ fontFamily: 'var(--font-body)' }}>
+                          <p
+                            className="text-sm font-semibold text-black"
+                            style={{ fontFamily: "var(--font-body)" }}
+                          >
                             {featuredBlog.author.name}
                           </p>
-                          <p className="text-xs text-gray-400" style={{ fontFamily: 'var(--font-body)' }}>
+                          <p
+                            className="text-xs text-gray-400"
+                            style={{ fontFamily: "var(--font-body)" }}
+                          >
                             {featuredBlog.author.role}
                           </p>
                         </div>
                       </div>
                     )}
                     <div className="flex items-center gap-2 text-[#e83f25] font-semibold text-sm group-hover:gap-3 transition-all">
-                      <span style={{ fontFamily: 'var(--font-body)' }}>Read More</span>
+                      <span style={{ fontFamily: "var(--font-body)" }}>
+                        Read More
+                      </span>
                       <ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
@@ -219,7 +241,7 @@ const BlogsPage = () => {
             <>
               <h2
                 className="text-2xl font-bold text-black mb-8"
-                style={{ fontFamily: 'var(--font-display)' }}
+                style={{ fontFamily: "var(--font-display)" }}
               >
                 Latest Articles
               </h2>
@@ -244,7 +266,7 @@ const BlogsPage = () => {
                         <div className="absolute top-3 left-3">
                           <span
                             className="bg-white text-[#e83f25] text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full"
-                            style={{ fontFamily: 'var(--font-body)' }}
+                            style={{ fontFamily: "var(--font-body)" }}
                           >
                             {blog.categories[0].title}
                           </span>
@@ -255,14 +277,14 @@ const BlogsPage = () => {
                     <div className="p-6">
                       <h3
                         className="text-lg font-bold text-black mb-3 leading-tight group-hover:text-[#e83f25] transition-colors line-clamp-2"
-                        style={{ fontFamily: 'var(--font-display)' }}
+                        style={{ fontFamily: "var(--font-display)" }}
                       >
                         {blog.title}
                       </h3>
 
                       <p
                         className="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-2"
-                        style={{ fontFamily: 'var(--font-body)' }}
+                        style={{ fontFamily: "var(--font-body)" }}
                       >
                         {blog.excerpt}
                       </p>
@@ -274,7 +296,7 @@ const BlogsPage = () => {
                             <span
                               key={tag}
                               className="text-xs text-gray-400"
-                              style={{ fontFamily: 'var(--font-body)' }}
+                              style={{ fontFamily: "var(--font-body)" }}
                             >
                               #{tag}
                             </span>
@@ -286,22 +308,20 @@ const BlogsPage = () => {
                         <div className="flex items-center gap-2">
                           {blog.author?.image ? (
                             <img
-                              src={urlFor(blog.author.image).width(32).height(32).url()}
+                              src={urlFor(blog.author.image)
+                                .width(32)
+                                .height(32)
+                                .url()}
                               alt={blog.author.name}
                               className="w-8 h-8 rounded-full object-cover"
                             />
                           ) : (
-                            <div className="w-8 h-8 rounded-full bg-[#e83f25] flex items-center justify-center text-white font-bold text-xs">
-                              {blog.author?.name?.charAt(0)}
-                            </div>
+                            <></>
                           )}
-                          <p className="text-xs font-medium text-black" style={{ fontFamily: 'var(--font-body)' }}>
-                            {blog.author?.name}
-                          </p>
                         </div>
                         <div className="flex items-center gap-1 text-xs text-gray-400">
                           <Clock className="w-3 h-3" />
-                          <span style={{ fontFamily: 'var(--font-body)' }}>
+                          <span style={{ fontFamily: "var(--font-body)" }}>
                             {blog.readTime} min
                           </span>
                         </div>
@@ -315,7 +335,7 @@ const BlogsPage = () => {
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
 export default BlogsPage;
