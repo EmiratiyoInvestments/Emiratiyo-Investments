@@ -1,6 +1,7 @@
 import React from "react";
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import { useSubmitEmContact } from "../services/useEmContactMutations";
+import { toast } from "sonner";
 
 const ContactPage = () => {
   const { mutate, isPending } = useSubmitEmContact();
@@ -21,9 +22,11 @@ const ContactPage = () => {
     mutate(formData, {
       onSuccess: () => {
         setFormData({ name: "", phone: "", email: "", message: "" });
+        toast.success("Message sent! We'll get back to you soon.");
       },
       onError: (err) => {
         console.error("EM contact submit failed:", err);
+        toast.error(err?.message || "Failed to send message. Please try again.");
       },
     });
   };

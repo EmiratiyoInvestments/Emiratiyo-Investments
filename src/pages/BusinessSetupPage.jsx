@@ -1,6 +1,7 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
 import { useSubmitEmBusinessSetup } from "../services/useEmBusinessSetupMutations";
+import { toast } from "sonner";
 
 const BusinessSetupPage = () => {
   const { mutate, isPending } = useSubmitEmBusinessSetup();
@@ -21,9 +22,11 @@ const BusinessSetupPage = () => {
     mutate(formData, {
       onSuccess: () => {
         setFormData({ fullName: "", email: "", mobileNumber: "", countryOfResidence: "" });
+        toast.success("Submitted! We'll contact you soon about your business setup.");
       },
       onError: (err) => {
         console.error("EM business setup submit failed:", err);
+        toast.error(err?.message || "Failed to submit. Please try again.");
       },
     });
   };
