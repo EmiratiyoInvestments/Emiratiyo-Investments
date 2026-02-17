@@ -146,15 +146,6 @@ const ContactPage = () => {
                     </div>
                   </div>
 
-                  {/* Subject */}
-                  <div className="space-y-2">
-                    <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Subject</label>
-                    <input
-                      type="text"
-                      placeholder="Message subject"
-                      className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body"
-                    />
-                  </div>
 
                   {/* Message */}
                   <div className="space-y-2">
