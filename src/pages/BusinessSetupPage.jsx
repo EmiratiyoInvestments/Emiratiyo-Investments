@@ -1,7 +1,33 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
+import { useSubmitEmBusinessSetup } from "../services/useEmBusinessSetupMutations";
 
 const BusinessSetupPage = () => {
+  const { mutate, isPending } = useSubmitEmBusinessSetup();
+  const [formData, setFormData] = React.useState({
+    fullName: "",
+    email: "",
+    mobileNumber: "",
+    countryOfResidence: "",
+  });
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    mutate(formData, {
+      onSuccess: () => {
+        setFormData({ fullName: "", email: "", mobileNumber: "", countryOfResidence: "" });
+      },
+      onError: (err) => {
+        console.error("EM business setup submit failed:", err);
+      },
+    });
+  };
+
   return (
     <div className="w-full bg-[#f7f7f7]">
       <section className="relative w-full overflow-hidden">
@@ -51,13 +77,16 @@ const BusinessSetupPage = () => {
 
                 <form
                   className="space-y-5"
-                  onSubmit={(e) => e.preventDefault()}
+                  onSubmit={onSubmit}
                 >
                   <Input
                     label="Full Name"
                     id="fullName"
                     placeholder="Enter your full name"
                     required
+                    value={formData.fullName}
+                    onChange={onChange}
+                    disabled={isPending}
                   />
 
                   <Input
@@ -66,28 +95,38 @@ const BusinessSetupPage = () => {
                     type="email"
                     placeholder="name@example.com"
                     required
+                    value={formData.email}
+                    onChange={onChange}
+                    disabled={isPending}
                   />
 
                   <Input
                     label="Mobile Number"
-                    id="mobile"
+                    id="mobileNumber"
                     type="tel"
                     placeholder="+971 50 123 4567"
                     required
+                    value={formData.mobileNumber}
+                    onChange={onChange}
+                    disabled={isPending}
                   />
 
                   <Input
                     label="Country of Residence"
-                    id="country"
+                    id="countryOfResidence"
                     placeholder="e.g. United Arab Emirates"
                     required
+                    value={formData.countryOfResidence}
+                    onChange={onChange}
+                    disabled={isPending}
                   />
 
                   <button
                     type="submit"
+                    disabled={isPending}
                     className="w-full bg-[#e83f25] text-white font-bold py-4 px-6 rounded-md hover:bg-[#c73519] transition-colors duration-300 shadow-lg mt-4"
                   >
-                    Start My Business Setup
+                    {isPending ? "Submitting..." : "Start My Business Setup"}
                   </button>
                 </form>
               </div>
@@ -116,6 +155,9 @@ const Input = ({
   type = "text",
   placeholder,
   required = false,
+  value,
+  onChange,
+  disabled,
 }) => (
   <div>
     <label
@@ -134,6 +176,9 @@ const Input = ({
       name={id}
       placeholder={placeholder}
       required={required}
+      value={value}
+      onChange={onChange}
+      disabled={disabled}
       className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e83f25] focus:border-transparent outline-none transition-all text-[#000000]"
     />
   </div>

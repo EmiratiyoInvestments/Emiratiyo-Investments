@@ -1,7 +1,33 @@
 import React from "react";
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { useSubmitEmContact } from "../services/useEmContactMutations";
 
 const ContactPage = () => {
+  const { mutate, isPending } = useSubmitEmContact();
+  const [formData, setFormData] = React.useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    mutate(formData, {
+      onSuccess: () => {
+        setFormData({ name: "", phone: "", email: "", message: "" });
+      },
+      onError: (err) => {
+        console.error("EM contact submit failed:", err);
+      },
+    });
+  };
+
   return (
     <div className="bg-[#f7f7f7] min-h-screen">
       <main>
@@ -114,14 +140,19 @@ const ContactPage = () => {
                   Send us a message
                 </h2>
 
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={onSubmit}>
                   {/* Name */}
                   <div className="space-y-2">
                     <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Your Name</label>
                     <input
                       type="text"
+                      name="name"
                       placeholder="Your name"
                       className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body"
+                      value={formData.name}
+                      onChange={onChange}
+                      disabled={isPending}
+                      required
                     />
                   </div>
 
@@ -132,16 +163,26 @@ const ContactPage = () => {
                       <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Phone</label>
                       <input
                         type="tel"
+                        name="phone"
                         placeholder="Your phone number"
                         className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body"
+                        value={formData.phone}
+                        onChange={onChange}
+                        disabled={isPending}
+                        required
                       />
                     </div>
                     <div className="space-y-2">
                       <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Email</label>
                       <input
                         type="email"
+                        name="email"
                         placeholder="Your email"
                         className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body"
+                        value={formData.email}
+                        onChange={onChange}
+                        disabled={isPending}
+                        required
                       />
                     </div>
                   </div>
@@ -152,8 +193,12 @@ const ContactPage = () => {
                     <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Message</label>
                     <textarea
                       rows="4"
+                      name="message"
                       placeholder="Your message here..."
                       className="w-full p-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none font-body"
+                      value={formData.message}
+                      onChange={onChange}
+                      disabled={isPending}
                     ></textarea>
                   </div>
 
@@ -161,9 +206,10 @@ const ContactPage = () => {
                   <button
                     type="submit"
                     style={{ fontFamily: 'var(--font-body)' }}
-                    className="w-full h-[48px] bg-primary hover:bg-[#c73519] text-white font-bold rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 active:scale-[0.98]"
+                    disabled={isPending}
+                    className="w-full h-[48px] bg-primary hover:bg-[#c73519] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 active:scale-[0.98]"
                   >
-                    Send Message
+                    {isPending ? "Sending..." : "Send Message"}
                   </button>
                 </form>
               </div>
