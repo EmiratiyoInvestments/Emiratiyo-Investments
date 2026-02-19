@@ -492,7 +492,7 @@ export default function WeeklySnapshot() {
 
       {/* Data note */}
       <p style={{ fontSize: 11, color: "#cbd5e1", textAlign: "right", marginTop: 10 }}>
-        Source: Dubai Land Department (REST App) · Updated weekly
+        Source: Dubai Land Department · Updated weekly
       </p>
     </div>
   );

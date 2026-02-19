@@ -1190,7 +1190,7 @@ export default function DubaiHeatmap() {
               color: "#9ca3af",
             }}
           >
-            Boundaries &copy; Kaggle &middot; Data: indicative market averages
+           Data: indicative market averages
           </div>
         </div>
       </div>

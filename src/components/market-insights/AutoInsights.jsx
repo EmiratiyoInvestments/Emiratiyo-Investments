@@ -151,7 +151,7 @@ export default function AutoInsights() {
           Area Intelligence
         </h2>
         <p style={{ fontSize: 13, color: "#64748b" }}>
-          Auto-computed from verified market research · {verifiedCount} areas tracked
+          Auto-computed from verified market research
         </p>
       </div>
 
