@@ -4,5 +4,6 @@ import category from './category'
 import blog from './blog'
 import agent from './agent'
 import property from './property'
+import marketReport from './marketReport'
 
-export const schemaTypes = [blockContent, author, category, blog, agent, property]
+export const schemaTypes = [blockContent, author, category, marketReport, blog, agent, property]
