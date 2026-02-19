@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { MapPin, TrendingUp, Home } from "lucide-react";
-import Header from "../components/global/Header";
-import GlobalMap from "../components/market-insights/GlobalMap";
 import { client } from "../services/sanityClient";
 import { ALL_PROPERTIES_QUERY } from "../lib/propertyQueries";
 import DubaiHeatmap from "../components/market-insights/DubaiHeatMap";

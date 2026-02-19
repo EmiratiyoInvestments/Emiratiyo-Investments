@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, GeoJSON, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { BarChart2, Map } from "lucide-react";
+import { BarChart2, Map, Maximize, Minimize } from "lucide-react";
 
 // ── Color Scale ───────────────────────────────────────────────────────────────
 function getColorSale(value) {
@@ -80,21 +80,32 @@ function buildAutoDescription(area, mode) {
 
   const alias = area.alias;
   const official = area.name;
-  const title = alias && alias !== official ? `${alias} (${official})` : official;
+  const title =
+    alias && alias !== official ? `${alias} (${official})` : official;
   const saleApt = area.sale_apartment;
   const rentApt = area.rent_apartment;
   const yoy = area.yoy_change;
 
-  const parts = [`${title} is shown here with indicative market averages for residential property.`];
+  const parts = [
+    `${title} is shown here with indicative market averages for residential property.`,
+  ];
 
-  if (saleApt != null) parts.push(`Average apartment sale pricing is around ${fmt(saleApt)} AED/sqft.`);
-  if (rentApt != null) parts.push(`Typical apartment rents are around ${fmt(rentApt)} AED/year.`);
+  if (saleApt != null)
+    parts.push(
+      `Average apartment sale pricing is around ${fmt(saleApt)} AED/sqft.`,
+    );
+  if (rentApt != null)
+    parts.push(`Typical apartment rents are around ${fmt(rentApt)} AED/year.`);
   if (yoy != null) parts.push(`Year-on-year change: ${fmtPct(yoy)}.`);
 
   if (mode?.startsWith("sale")) {
-    parts.push("Use this view to compare relative sale pricing across communities.");
+    parts.push(
+      "Use this view to compare relative sale pricing across communities.",
+    );
   } else if (mode?.startsWith("rent")) {
-    parts.push("Use this view to compare relative rental pricing across communities.");
+    parts.push(
+      "Use this view to compare relative rental pricing across communities.",
+    );
   }
 
   return parts.join(" ");
@@ -130,6 +141,15 @@ export default function DubaiHeatmap() {
   const [searchQuery, setSearchQuery] = useState("");
   const loggedMissing = React.useRef(new Set());
   const selectedLayerRef = React.useRef(null);
+  const mapContainerRef = React.useRef(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleFsChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", handleFsChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFsChange);
+  }, []);
 
   const datasetMeta = React.useMemo(() => {
     if (!areaData) return null;
@@ -161,16 +181,19 @@ export default function DubaiHeatmap() {
           const text = await res.text().catch(() => "");
           throw new Error(
             `[DubaiHeatmap] Failed to load ${label} (${res.status} ${res.statusText}). ` +
-              `First bytes: ${JSON.stringify(text.slice(0, 80))}`
+              `First bytes: ${JSON.stringify(text.slice(0, 80))}`,
           );
         }
 
         const contentType = res.headers.get("content-type") || "";
-        if (!contentType.includes("application/json") && !contentType.includes("geo+json")) {
+        if (
+          !contentType.includes("application/json") &&
+          !contentType.includes("geo+json")
+        ) {
           const text = await res.text().catch(() => "");
           throw new Error(
             `[DubaiHeatmap] ${label} did not return JSON (content-type: ${contentType}). ` +
-              `First bytes: ${JSON.stringify(text.slice(0, 80))}`
+              `First bytes: ${JSON.stringify(text.slice(0, 80))}`,
           );
         }
 
@@ -212,9 +235,11 @@ export default function DubaiHeatmap() {
   }, [mode]);
 
   const modeHelpText = React.useMemo(() => {
-    if (mode === "sale_apartment") return "Average apartment sale price (AED/sqft)";
+    if (mode === "sale_apartment")
+      return "Average apartment sale price (AED/sqft)";
     if (mode === "sale_villa") return "Average villa sale price (AED/sqft)";
-    if (mode === "rent_apartment") return "Average apartment annual rent (AED/year)";
+    if (mode === "rent_apartment")
+      return "Average apartment annual rent (AED/year)";
     if (mode === "rent_villa") return "Average villa annual rent (AED/year)";
     return "";
   }, [mode]);
@@ -236,7 +261,11 @@ export default function DubaiHeatmap() {
     return null;
   }
 
-  const normalize = (s) => String(s ?? "").toLowerCase().replace(/\s+/g, " ").trim();
+  const normalize = (s) =>
+    String(s ?? "")
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .trim();
 
   const findCommNumByQuery = (query) => {
     const q = normalize(query);
@@ -260,7 +289,9 @@ export default function DubaiHeatmap() {
     const commNum = findCommNumByQuery(searchQuery);
     if (!commNum || !dubaiGeoJSON) return;
 
-    const feature = dubaiGeoJSON?.features?.find((f) => String(f?.properties?.COMM_NUM ?? "") === String(commNum));
+    const feature = dubaiGeoJSON?.features?.find(
+      (f) => String(f?.properties?.COMM_NUM ?? "") === String(commNum),
+    );
     if (!feature) return;
 
     const data = areaData?.[String(commNum)];
@@ -281,7 +312,9 @@ export default function DubaiHeatmap() {
   const style = (feature) => {
     const commNum = String(feature?.properties?.COMM_NUM ?? "");
     const data = areaData?.[commNum];
-    const value = data?.[mode] ?? (DEMO_FILL_MISSING && commNum ? fallbackValue(commNum, mode) : undefined);
+    const value =
+      data?.[mode] ??
+      (DEMO_FILL_MISSING && commNum ? fallbackValue(commNum, mode) : undefined);
 
     if (showVerifiedOnly && !data) {
       return {
@@ -292,9 +325,20 @@ export default function DubaiHeatmap() {
       };
     }
 
-    if (DEBUG_GEOJSON_KEYS && areaData && !data && commNum && !loggedMissing.current.has(commNum)) {
+    if (
+      DEBUG_GEOJSON_KEYS &&
+      areaData &&
+      !data &&
+      commNum &&
+      !loggedMissing.current.has(commNum)
+    ) {
       loggedMissing.current.add(commNum);
-      console.log("[DubaiHeatmap] Missing areaData for COMM_NUM:", commNum, "CNAME_E:", feature?.properties?.CNAME_E);
+      console.log(
+        "[DubaiHeatmap] Missing areaData for COMM_NUM:",
+        commNum,
+        "CNAME_E:",
+        feature?.properties?.CNAME_E,
+      );
     }
 
     return {
@@ -462,8 +506,12 @@ export default function DubaiHeatmap() {
                   margin: "6px 0 0 28px",
                 }}
               >
-                {datasetMeta?.updatedAt ? `Last updated: ${datasetMeta.updatedAt}` : ""}
-                {datasetMeta?.sourceName ? ` · Source: ${datasetMeta.sourceName}` : ""}
+                {datasetMeta?.updatedAt
+                  ? `Last updated: ${datasetMeta.updatedAt}`
+                  : ""}
+                {datasetMeta?.sourceName
+                  ? ` · Source: ${datasetMeta.sourceName}`
+                  : ""}
               </p>
             </div>
 
@@ -521,7 +569,14 @@ export default function DubaiHeatmap() {
               </button>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                flexWrap: "wrap",
+              }}
+            >
               <button
                 className="heatmap-btn"
                 onClick={handleResetView}
@@ -546,7 +601,10 @@ export default function DubaiHeatmap() {
         </div>
 
         {/* Map */}
-        <div style={{ position: "relative", height: 600 }}>
+        <div
+          ref={mapContainerRef}
+          style={{ position: "relative", height: 600 }}
+        >
           <MapContainer
             center={[25.2, 55.3]}
             zoom={11}
@@ -579,9 +637,23 @@ export default function DubaiHeatmap() {
                 zIndex: 1100,
               }}
             >
-              <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 14, padding: 16, boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}>
-                <div style={{ fontWeight: 900, color: "#0f172a", marginBottom: 6 }}>Loading map…</div>
-                <div style={{ fontSize: 12, color: "#64748b" }}>Fetching boundary and market data.</div>
+              <div
+                style={{
+                  background: "#fff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: 14,
+                  padding: 16,
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.10)",
+                }}
+              >
+                <div
+                  style={{ fontWeight: 900, color: "#0f172a", marginBottom: 6 }}
+                >
+                  Loading map…
+                </div>
+                <div style={{ fontSize: 12, color: "#64748b" }}>
+                  Fetching boundary and market data.
+                </div>
               </div>
             </div>
           )}
@@ -599,13 +671,31 @@ export default function DubaiHeatmap() {
                 padding: 16,
               }}
             >
-              <div style={{ background: "#fff", border: "1px solid #fecaca", borderRadius: 14, padding: 16, maxWidth: 520, width: "100%", boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}>
-                <div style={{ fontWeight: 900, color: "#991b1b", marginBottom: 6 }}>Failed to load heatmap data</div>
-                <div style={{ fontSize: 12, color: "#7f1d1d", lineHeight: 1.5 }}>
+              <div
+                style={{
+                  background: "#fff",
+                  border: "1px solid #fecaca",
+                  borderRadius: 14,
+                  padding: 16,
+                  maxWidth: 520,
+                  width: "100%",
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.10)",
+                }}
+              >
+                <div
+                  style={{ fontWeight: 900, color: "#991b1b", marginBottom: 6 }}
+                >
+                  Failed to load heatmap data
+                </div>
+                <div
+                  style={{ fontSize: 12, color: "#7f1d1d", lineHeight: 1.5 }}
+                >
                   {String(loadError?.message ?? loadError)}
                 </div>
                 <div style={{ marginTop: 10, fontSize: 12, color: "#64748b" }}>
-                  Check that <code>/public/data/dubai.geojson</code> and <code>/public/data/dubai-area-data.json</code> exist and contain valid JSON.
+                  Check that <code>/public/data/dubai.geojson</code> and{" "}
+                  <code>/public/data/dubai-area-data.json</code> exist and
+                  contain valid JSON.
                 </div>
               </div>
             </div>
@@ -645,7 +735,9 @@ export default function DubaiHeatmap() {
                   }}
                 />
                 <span style={{ fontWeight: 700, fontSize: 14, color: "#111" }}>
-                  {hovered.alias ? `${hovered.alias} (${hovered.name})` : hovered.name}
+                  {hovered.alias
+                    ? `${hovered.alias} (${hovered.name})`
+                    : hovered.name}
                 </span>
                 {hovered.data?.__estimated && (
                   <span
@@ -746,7 +838,14 @@ export default function DubaiHeatmap() {
                   </button>
                 </div>
 
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    gap: 10,
+                  }}
+                >
                   <div>
                     <div
                       style={{
@@ -760,7 +859,9 @@ export default function DubaiHeatmap() {
                       {selected.alias ? selected.alias : selected.name}
                     </div>
                     {selected.alias && (
-                      <div style={{ fontSize: 13, color: "#64748b", marginTop: 4 }}>
+                      <div
+                        style={{ fontSize: 13, color: "#64748b", marginTop: 4 }}
+                      >
                         {selected.name}
                       </div>
                     )}
@@ -782,7 +883,14 @@ export default function DubaiHeatmap() {
                   </button>
                 </div>
 
-                <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <div
+                  style={{
+                    marginTop: 10,
+                    display: "flex",
+                    gap: 8,
+                    flexWrap: "wrap",
+                  }}
+                >
                   <span
                     style={{
                       fontSize: 12,
@@ -827,10 +935,26 @@ export default function DubaiHeatmap() {
 
                 <div style={{ marginTop: 14, display: "grid", gap: 10 }}>
                   {[
-                    { label: "Sale Apartment", value: selected.data?.sale_apartment, unit: "AED/sqft" },
-                    { label: "Sale Villa", value: selected.data?.sale_villa, unit: "AED/sqft" },
-                    { label: "Rent Apartment", value: selected.data?.rent_apartment, unit: "AED/year" },
-                    { label: "Rent Villa", value: selected.data?.rent_villa, unit: "AED/year" },
+                    {
+                      label: "Sale Apartment",
+                      value: selected.data?.sale_apartment,
+                      unit: "AED/sqft",
+                    },
+                    {
+                      label: "Sale Villa",
+                      value: selected.data?.sale_villa,
+                      unit: "AED/sqft",
+                    },
+                    {
+                      label: "Rent Apartment",
+                      value: selected.data?.rent_apartment,
+                      unit: "AED/year",
+                    },
+                    {
+                      label: "Rent Villa",
+                      value: selected.data?.rent_villa,
+                      unit: "AED/year",
+                    },
                   ].map(({ label, value, unit }) => (
                     <div
                       key={label}
@@ -844,8 +968,22 @@ export default function DubaiHeatmap() {
                         gap: 10,
                       }}
                     >
-                      <div style={{ fontSize: 13, color: "#475569", fontWeight: 800 }}>{label}</div>
-                      <div style={{ fontSize: 14, fontWeight: 900, color: value != null ? "#0f172a" : "#cbd5e1" }}>
+                      <div
+                        style={{
+                          fontSize: 13,
+                          color: "#475569",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {label}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 900,
+                          color: value != null ? "#0f172a" : "#cbd5e1",
+                        }}
+                      >
                         {value != null ? `${fmt(value)} ${unit}` : "—"}
                       </div>
                     </div>
@@ -853,12 +991,27 @@ export default function DubaiHeatmap() {
                 </div>
 
                 <div style={{ marginTop: 14 }}>
-                  <div style={{ fontSize: 12, fontWeight: 900, color: "#0f172a", marginBottom: 6 }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 900,
+                      color: "#0f172a",
+                      marginBottom: 6,
+                    }}
+                  >
                     About
                   </div>
-                  <div style={{ fontSize: 13, color: "#475569", lineHeight: 1.6 }}>
+                  <div
+                    style={{ fontSize: 13, color: "#475569", lineHeight: 1.6 }}
+                  >
                     {selected.data?.__estimated && (
-                      <div style={{ marginBottom: 8, fontWeight: 900, color: "#c2410c" }}>
+                      <div
+                        style={{
+                          marginBottom: 8,
+                          fontWeight: 900,
+                          color: "#c2410c",
+                        }}
+                      >
                         No verified data for this community yet.
                       </div>
                     )}
@@ -868,21 +1021,44 @@ export default function DubaiHeatmap() {
                         name: selected.name,
                         alias: selected.alias,
                       },
-                      mode
+                      mode,
                     )}
                   </div>
                 </div>
 
-                <div style={{ marginTop: 14, borderTop: "1px solid #f1f5f9", paddingTop: 12 }}>
-                  <div style={{ fontSize: 12, fontWeight: 900, color: "#0f172a", marginBottom: 8 }}>
+                <div
+                  style={{
+                    marginTop: 14,
+                    borderTop: "1px solid #f1f5f9",
+                    paddingTop: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 900,
+                      color: "#0f172a",
+                      marginBottom: 8,
+                    }}
+                  >
                     Data notes
                   </div>
-                  <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.6 }}>
-                    Indicative market averages from publicly available sources. Not a live feed and not financial advice.
+                  <div
+                    style={{ fontSize: 12, color: "#64748b", lineHeight: 1.6 }}
+                  >
+                    Indicative market averages from publicly available sources.
+                    Not a live feed and not financial advice.
                   </div>
 
                   {selected.data?.mapping_note && (
-                    <div style={{ marginTop: 8, fontSize: 12, color: "#64748b", lineHeight: 1.6 }}>
+                    <div
+                      style={{
+                        marginTop: 8,
+                        fontSize: 12,
+                        color: "#64748b",
+                        lineHeight: 1.6,
+                      }}
+                    >
                       {selected.data.mapping_note}
                     </div>
                   )}
@@ -905,14 +1081,51 @@ export default function DubaiHeatmap() {
                     </a>
                   )}
                   <div style={{ marginTop: 8, fontSize: 11, color: "#94a3b8" }}>
-                    {selected.data?.source_name ? `Source: ${selected.data.source_name}` : ""}
-                    {selected.data?.report_period ? ` · ${selected.data.report_period}` : ""}
-                    {selected.data?.updated_at ? ` · Updated ${selected.data.updated_at}` : ""}
+                    {selected.data?.source_name
+                      ? `Source: ${selected.data.source_name}`
+                      : ""}
+                    {selected.data?.report_period
+                      ? ` · ${selected.data.report_period}`
+                      : ""}
+                    {selected.data?.updated_at
+                      ? ` · Updated ${selected.data.updated_at}`
+                      : ""}
                   </div>
                 </div>
               </div>
             </div>
           )}
+          {/* Fullscreen Button */}
+          <button
+            onClick={() =>
+              isFullscreen
+                ? document.exitFullscreen?.()
+                : mapContainerRef.current?.requestFullscreen?.()
+            }
+            style={{
+              position: "absolute",
+              bottom: 14,
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 1000,
+              background: "#fff",
+              border: "1px solid #e2e8f0",
+              borderRadius: 999,
+              padding: "6px 14px",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              cursor: "pointer",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+              fontSize: 12,
+              fontWeight: 600,
+              color: "#334155",
+              fontFamily: "var(--font-body)",
+            }}
+          >
+            {isFullscreen ? <Minimize size={14} /> : <Maximize size={14} />}
+            {isFullscreen ? "Exit Fullscreen" : "View Fullscreen"}
+          </button>
 
           {/* Legend */}
           <div
