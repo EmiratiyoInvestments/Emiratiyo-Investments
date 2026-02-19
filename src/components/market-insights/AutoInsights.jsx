@@ -183,12 +183,6 @@ export default function AutoInsights() {
             emoji: "📈",
             accent: "#22c55e",
           },
-          {
-            label: "Areas Tracked",
-            value: verifiedCount,
-            emoji: "📍",
-            accent: "#8b5cf6",
-          },
         ].map(({ label, value, emoji, accent }) => (
           <div
             key={label}
