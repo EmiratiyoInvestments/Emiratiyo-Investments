@@ -768,7 +768,7 @@ export default function DubaiHeatmap() {
                     : `${fmt(hovered.data[mode])} AED/year`}
                 </div>
               ) : (
-                <div style={{ fontSize: 12, color: "#9ca3af" }}>
+                <div style={{ fontSize: 12, color: "#9ca3ex" }}>
                   No data for this type
                 </div>
               )}

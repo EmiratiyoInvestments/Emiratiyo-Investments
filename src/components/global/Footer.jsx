@@ -38,9 +38,9 @@ const Footer = () => {
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="w-full py-12 lg:pt-20 lg:pb-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Company Info */}
-            <div className="col-span-1 sm:col-span-2 lg:col-span-2">
+            <div>
               <div className="mb-8 relative h-12">
                 <img
                   src="/logos/transparent_1.png"
@@ -70,107 +70,30 @@ const Footer = () => {
             </div>
 
             {/* Quick Links */}
-            <div className="col-span-1">
-              <h4 className="font-bold text-black uppercase mb-6 tracking-wider">Quick Links</h4>
-              <div className="space-y-3">
-                <p>
-                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/home">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Home
+            <div>
+              <h4 className="font-bold text-black uppercase mb-8 tracking-wider text-sm relative inline-block after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-8 after:h-0.5 after:bg-[#e83f25]">
+                Quick Links
+              </h4>
+              <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                {[
+                  { to: "/", label: "Home" },
+                  { to: "/services", label: "Services" },
+                  { to: "/properties", label: "Properties" },
+                  { to: "/market-insights", label: "Market Insights" },
+                  { to: "/business-setup", label: "Business Setup" },
+                  { to: "/contact", label: "Contact" },
+                  { to: "/about", label: "About Us" },
+                  { to: "/blog", label: "Blog" },
+                ].map((link) => (
+                  <Link
+                    key={link.to}
+                    className="text-gray-600 hover:text-[#e83f25] transition-all duration-300 inline-flex items-center gap-2.5 group hover:translate-x-1"
+                    to={link.to}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-[#e83f25] transition-colors duration-300 flex-shrink-0"></span>
+                    <span className="text-[15px]">{link.label}</span>
                   </Link>
-                </p>
-                <p>
-                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/services">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Services
-                  </Link>
-                </p>
-                <p>
-                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/properties">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Properties
-                  </Link>
-                </p>
-                <p>
-                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/business-setup">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Business Setup
-                  </Link>
-                </p>
-                <p>
-                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/contact">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Contact
-                  </Link>
-                </p>
-                <p>
-                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/about">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    About Us
-                  </Link>
-                </p>
-              </div>
-            </div>
-
-            {/* Resources */}
-            <div className="col-span-1">
-              <h4 className="font-bold text-black uppercase mb-6 tracking-wider">Resources</h4>
-              <div className="space-y-3">
-                <p>
-                  <Link className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" to="/blog">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Blog & News
-                  </Link>
-                </p>
-                <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#market">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Market Insights
-                  </a>
-                </p>
-                <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#calculator">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    ROI Calculator
-                  </a>
-                </p>
-                <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#faq">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    FAQ
-                  </a>
-                </p>
-              </div>
-            </div>
-
-            {/* Legal */}
-            <div className="col-span-1">
-              <h4 className="font-bold text-black uppercase mb-6 tracking-wider">Legal</h4>
-              <div className="space-y-3">
-                <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#privacy">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Privacy Policy
-                  </a>
-                </p>
-                <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#terms">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Terms of Service
-                  </a>
-                </p>
-                <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#disclaimer">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Disclaimer
-                  </a>
-                </p>
-                <p>
-                  <a className="text-gray-600 hover:text-[#e83f25] transition-colors duration-300 inline-flex items-center gap-2 group" href="#cookies">
-                    <span className="w-0 h-0.5 bg-[#e83f25] group-hover:w-4 transition-all duration-300"></span>
-                    Cookie Policy
-                  </a>
-                </p>
+                ))}
               </div>
             </div>
           </div>
