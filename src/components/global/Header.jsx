@@ -69,7 +69,7 @@ const Header = () => {
     `block font-medium text-xl text-center transition-all ${isActive ? activeClassName : inactiveClassName}`;
 
   return (
-    <header className="sticky top-0 flex items-center border-b border-gray-300 px-4 sm:px-6 bg-white h-[70px] tracking-wide relative z-50">
+    <header className="sticky top-0 flex items-center border-b border-gray-300 px-4 sm:px-6 bg-white h-[70px] tracking-wide relative z-[1500]">
       <div className="flex items-center w-full max-w-7xl mx-auto">
 
         {/* Logo - Desktop */}
@@ -163,12 +163,12 @@ const Header = () => {
               initial="closed"
               animate="open"
               exit="closed"
-              className="fixed inset-0 h-screen bg-white z-[60] origin-top lg:hidden overflow-y-auto"
+              className="fixed inset-0 h-screen bg-white z-[1600] origin-top lg:hidden overflow-y-auto"
             >
               {/* Close Button */}
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="fixed top-6 right-6 z-[100] rounded-full bg-gray-100 w-10 h-10 flex items-center justify-center border border-gray-200 cursor-pointer hover:bg-gray-200 transition-colors"
+                className="fixed top-6 right-6 z-[1700] rounded-full bg-gray-100 w-10 h-10 flex items-center justify-center border border-gray-200 cursor-pointer hover:bg-gray-200 transition-colors"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 fill-black" viewBox="0 0 320.591 320.591">
                   <path d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z" />

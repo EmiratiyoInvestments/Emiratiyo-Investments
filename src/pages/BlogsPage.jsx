@@ -72,7 +72,7 @@ const BlogsPage = () => {
             </h1>
             <p
               className="text-gray-500 text-lg max-w-2xl mx-auto"
-              style={{ fontFamily: "var(--font-body)" }}
+              style={{ fontFamily: "var(--font-body)" }}cd 
             >
               Stay ahead with the latest Dubai real estate trends, investment
               strategies, and market analysis.

@@ -61,7 +61,7 @@ const ServicesPage = () => {
                         <p className="text-[#e83f25] text-sm font-bold uppercase tracking-[0.2em] mb-4" style={{ fontFamily: 'var(--font-body)' }}>
                             SERVICES
                         </p>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-8 leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black  sm:mb-2 md:mb-4 leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
                             Our Expertise at Your Service
                         </h1>
                         <p className="text-lg text-[#939393] max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>

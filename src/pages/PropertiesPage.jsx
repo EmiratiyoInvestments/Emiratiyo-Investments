@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { Bed, Bath, Maximize, MapPin, Tag } from "lucide-react";
-import Header from "../components/global/Header";
 import { client, urlFor } from "../services/sanityClient";
 import { ALL_PROPERTIES_QUERY } from "../lib/propertyQueries";
 
@@ -77,20 +76,17 @@ const PropertiesPage = () => {
 
   if (propertiesLoading) {
     return (
-      <>
-        <Header />
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-[#e83f25] border-t-transparent rounded-full animate-spin"></div>
-            <p
-              style={{ fontFamily: "var(--font-body)" }}
-              className="text-gray-500"
-            >
-              Loading properties...
-            </p>
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[#e83f25] border-t-transparent rounded-full animate-spin"></div>
+          <p
+            style={{ fontFamily: "var(--font-body)" }}
+            className="text-gray-500"
+          >
+            Loading properties...
+          </p>
         </div>
-      </>
+      </div>
     );
   }
 
@@ -134,44 +130,40 @@ const PropertiesPage = () => {
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setSelectedStatus("all")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedStatus === "all"
-                      ? "bg-[#e83f25] text-white"
-                      : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedStatus === "all"
+                    ? "bg-[#e83f25] text-white"
+                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    }`}
                   style={{ fontFamily: "var(--font-body)" }}
                 >
                   All
                 </button>
                 <button
                   onClick={() => setSelectedStatus("for-sale")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedStatus === "for-sale"
-                      ? "bg-[#e83f25] text-white"
-                      : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedStatus === "for-sale"
+                    ? "bg-[#e83f25] text-white"
+                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    }`}
                   style={{ fontFamily: "var(--font-body)" }}
                 >
                   For Sale
                 </button>
                 <button
                   onClick={() => setSelectedStatus("for-rent")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedStatus === "for-rent"
-                      ? "bg-[#e83f25] text-white"
-                      : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedStatus === "for-rent"
+                    ? "bg-[#e83f25] text-white"
+                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    }`}
                   style={{ fontFamily: "var(--font-body)" }}
                 >
                   For Rent
                 </button>
                 <button
                   onClick={() => setSelectedStatus("off-plan")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedStatus === "off-plan"
-                      ? "bg-[#e83f25] text-white"
-                      : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedStatus === "off-plan"
+                    ? "bg-[#e83f25] text-white"
+                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    }`}
                   style={{ fontFamily: "var(--font-body)" }}
                 >
                   Off-Plan
@@ -190,55 +182,50 @@ const PropertiesPage = () => {
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setSelectedType("all")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedType === "all"
-                      ? "bg-[#e83f25] text-white"
-                      : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedType === "all"
+                    ? "bg-[#e83f25] text-white"
+                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    }`}
                   style={{ fontFamily: "var(--font-body)" }}
                 >
                   All Types
                 </button>
                 <button
                   onClick={() => setSelectedType("apartment")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedType === "apartment"
-                      ? "bg-[#e83f25] text-white"
-                      : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedType === "apartment"
+                    ? "bg-[#e83f25] text-white"
+                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    }`}
                   style={{ fontFamily: "var(--font-body)" }}
                 >
                   Apartment
                 </button>
                 <button
                   onClick={() => setSelectedType("villa")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedType === "villa"
-                      ? "bg-[#e83f25] text-white"
-                      : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedType === "villa"
+                    ? "bg-[#e83f25] text-white"
+                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    }`}
                   style={{ fontFamily: "var(--font-body)" }}
                 >
                   Villa
                 </button>
                 <button
                   onClick={() => setSelectedType("townhouse")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedType === "townhouse"
-                      ? "bg-[#e83f25] text-white"
-                      : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedType === "townhouse"
+                    ? "bg-[#e83f25] text-white"
+                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    }`}
                   style={{ fontFamily: "var(--font-body)" }}
                 >
                   Townhouse
                 </button>
                 <button
                   onClick={() => setSelectedType("penthouse")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedType === "penthouse"
-                      ? "bg-[#e83f25] text-white"
-                      : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedType === "penthouse"
+                    ? "bg-[#e83f25] text-white"
+                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    }`}
                   style={{ fontFamily: "var(--font-body)" }}
                 >
                   Penthouse

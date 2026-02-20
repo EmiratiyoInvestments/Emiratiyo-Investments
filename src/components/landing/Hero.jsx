@@ -41,7 +41,7 @@ const Hero = () => {
       className="relative w-full overflow-hidden  bg-white"
     >
       {/* Background Image Section with Responsive Height */}
-      <div className="relative w-full z-40 h-[90vh] min-h-[600px] sm:min-h-[750px] flex items-center justify-center pt-10 sm:pt-0">
+      <div className="relative w-full z-40 min-h-[600px] sm:h-[90vh] sm:min-h-[750px] flex flex-col items-center justify-center pt-10 sm:pt-0">
         <img
           src="https://plus.unsplash.com/premium_photo-1661964298224-7747aa0ac10c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Luxury Dubai Property"
@@ -66,7 +66,7 @@ const Hero = () => {
         </div>
 
         {/* Content */}
-        <div className="relative cursor-pointer z-30 w-full max-w-5xl px-6 text-center transform translate-y-[-20px] sm:translate-y-0">
+        <div className="relative cursor-pointer z-30 w-full max-w-5xl px-6 text-center sm:translate-y-0">
           {/* Headline */}
           <h1
             style={{ color: "white" }}
@@ -103,7 +103,7 @@ const Hero = () => {
         </div>
 
 
-        <div className="absolute bottom-[-120px] sm:bottom-[-80px] left-1/2 transform -translate-x-1/2 z-50 w-full max-w-6xl px-4 sm:px-6">
+        <div className="relative mt-10 sm:mt-0 sm:absolute sm:bottom-[-80px] sm:left-1/2 sm:transform sm:-translate-x-1/2 z-50 w-full max-w-6xl px-4 sm:px-6">
           <div className="bg-white rounded-xl shadow-2xl p-5 sm:p-8">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
               {/* Stat 1 - Line Chart */}
@@ -169,7 +169,7 @@ const Hero = () => {
       </div>
 
       {/* Stats Section with padding for floating card */}
-      <div className="bg-[#f7f7f7] pt-32 pb-24">
+      <div className="bg-[#f7f7f7] pt-8 sm:pt-32 pb-24">
         <div className="max-w-7xl mx-auto px-6">
         </div>
       </div>
