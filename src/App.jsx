@@ -17,6 +17,7 @@ import ROICalculator from "./components/global/ROICalculator";
 
 const App = () => {
   return (
+    
     <Router>
       <Header />
       <Routes>
