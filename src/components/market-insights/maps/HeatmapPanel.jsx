@@ -1,5 +1,6 @@
-// src/components/market-insights/HeatmapPanel.jsx
+// src/components/market-insights/maps/HeatmapPanel.jsx
 import React from "react";
+import { Building2 } from "lucide-react";
 import { fmt, fmtPct, buildAutoDescription } from "./HeatmapUtils";
 
 export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchChange, onSearchGo, mode }) {
@@ -49,8 +50,8 @@ export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchC
             </span>
           )}
           {selected.txCount != null && (
-            <span style={{ fontSize: 12, padding: "3px 8px", borderRadius: 999, background: "#eff6ff", color: "#0369a1", fontWeight: 800 }}>
-              🏗️ {selected.txCount} deals (Jan–Feb 2026)
+            <span style={{ fontSize: 12, padding: "3px 8px", borderRadius: 999, background: "#eff6ff", color: "#0369a1", fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6 }}>
+              <Building2 size={12} strokeWidth={2.5} /> {selected.txCount} deals (Jan–Feb 2026)
             </span>
           )}
           {selected.data?.__estimated && (
@@ -92,7 +93,7 @@ export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchC
         <div style={{ marginTop: 14, borderTop: "1px solid #f1f5f9", paddingTop: 12 }}>
           <div style={{ fontSize: 12, fontWeight: 900, color: "#0f172a", marginBottom: 8 }}>Data notes</div>
           <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.6 }}>
-            Price averages are indicative. Transaction counts from DLD Open Data (Jan–Feb 2026). Not financial advice.
+            Price averages are indicative.
           </div>
           {selected.data?.mapping_note && (
             <div style={{ marginTop: 8, fontSize: 12, color: "#64748b", lineHeight: 1.6 }}>{selected.data.mapping_note}</div>
