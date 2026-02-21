@@ -1,14 +1,15 @@
-// src/components/market-insights/DubaiHeatMap.jsx
+// src/components/market-insights/maps/DubaiHeatMap.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, GeoJSON, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { BarChart2, Maximize, Minimize } from "lucide-react";
+import { BarChart2, Maximize, Minimize, Building2 } from "lucide-react";
 import Papa from "papaparse";
 import HeatmapPanel from "./HeatmapPanel";
 import {
   getColorForMode, getColorTx, getLegendForMode, getLegendLabel,
   getModeHelpText, fallbackValue, normArea, fmt,
 } from "./HeatmapUtils";
+import { deriveAreaDataFromRows, buildGeoFeatureLookup } from "../../../lib/transactionDataUtils";
 
 const DEMO_FILL_MISSING = true;
 
@@ -18,8 +19,8 @@ function ResetViewController({ nonce }) {
   return null;
 }
 
-export default function DubaiHeatmap() {
-  const [mode, setMode]                 = useState("sale_apartment");
+export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
+  const [mode, setMode]                 = useState(initialMode);
   const [hovered, setHovered]           = useState(null);
   const [selected, setSelected]         = useState(null);
   const [dubaiGeoJSON, setDubaiGeoJSON] = useState(null);
@@ -39,7 +40,7 @@ export default function DubaiHeatmap() {
     return () => document.removeEventListener("fullscreenchange", handler);
   }, []);
 
-  // Load GeoJSON + area data
+  // Load GeoJSON + transaction CSV (single source)
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -53,27 +54,24 @@ export default function DubaiHeatmap() {
         }
         return res.json();
       };
-      const [geoRes, dataRes] = await Promise.all([fetch("/data/dubai.geojson"), fetch("/data/dubai-area-data.json")]);
-      const [geo, data] = await Promise.all([parseOrThrow(geoRes, "dubai.geojson"), parseOrThrow(dataRes, "dubai-area-data.json")]);
-      if (!cancelled) { setDubaiGeoJSON(geo); setAreaData(data); }
+      const geoRes = await fetch("/data/dubai.geojson");
+      const geo = await parseOrThrow(geoRes, "dubai.geojson");
+      if (cancelled) return;
+
+      Papa.parse("/data/transaction-26.csv", {
+        download: true, header: true, skipEmptyLines: true,
+        complete: (results) => {
+          if (cancelled) return;
+          const geoLookup = buildGeoFeatureLookup(geo);
+          const { areaDataByCommNum, txDataByArea } = deriveAreaDataFromRows(results.data || [], geoLookup);
+          setDubaiGeoJSON(geo);
+          setAreaData(areaDataByCommNum);
+          setTxData(txDataByArea);
+        },
+        error: (err) => { if (!cancelled) setLoadError(err); },
+      });
     })().catch((err) => { console.error(err); if (!cancelled) setLoadError(err); });
     return () => { cancelled = true; };
-  }, []);
-
-  // Load transaction CSV
-  useEffect(() => {
-    Papa.parse("/data/transaction-26.csv", {
-      download: true, header: true, skipEmptyLines: true,
-      complete: (results) => {
-        const map = {};
-        results.data.forEach((r) => {
-          if (r.GROUP_EN?.trim() !== "Sales") return;
-          const area = normArea(r.AREA_EN);
-          if (area) map[area] = (map[area] || 0) + 1;
-        });
-        setTxData(map);
-      },
-    });
   }, []);
 
   // Reset selected layer style on mode change
@@ -83,29 +81,22 @@ export default function DubaiHeatmap() {
     selectedLayerRef.current = null;
   }, [mode]);
 
-  // Dataset meta for header
+  // Dataset meta for header (derived from DLD CSV)
   const datasetMeta = React.useMemo(() => {
     if (!areaData) return null;
-    let updatedAt = null, reportPeriod = null, sourceName = null;
-    for (const v of Object.values(areaData)) {
-      if (!v || typeof v !== "object") continue;
-      if (!updatedAt    && v.updated_at)    updatedAt    = v.updated_at;
-      if (!reportPeriod && v.report_period) reportPeriod = v.report_period;
-      if (!sourceName   && v.source_name)   sourceName   = v.source_name;
-      if (updatedAt && reportPeriod && sourceName) break;
-    }
-    return { updatedAt, reportPeriod, sourceName };
+    return { reportPeriod: "DLD Open Data · Sale prices from transactions", sourceName: "Dubai Land Department" };
   }, [areaData]);
 
-  // Search
+  // Search (skip _area_ keys; only COMM_NUM for GeoJSON)
   const normalize = (s) => String(s ?? "").toLowerCase().replace(/\s+/g, " ").trim();
   const findCommNumByQuery = (query) => {
     const q = normalize(query);
     if (!q || !areaData) return null;
     let best = null;
     for (const [commNum, v] of Object.entries(areaData)) {
+      if (String(commNum).startsWith("_area_")) continue;
       if (!v || typeof v !== "object") continue;
-      for (const c of [v.alias, v.name, v.mapping_note]) {
+      for (const c of [v.alias, v.name]) {
         const n = normalize(c);
         if (!n) continue;
         if (n === q) return commNum;
@@ -211,8 +202,8 @@ export default function DubaiHeatmap() {
                 ))}
               </div>
               <button className="heatmap-btn" onClick={() => setMode("transactions")}
-                style={{ background: mode === "transactions" ? "#0369a1" : "#f1f5f9", color: mode === "transactions" ? "#fff" : "#64748b" }}>
-                🏗️ Transactions
+                style={{ background: mode === "transactions" ? "#0369a1" : "#f1f5f9", color: mode === "transactions" ? "#fff" : "#64748b", display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <Building2 size={14} strokeWidth={2.5} /> Transactions
               </button>
               <button className="heatmap-btn" onClick={() => setResetNonce((n) => n + 1)} style={{ background: "#f1f5f9", color: "#334155" }}>
                 Reset view
@@ -295,7 +286,7 @@ export default function DubaiHeatmap() {
 
           {/* Attribution */}
           <div style={{ position: "absolute", bottom: 8, right: 10, zIndex: 1000, background: "rgba(255,255,255,0.85)", borderRadius: 6, padding: "2px 8px", fontSize: 9, color: "#9ca3af" }}>
-            {mode === "transactions" ? "Transactions: Dubai Land Department Open Data" : "Price data: indicative market averages"}
+            {mode === "transactions" ? "Transactions: Dubai Land Department Open Data" : "Price data: derived from DLD sales transactions"}
           </div>
         </div>
       </div>

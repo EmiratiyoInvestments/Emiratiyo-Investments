@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapPin } from "lucide-react";
 import L from "leaflet";
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -44,7 +45,9 @@ const PropertyMap = ({ address, geopoint, title }) => {
           loading="lazy"
         />
       </div>
-      <p className="text-sm text-gray-500 mt-2">📍 {address}</p>
+      <p className="text-sm text-gray-500 mt-2 flex items-center gap-2">
+        <MapPin size={14} strokeWidth={2.5} /> {address}
+      </p>
     </div>
   );
 };

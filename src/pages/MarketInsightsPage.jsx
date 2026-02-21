@@ -6,9 +6,10 @@ import { ALL_PROPERTIES_QUERY } from "../lib/propertyQueries";
 import DubaiHeatmap from "../components/market-insights/maps/DubaiHeatMap";
 import WeeklySnapshot from "../components/market-insights/pricing/WeeklySnapshot";
 import AutoInsights from "../components/market-insights/pricing/AutoInsights";
+import CompareAreas from "../components/market-insights/pricing/CompareAreas";
 import TransactionInsights from "../components/market-insights/transaction/TransactionInsights";
 import TransactionTable from "../components/market-insights/transaction/TransactionTable";
-import { Briefcase, Home, Key } from "lucide-react";
+import { Briefcase, Home, Key, BarChart3, TrendingUp, Lightbulb } from "lucide-react";
 
 const SectionDivider = ({ label }) => (
   <div style={{ display: "flex", alignItems: "center", gap: 16, margin: "56px 0 32px" }}>
@@ -20,7 +21,13 @@ const SectionDivider = ({ label }) => (
   </div>
 );
 
+const TABS = [
+  { key: "transaction", label: "Transaction Data", icon: BarChart3 },
+  { key: "pricing", label: "Pricing & Area Intelligence", icon: TrendingUp },
+];
+
 const MarketInsightsPage = () => {
+  const [activeTab, setActiveTab] = useState("transaction"); // default: transaction
   const { data: properties, isLoading } = useQuery({
     queryKey: ["properties-map"],
     queryFn: () => client.fetch(ALL_PROPERTIES_QUERY),
@@ -62,31 +69,97 @@ const MarketInsightsPage = () => {
           {/* 1 — WEEKLY SNAPSHOT */}
           <WeeklySnapshot />
 
-          {/* 2 — TRANSACTION INTELLIGENCE (charts) */}
+          {/* 2 — TRANSACTION INTELLIGENCE (charts + Top Projects) */}
           <SectionDivider label="Transaction Intelligence · DLD Open Data" />
           <TransactionInsights />
 
-          {/* 3 — BROWSE TRANSACTIONS (table) */}
-          <SectionDivider label="Browse Individual Transactions · DLD Open Data" />
-          <TransactionTable />
+          {/* 3 — TABBED: Transaction Data | Pricing & Area Intelligence */}
+          <SectionDivider label="Explore Data & Map" />
+          <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 20, overflow: "hidden", boxShadow: "0 4px 20px rgba(0,0,0,0.06)" }}>
+            {/* Tab buttons — sticky when scrolling */}
+            <div
+              style={{
+                display: "flex",
+                borderBottom: "2px solid #e5e7eb",
+                background: "#f8fafc",
+                position: "sticky",
+                top: 72,
+                zIndex: 30,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+              }}
+            >
+              {TABS.map((t) => {
+                const Icon = t.icon;
+                const isActive = activeTab === t.key;
+                return (
+                  <button
+                    key={t.key}
+                    onClick={() => setActiveTab(t.key)}
+                    style={{
+                      flex: 1,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 10,
+                      padding: "18px 24px",
+                      border: "none",
+                      background: isActive ? "#fff" : "transparent",
+                      color: isActive ? "#e83f25" : "#64748b",
+                      fontSize: 16,
+                      fontWeight: 800,
+                      fontFamily: "var(--font-body)",
+                      cursor: "pointer",
+                      borderBottom: isActive ? "2px solid #fff" : "2px solid transparent",
+                      marginBottom: isActive ? "-2px" : 0,
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    <Icon size={20} strokeWidth={2.5} />
+                    {t.label}
+                  </button>
+                );
+              })}
+            </div>
 
-          {/* 4 — HEATMAP */}
-          <SectionDivider label="Interactive Map" />
-          <div style={{ marginBottom: 20 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 900, color: "#0f172a", fontFamily: "var(--font-display)", marginBottom: 4 }}>
-              Dubai Price & Transaction Heatmap
-            </h2>
-            <p style={{ fontSize: 13, color: "#64748b", fontFamily: "var(--font-body)" }}>
-              Switch between price view and transaction volume view. Click any area for detailed data.
-            </p>
-          </div>
-          <div className="mb-4">
-            <DubaiHeatmap />
-          </div>
+            {/* Tab content */}
+            <div style={{ padding: "28px 24px" }}>
+              {activeTab === "transaction" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+                  <div>
+                    <h2 style={{ fontSize: 20, fontWeight: 900, color: "#0f172a", fontFamily: "var(--font-display)", marginBottom: 8 }}>
+                      Browse Individual Transactions
+                    </h2>
+                    <TransactionTable />
+                  </div>
+                  <div>
+                    <h2 style={{ fontSize: 20, fontWeight: 900, color: "#0f172a", fontFamily: "var(--font-display)", marginBottom: 8 }}>
+                      Transaction Choropleth Map
+                    </h2>
+                    <p style={{ fontSize: 13, color: "#64748b", marginBottom: 16, fontFamily: "var(--font-body)" }}>
+                      Heatmap by transaction volume per area. Click any area for details.
+                    </p>
+                    <DubaiHeatmap initialMode="transactions" />
+                  </div>
+                </div>
+              )}
 
-          {/* 5 — AREA INTELLIGENCE */}
-          <SectionDivider label="Area Intelligence" />
-          <AutoInsights />
+              {activeTab === "pricing" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+                  <CompareAreas />
+                  <AutoInsights />
+                  <div>
+                    <h2 style={{ fontSize: 20, fontWeight: 900, color: "#0f172a", fontFamily: "var(--font-display)", marginBottom: 8 }}>
+                      Price Choropleth Map
+                    </h2>
+                    <p style={{ fontSize: 13, color: "#64748b", marginBottom: 16, fontFamily: "var(--font-body)" }}>
+                      Heatmap by sale price (AED/sqft). Switch between apartment and villa views.
+                    </p>
+                    <DubaiHeatmap initialMode="sale_apartment" />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
 
           {/* 6 — OUR LISTINGS */}
           <SectionDivider label="Our Listings" />
@@ -108,9 +181,10 @@ const MarketInsightsPage = () => {
                 </div>
               ))}
             </div>
-            <div className="bg-blue-50 border border-blue-200 p-5 rounded-xl">
+            <div className="bg-blue-50 border border-blue-200 p-5 rounded-xl flex gap-3">
+              <Lightbulb size={20} className="text-blue-600 shrink-0 mt-0.5" strokeWidth={2.5} />
               <p className="text-sm text-blue-800" style={{ fontFamily: "var(--font-body)" }}>
-                <strong>💡 Tip:</strong> Use the interactive heatmap above to explore price averages by area, then browse our listings to find properties in your target community.
+                <strong>Tip:</strong> Use the choropleth maps in the Explore Data & Map section above to explore transaction volume and price averages by area, then browse our listings to find properties in your target community.
               </p>
             </div>
           </div>

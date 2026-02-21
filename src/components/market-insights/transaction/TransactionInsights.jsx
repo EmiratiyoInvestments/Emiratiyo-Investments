@@ -5,6 +5,7 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   CartesianGrid, Cell, PieChart, Pie, Legend,
 } from "recharts";
+import { BarChart3, DollarSign, Building2, Home, Ruler } from "lucide-react";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 const SQM_TO_SQFT = 10.7639;
@@ -34,10 +35,10 @@ const CustomTooltip = ({ active, payload, label }) => {
   );
 };
 
-const StatCard = ({ label, value, sub, accent, emoji }) => (
+const StatCard = ({ label, value, sub, accent, icon: Icon }) => (
   <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, padding: "18px 20px", borderTop: `3px solid ${accent}` }}>
-    <p style={{ fontSize: 11, color: "#94a3b8", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6, fontFamily: "var(--font-body)" }}>
-      {emoji} {label}
+    <p style={{ fontSize: 11, color: "#94a3b8", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6, fontFamily: "var(--font-body)", display: "flex", alignItems: "center", gap: 6 }}>
+      {Icon && <Icon size={14} strokeWidth={2.5} />} {label}
     </p>
     <p style={{ fontSize: 22, fontWeight: 900, color: "#0f172a", fontFamily: "var(--font-display)", lineHeight: 1.1 }}>{value}</p>
     {sub && <p style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>{sub}</p>}
@@ -194,10 +195,10 @@ export default function TransactionInsights() {
   );
 
   const TABS = [
-    { key: "areas",    label: "🏙️ Top Areas" },
-    { key: "value",    label: "💰 By Value" },
-    { key: "price",    label: "📐 Avg Price/sqft" },
-    { key: "projects", label: "🏗️ Top Projects" },
+    { key: "areas",    label: "Top Areas",    Icon: BarChart3 },
+    { key: "value",    label: "By Value",     Icon: DollarSign },
+    { key: "price",    label: "Avg Price/sqft", Icon: Ruler },
+    { key: "projects", label: "Top Projects", Icon: Building2 },
   ];
 
   const tabData = {
@@ -232,12 +233,12 @@ export default function TransactionInsights() {
 
       {/* Stat cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 14, marginBottom: 28 }}>
-        <StatCard emoji="📊" label="Total Transactions" value={fmt(computed.totalTx)} accent="#e83f25" />
-        <StatCard emoji="💵" label="Total Value" value={fmtM(computed.totalValue)} accent="#3b82f6" />
-        <StatCard emoji="🏗️" label="Off-Plan Deals" value={fmt(computed.offPlanCount)} sub={`${Math.round(computed.offPlanCount / computed.totalTx * 100)}% of total`} accent="#8b5cf6" />
-        <StatCard emoji="🏠" label="Ready Deals" value={fmt(computed.readyCount)} sub={`${Math.round(computed.readyCount / computed.totalTx * 100)}% of total`} accent="#22c55e" />
+        <StatCard icon={BarChart3} label="Total Transactions" value={fmt(computed.totalTx)} accent="#e83f25" />
+        <StatCard icon={DollarSign} label="Total Value" value={fmtM(computed.totalValue)} accent="#3b82f6" />
+        <StatCard icon={Building2} label="Off-Plan Deals" value={fmt(computed.offPlanCount)} sub={`${Math.round(computed.offPlanCount / computed.totalTx * 100)}% of total`} accent="#8b5cf6" />
+        <StatCard icon={Home} label="Ready Deals" value={fmt(computed.readyCount)} sub={`${Math.round(computed.readyCount / computed.totalTx * 100)}% of total`} accent="#22c55e" />
         {computed.avgPriceSqft && (
-          <StatCard emoji="📐" label="Avg Price/sqft" value={`AED ${fmt(computed.avgPriceSqft)}`} sub="Sales transactions" accent="#f59e0b" />
+          <StatCard icon={Ruler} label="Avg Price/sqft" value={`AED ${fmt(computed.avgPriceSqft)}`} sub="Sales transactions" accent="#f59e0b" />
         )}
       </div>
 
@@ -246,12 +247,16 @@ export default function TransactionInsights() {
         <div style={{ padding: "16px 20px", borderBottom: "1px solid #f1f5f9" }}>
           <p style={{ fontSize: 15, fontWeight: 800, color: "#0f172a", marginBottom: 12 }}>Rankings & Transactions</p>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {TABS.map((t) => (
-              <button key={t.key} onClick={() => { setActiveTab(t.key); setPage(1); }}
-                style={{ padding: "6px 14px", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "var(--font-body)", transition: "all 0.15s", background: activeTab === t.key ? "#e83f25" : "#f1f5f9", color: activeTab === t.key ? "#fff" : "#64748b" }}>
-                {t.label}
-              </button>
-            ))}
+            {TABS.map((t) => {
+              const TabIcon = t.Icon;
+              return (
+                <button key={t.key} onClick={() => { setActiveTab(t.key); setPage(1); }}
+                  style={{ padding: "6px 14px", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "var(--font-body)", transition: "all 0.15s", background: activeTab === t.key ? "#e83f25" : "#f1f5f9", color: activeTab === t.key ? "#fff" : "#64748b", display: "flex", alignItems: "center", gap: 6 }}>
+                  {TabIcon && <TabIcon size={14} strokeWidth={2.5} />}
+                  {t.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 

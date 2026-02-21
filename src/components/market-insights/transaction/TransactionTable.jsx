@@ -1,6 +1,7 @@
-// src/components/market-insights/TransactionTable.jsx
+// src/components/market-insights/transaction/TransactionTable.jsx
 import React, { useState, useEffect, useMemo } from "react";
 import Papa from "papaparse";
+import { Download, Settings2 } from "lucide-react";
 
 const SQM_TO_SQFT = 10.7639;
 const PAGE_SIZE   = 25;
@@ -148,6 +149,18 @@ export default function TransactionTable() {
 
   const hasActiveFilters = search || filterType !== "all" || filterUsage !== "all" || filterFreehold !== "all" || filterArea !== "all";
 
+  const exportToCsv = () => {
+    if (!filtered.length) return;
+    const csv = Papa.unparse(filtered, { header: true });
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `dubai-transactions-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   if (loading) return (
     <div style={{ padding: "48px 0", textAlign: "center", color: "#94a3b8", fontFamily: "var(--font-body)" }}>Loading transactions…</div>
   );
@@ -274,11 +287,35 @@ export default function TransactionTable() {
           <option value="Non Free Hold">Non-Freehold</option>
         </select>
 
+        <button
+          onClick={exportToCsv}
+          disabled={!filtered.length}
+          style={{
+            border: "1px solid #e5e7eb",
+            borderRadius: 10,
+            padding: "9px 14px",
+            fontSize: 13,
+            fontWeight: 700,
+            fontFamily: "var(--font-body)",
+            background: "#0f172a",
+            color: "#fff",
+            cursor: filtered.length ? "pointer" : "not-allowed",
+            opacity: filtered.length ? 1 : 0.6,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <Download size={14} strokeWidth={2.5} />
+          Export CSV
+        </button>
+
         {/* Column picker */}
         <div style={{ position: "relative" }}>
           <button onClick={() => setShowColPicker((v) => !v)}
-            style={{ border: "1px solid #e5e7eb", borderRadius: 10, padding: "9px 14px", fontSize: 13, fontWeight: 700, fontFamily: "var(--font-body)", background: showColPicker ? "#0f172a" : "#fff", color: showColPicker ? "#fff" : "#374151", cursor: "pointer" }}>
-            ⚙ Columns ({visibleCols.size})
+            style={{ border: "1px solid #e5e7eb", borderRadius: 10, padding: "9px 14px", fontSize: 13, fontWeight: 700, fontFamily: "var(--font-body)", background: showColPicker ? "#0f172a" : "#fff", color: showColPicker ? "#fff" : "#374151", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <Settings2 size={14} strokeWidth={2.5} />
+            Columns ({visibleCols.size})
           </button>
           {showColPicker && (
             <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.12)", padding: "12px 16px", zIndex: 100, minWidth: 220, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 16px" }}>
