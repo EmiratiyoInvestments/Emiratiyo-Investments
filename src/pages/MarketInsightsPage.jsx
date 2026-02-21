@@ -78,7 +78,7 @@ const MarketInsightsPage = () => {
 
   return (
     <div>
-      <main className="min-h-screen bg-white pt-24 pb-20">
+      <main className="min-h-screen bg-white sm:block pt-24 pb-20">
         <div className="max-w-7xl mx-auto px-6">
           {/* ── PAGE HEADER ── */}
           <div className="mb-14 text-center">
