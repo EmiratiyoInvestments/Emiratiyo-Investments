@@ -128,7 +128,7 @@ export default function AutoInsights() {
   const avgYield = avgSale && avgRent ? (avgRent / (avgSale * AVG_SQFT)) * 100 : null;
   const verifiedCount = areas.length;
 
-  // ── Bar chart colors ─────────────────────────────────────────────────────────
+  // ── Bar chart colors ─────────────────────────────────────────────────
   const saleColors = ["#e83f25", "#ef4444", "#fb923c", "#fbbf24", "#fde047",
     "#fde047", "#bef264", "#86efac", "#4ade80", "#22c55e"];
   const yieldColors = ["#15803d", "#16a34a", "#22c55e", "#4ade80", "#86efac",
