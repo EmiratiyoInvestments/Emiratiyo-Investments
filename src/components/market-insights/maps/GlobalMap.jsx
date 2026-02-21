@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import { Link } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { urlFor } from "../../services/sanityClient";
+import { urlFor } from "../../../services/sanityClient";
 import {
   MapPin,
   Bed,

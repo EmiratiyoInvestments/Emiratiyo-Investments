@@ -1,7 +1,7 @@
 // src/components/market-insights/WeeklySnapshot.jsx
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { client } from "../../services/sanityClient";
+import { client } from "../../../services/sanityClient";
 import { TrendingUp, TrendingDown, Minus, Calendar, Building2, Home, Landmark } from "lucide-react";
 import {
   LineChart,
