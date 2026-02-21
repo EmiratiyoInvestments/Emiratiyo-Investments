@@ -130,9 +130,9 @@ export default function AutoInsights() {
 
   // ── Bar chart colors ─────────────────────────────────────────────────────────
   const saleColors = ["#e83f25", "#ef4444", "#fb923c", "#fbbf24", "#fde047",
-                      "#fde047", "#bef264", "#86efac", "#4ade80", "#22c55e"];
+    "#fde047", "#bef264", "#86efac", "#4ade80", "#22c55e"];
   const yieldColors = ["#15803d", "#16a34a", "#22c55e", "#4ade80", "#86efac",
-                       "#86efac", "#bef264", "#fde047", "#fb923c", "#ef4444"];
+    "#86efac", "#bef264", "#fde047", "#fb923c", "#ef4444"];
 
   return (
     <div style={{ fontFamily: "var(--font-body)" }}>
@@ -221,14 +221,7 @@ export default function AutoInsights() {
       </div>
 
       {/* ── Charts Row ── */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 14,
-          marginBottom: 28,
-        }}
-      >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-7">
         {/* Most Expensive Chart */}
         <div
           style={{
@@ -244,30 +237,32 @@ export default function AutoInsights() {
           <p style={{ fontSize: 11, color: "#94a3b8", marginBottom: 16 }}>
             Apartment sale price · AED/sqft
           </p>
-          <ResponsiveContainer width="100%" height={280}>
-            <BarChart
-              data={topSale}
-              layout="vertical"
-              margin={{ left: 0, right: 16, top: 0, bottom: 0 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
-              <XAxis type="number" tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
-              <YAxis
-                type="category"
-                dataKey="name"
-                tick={{ fontSize: 10, fill: "#475569" }}
-                width={80}
-                axisLine={false}
-                tickLine={false}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                {topSale.map((_, i) => (
-                  <Cell key={i} fill={saleColors[i] ?? "#e5e7eb"} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="h-[320px] sm:h-[400px] lg:h-[280px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={topSale}
+                layout="vertical"
+                margin={{ left: 0, right: 30, top: 0, bottom: 0 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
+                <XAxis type="number" tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
+                <YAxis
+                  type="category"
+                  dataKey="name"
+                  tick={{ fontSize: 10, fill: "#475569" }}
+                  width={90}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                  {topSale.map((_, i) => (
+                    <Cell key={i} fill={saleColors[i] ?? "#e5e7eb"} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         {/* Best Yield Chart */}
@@ -285,36 +280,38 @@ export default function AutoInsights() {
           <p style={{ fontSize: 11, color: "#94a3b8", marginBottom: 16 }}>
             Gross yield % · based on 1,000 sqft avg apartment
           </p>
-          <ResponsiveContainer width="100%" height={280}>
-            <BarChart
-              data={topYield}
-              layout="vertical"
-              margin={{ left: 0, right: 16, top: 0, bottom: 0 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
-              <XAxis
-                type="number"
-                tick={{ fontSize: 10, fill: "#94a3b8" }}
-                axisLine={false}
-                tickLine={false}
-                unit="%"
-              />
-              <YAxis
-                type="category"
-                dataKey="name"
-                tick={{ fontSize: 10, fill: "#475569" }}
-                width={80}
-                axisLine={false}
-                tickLine={false}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                {topYield.map((_, i) => (
-                  <Cell key={i} fill={yieldColors[i] ?? "#e5e7eb"} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="h-[320px] sm:h-[400px] lg:h-[280px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={topYield}
+                layout="vertical"
+                margin={{ left: 0, right: 30, top: 0, bottom: 0 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
+                <XAxis
+                  type="number"
+                  tick={{ fontSize: 10, fill: "#94a3b8" }}
+                  axisLine={false}
+                  tickLine={false}
+                  unit="%"
+                />
+                <YAxis
+                  type="category"
+                  dataKey="name"
+                  tick={{ fontSize: 10, fill: "#475569" }}
+                  width={90}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                  {topYield.map((_, i) => (
+                    <Cell key={i} fill={yieldColors[i] ?? "#e5e7eb"} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
 
