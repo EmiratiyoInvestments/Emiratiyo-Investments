@@ -123,7 +123,7 @@ export default function TransactionInsights() {
     const offPlanVsReady = [{ name: "Off-Plan", value: offPlanCount }, { name: "Ready", value: readyCount }];
     const usageSplit = Object.entries(sales.reduce((acc, r) => { const u = r.USAGE_EN?.trim() || "Other"; acc[u] = (acc[u] || 0) + 1; return acc; }, {})).map(([name, value]) => ({ name, value }));
     const propTypeSplit = Object.entries(sales.reduce((acc, r) => { const t = r.PROP_SB_TYPE_EN?.trim() || r.PROP_TYPE_EN?.trim() || "Other"; acc[t] = (acc[t] || 0) + 1; return acc; }, {})).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([name, value]) => ({ name, value }));
-    const roomsSplit = Object.entries(sales.reduce((acc, r) => { const room = r.ROOMS_EN?.trim() || "Unknown"; acc[room] = (acc[room] || 0) + 1; return acc; }, {})).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([name, value]) => ({ name, value }));
+    const roomsSplit = Object.entries(sales.reduce((acc, r) => { const raw = r.ROOMS_EN?.trim(); const room = (!raw || raw.toLowerCase() === "unknown" || raw === "NA") ? "Other" : raw; acc[room] = (acc[room] || 0) + 1; return acc; }, {})).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([name, value]) => ({ name, value }));
 
     return { totalTx, totalValue, offPlanCount, readyCount, avgPriceSqft, topAreasByCount, topAreasByValue, topAreasByPrice, topProjects, offPlanVsReady, usageSplit, propTypeSplit, roomsSplit };
   }, [rows]);
@@ -436,7 +436,7 @@ export default function TransactionInsights() {
       )}
 
       <p style={{ fontSize: 11, color: "#cbd5e1", textAlign: "right", marginTop: 4 }}>
-        Source: Dubai Land Department Open Data · Official transaction records · Not financial advice
+        Source: Dubai Land Department Open Data · Official transaction records
       </p>
     </div>
   );

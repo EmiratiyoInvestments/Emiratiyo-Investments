@@ -4,7 +4,7 @@ import Papa from "papaparse";
 import { Download, Settings2 } from "lucide-react";
 
 const SQM_TO_SQFT = 10.7639;
-const PAGE_SIZE   = 25;
+const PAGE_SIZE   = 15;
 
 const fmt  = (n) => new Intl.NumberFormat("en-AE").format(Math.round(n));
 const fmtM = (n) => {

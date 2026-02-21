@@ -70,22 +70,18 @@ const MarketInsightsPage = () => {
           <WeeklySnapshot />
 
           {/* 2 — TRANSACTION INTELLIGENCE (charts + Top Projects) */}
-          <SectionDivider label="Transaction Intelligence · DLD Open Data" />
+          <SectionDivider label="Transaction Intelligence" />
           <TransactionInsights />
 
           {/* 3 — TABBED: Transaction Data | Pricing & Area Intelligence */}
           <SectionDivider label="Explore Data & Map" />
           <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 20, overflow: "hidden", boxShadow: "0 4px 20px rgba(0,0,0,0.06)" }}>
-            {/* Tab buttons — sticky when scrolling */}
+            {/* Tab buttons */}
             <div
               style={{
                 display: "flex",
                 borderBottom: "2px solid #e5e7eb",
                 background: "#f8fafc",
-                position: "sticky",
-                top: 72,
-                zIndex: 30,
-                boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
               }}
             >
               {TABS.map((t) => {
@@ -126,9 +122,7 @@ const MarketInsightsPage = () => {
               {activeTab === "transaction" && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
                   <div>
-                    <h2 style={{ fontSize: 20, fontWeight: 900, color: "#0f172a", fontFamily: "var(--font-display)", marginBottom: 8 }}>
-                      Browse Individual Transactions
-                    </h2>
+                    
                     <TransactionTable />
                   </div>
                   <div>

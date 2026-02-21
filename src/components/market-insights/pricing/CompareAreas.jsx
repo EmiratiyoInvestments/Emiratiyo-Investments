@@ -29,11 +29,20 @@ export default function CompareAreas() {
 
   if (!areaData) return null;
 
-  const areasList = Object.entries(areaData)
+  const areasListRaw = Object.entries(areaData)
     .map(([key, d]) => (d && typeof d === "object" ? { key, ...d } : null))
     .filter(Boolean)
     .filter((a) => a.sale_apartment != null || (a._txCount || 0) > 0)
     .sort((a, b) => (getLabel(a) || "").localeCompare(getLabel(b) || ""));
+
+  // Deduplicate by display name so each area appears once in dropdown and we don't get duplicate cards
+  const seenNames = new Set();
+  const areasList = areasListRaw.filter((a) => {
+    const label = getLabel(a);
+    if (seenNames.has(label)) return false;
+    seenNames.add(label);
+    return true;
+  });
 
   const selectedAreas = selected
     .filter(Boolean)
@@ -121,7 +130,7 @@ export default function CompareAreas() {
           >
             {selectedAreas.map((a, i) => (
               <div
-                key={a.key}
+                key={`compare-${i}-${a.key}`}
                 style={{
                   background: "#f8fafc",
                   border: "1px solid #e5e7eb",

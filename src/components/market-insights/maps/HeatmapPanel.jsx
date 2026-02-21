@@ -93,7 +93,7 @@ export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchC
         <div style={{ marginTop: 14, borderTop: "1px solid #f1f5f9", paddingTop: 12 }}>
           <div style={{ fontSize: 12, fontWeight: 900, color: "#0f172a", marginBottom: 8 }}>Data notes</div>
           <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.6 }}>
-            Price averages are indicative. Transaction counts from DLD Open Data (Jan–Feb 2026). Not financial advice.
+            Price averages are indicative.
           </div>
           {selected.data?.mapping_note && (
             <div style={{ marginTop: 8, fontSize: 12, color: "#64748b", lineHeight: 1.6 }}>{selected.data.mapping_note}</div>

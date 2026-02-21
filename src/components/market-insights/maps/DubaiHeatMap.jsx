@@ -84,7 +84,7 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
   // Dataset meta for header (derived from DLD CSV)
   const datasetMeta = React.useMemo(() => {
     if (!areaData) return null;
-    return { reportPeriod: "DLD Open Data · Sale prices from transactions", sourceName: "Dubai Land Department" };
+    return { reportPeriod: " Sale prices from transactions", sourceName: "Dubai Land Department" };
   }, [areaData]);
 
   // Search (skip _area_ keys; only COMM_NUM for GeoJSON)
