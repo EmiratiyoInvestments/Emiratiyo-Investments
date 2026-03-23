@@ -40,7 +40,6 @@ const Hero = () => {
     <section
       className="relative w-full overflow-hidden  bg-white"
     >
-      {/* Background Image Section with Responsive Height */}
       <div className="relative w-full z-40 min-h-[600px] sm:h-[90vh] sm:min-h-[750px] flex flex-col items-center justify-center pt-10 sm:pt-0">
         <img
           src="https://plus.unsplash.com/premium_photo-1661964298224-7747aa0ac10c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -48,10 +47,8 @@ const Hero = () => {
           className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* Premium Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80 z-10"></div>
 
-        {/* Wave Shape */}
         <div className="absolute bottom-[-1px] z-20 left-0 w-full">
           <svg
             className="w-full block"
@@ -65,9 +62,7 @@ const Hero = () => {
           </svg>
         </div>
 
-        {/* Content */}
         <div className="relative cursor-pointer z-30 w-full max-w-5xl px-6 text-center sm:translate-y-0">
-          {/* Headline */}
           <h1
             style={{ color: "white" }}
             className="text-3xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight tracking-tight"
@@ -82,7 +77,6 @@ const Hero = () => {
             </span>
           </h1>
 
-          {/* Description Group */}
           <div className="space-y-2 mb-8 sm:mb-10">
             <p className="text-sm sm:text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl mx-auto">
               Discover luxury real estate investments in UAE's most
@@ -93,7 +87,6 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* Button */}
           <div className="flex justify-center">
             <button className="group px-7 py-4 sm:px-10 sm:py-5 text-base sm:text-lg font-bold text-white bg-[#e83f25] rounded-md hover:bg-[#c73519] transition-all duration-300 shadow-2xl flex items-center gap-3">
               Start Investing
@@ -106,7 +99,6 @@ const Hero = () => {
         <div className="relative mt-10 sm:mt-0 sm:absolute sm:bottom-[-80px] sm:left-1/2 sm:transform sm:-translate-x-1/2 z-50 w-full max-w-6xl px-4 sm:px-6">
           <div className="bg-white rounded-xl shadow-2xl p-5 sm:p-8">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
-              {/* Stat 1 - Line Chart */}
               <div className="text-center">
                 <div className="mb-2">
                   <ResponsiveContainer width="100%" height={40}>
@@ -127,7 +119,6 @@ const Hero = () => {
                 </p>
               </div>
 
-              {/* Stat 2 - Bar Chart */}
               <div className="text-center">
                 <div className="mb-2">
                   <ResponsiveContainer width="100%" height={40}>
@@ -142,7 +133,6 @@ const Hero = () => {
                 </p>
               </div>
 
-              {/* Stat 3 - Area Chart */}
               <div className="text-center">
                 <div className="mb-2">
                   <ResponsiveContainer width="100%" height={40}>
@@ -168,7 +158,6 @@ const Hero = () => {
 
       </div>
 
-      {/* Stats Section with padding for floating card */}
       <div className="bg-[#f7f7f7] pt-8 sm:pt-32 pb-24">
         <div className="max-w-7xl mx-auto px-6">
         </div>

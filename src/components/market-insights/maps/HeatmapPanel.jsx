@@ -1,4 +1,3 @@
-// src/components/market-insights/maps/HeatmapPanel.jsx
 import React from "react";
 import { Building2 } from "lucide-react";
 import { fmt, fmtPct, buildAutoDescription } from "./HeatmapUtils";
@@ -15,7 +14,6 @@ export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchC
         style={{ width: 380, maxWidth: "92vw", background: "#fff", borderTopRightRadius: 16, borderBottomRightRadius: 16, boxShadow: "0 20px 60px rgba(0,0,0,0.25)", padding: 16, overflowY: "auto" }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Search */}
         <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
           <input
             value={searchQuery}
@@ -29,7 +27,6 @@ export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchC
           </button>
         </div>
 
-        {/* Title */}
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 }}>
           <div>
             <div style={{ fontSize: 20, fontWeight: 900, color: "#0f172a", fontFamily: "var(--font-display)", lineHeight: 1.1 }}>
@@ -42,7 +39,6 @@ export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchC
           </button>
         </div>
 
-        {/* Badges */}
         <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap" }}>
           {selected.data?.yoy_change != null && (
             <span style={{ fontSize: 12, padding: "3px 8px", borderRadius: 999, background: "#ecfeff", color: "#0e7490", fontWeight: 800 }}>
@@ -61,7 +57,6 @@ export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchC
           )}
         </div>
 
-        {/* Price grid */}
         <div style={{ marginTop: 14, display: "grid", gap: 10 }}>
           {[
             { label: "Sale Apartment", value: selected.data?.sale_apartment, unit: "AED/sqft" },
@@ -78,7 +73,6 @@ export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchC
           ))}
         </div>
 
-        {/* About */}
         <div style={{ marginTop: 14 }}>
           <div style={{ fontSize: 12, fontWeight: 900, color: "#0f172a", marginBottom: 6 }}>About</div>
           <div style={{ fontSize: 13, color: "#475569", lineHeight: 1.6 }}>
@@ -89,7 +83,6 @@ export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchC
           </div>
         </div>
 
-        {/* Data notes */}
         <div style={{ marginTop: 14, borderTop: "1px solid #f1f5f9", paddingTop: 12 }}>
           <div style={{ fontSize: 12, fontWeight: 900, color: "#0f172a", marginBottom: 8 }}>Data notes</div>
           <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.6 }}>

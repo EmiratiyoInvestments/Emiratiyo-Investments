@@ -15,7 +15,6 @@ const WhyDubai = () => {
 
   return (
     <section className="relative md:-mt-25 py-30 z-10 bg-white overflow-hidden">
-      {/* Subtle Background Patterns - CORNER ACCENTS ONLY */}
       <div
         className="absolute  right-10 w-40 h-40 opacity-5"
         style={{
@@ -33,11 +32,8 @@ const WhyDubai = () => {
       ></div>
 
       <div className="relative max-w-7xl mx-auto px-6">
-        {/* 2-Column Layout */}
         <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* LEFT COLUMN */}
           <div>
-            {/* Section Heading */}
             <p className="text-[#e83f25] font-bold text-sm uppercase tracking-wide mb-3">
               About Us
             </p>
@@ -49,7 +45,6 @@ const WhyDubai = () => {
               inspiration, while dedicated areas provide quiet reflection.
             </p>
 
-            {/* Stats - 3 columns with borders */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 mb-10">
               <div className="md:pr-6 md:border-r border-gray-300">
                 <p className="text-3xl lg:text-4xl font-bold text-[#e83f25] mb-2">20+</p>
@@ -79,7 +74,6 @@ const WhyDubai = () => {
               </div>
             </div>
 
-            {/* Bottom Left Image */}
             <div className="rounded-2xl overflow-hidden shadow-lg h-80">
               <img
                 src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800"
@@ -89,9 +83,7 @@ const WhyDubai = () => {
             </div>
           </div>
 
-          {/* RIGHT COLUMN */}
           <div>
-            {/* Top Right Image */}
             <div className="rounded-2xl overflow-hidden shadow-lg h-80 mb-10">
               <img
                 src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800"
@@ -100,7 +92,6 @@ const WhyDubai = () => {
               />
             </div>
 
-            {/* Benefits List */}
             <div className="grid grid-cols-2 gap-x-8 gap-y-8 mt-12">
               {benefits.map((benefit, index) => (
                 <div key={index} className="flex items-center gap-4">

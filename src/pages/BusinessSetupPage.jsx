@@ -1,10 +1,11 @@
-import React from "react";
-import { CheckCircle } from "lucide-react";
-import { useSubmitEmBusinessSetup } from "../services/useEmBusinessSetupMutations";
+import React, { useState } from "react";
+import { CheckCircle, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import { useSubmitEmBusinessSetup } from "../hooks/useEmBusinessSetupMutations";
 
 const BusinessSetupPage = () => {
   const { mutate, isPending } = useSubmitEmBusinessSetup();
+  const [status, setStatus] = useState("idle"); // idle, sending, sent, error
   const [formData, setFormData] = React.useState({
     fullName: "",
     email: "",
@@ -19,13 +20,22 @@ const BusinessSetupPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    // console.log("[Optimistic UI] User submitted business setup form. Setting status to: sending...");
+    setStatus("sending");
+
+    const startTime = Date.now();
     mutate(formData, {
       onSuccess: () => {
+        const endTime = Date.now();
+        // console.log(`[Optimistic UI] Business setup SUCCESS! (Time taken: ${endTime - startTime}ms)`);
         setFormData({ fullName: "", email: "", mobileNumber: "", countryOfResidence: "" });
+        setStatus("sent");
         toast.success("Submitted! We'll contact you soon about your business setup.");
       },
       onError: (err) => {
-        console.error("EM business setup submit failed:", err);
+        const endTime = Date.now();
+        // console.error(`❌ [Optimistic UI] Business setup ERROR after ${endTime - startTime}ms:`, err.message);
+        setStatus("error");
         toast.error(err?.message || "Failed to submit. Please try again.");
       },
     });
@@ -82,55 +92,95 @@ const BusinessSetupPage = () => {
                   className="space-y-5"
                   onSubmit={onSubmit}
                 >
-                  <Input
-                    label="Full Name"
-                    id="fullName"
-                    placeholder="Enter your full name"
-                    required
-                    value={formData.fullName}
-                    onChange={onChange}
-                    disabled={isPending}
-                  />
+                  {status === "sent" ? (
+                    <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in">
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <CheckCircle2 className="w-8 h-8 text-green-600" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-[#000000] mb-2">Submission Received!</h3>
+                      <p className="text-gray-600 mb-6">Thank you. Our business setup experts will contact you shortly.</p>
+                      <button
+                        onClick={() => setStatus("idle")}
+                        className="px-6 py-2 bg-[#e83f25] text-white font-bold rounded-md hover:bg-[#c73519] transition-colors"
+                      >
+                        New Submission
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <Input
+                        label="Full Name"
+                        id="fullName"
+                        placeholder="Enter your full name"
+                        required
+                        value={formData.fullName}
+                        onChange={onChange}
+                        disabled={status === "sending"}
+                      />
 
-                  <Input
-                    label="Email Address"
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    required
-                    value={formData.email}
-                    onChange={onChange}
-                    disabled={isPending}
-                  />
+                      <Input
+                        label="Email Address"
+                        id="email"
+                        type="email"
+                        placeholder="name@example.com"
+                        required
+                        value={formData.email}
+                        onChange={onChange}
+                        disabled={status === "sending"}
+                      />
 
-                  <Input
-                    label="Mobile Number"
-                    id="mobileNumber"
-                    type="tel"
-                    placeholder="+971 50 123 4567"
-                    required
-                    value={formData.mobileNumber}
-                    onChange={onChange}
-                    disabled={isPending}
-                  />
+                      <Input
+                        label="Mobile Number"
+                        id="mobileNumber"
+                        type="tel"
+                        placeholder="+971 50 123 4567"
+                        required
+                        value={formData.mobileNumber}
+                        onChange={onChange}
+                        disabled={status === "sending"}
+                      />
 
-                  <Input
-                    label="Country of Residence"
-                    id="countryOfResidence"
-                    placeholder="e.g. United Arab Emirates"
-                    required
-                    value={formData.countryOfResidence}
-                    onChange={onChange}
-                    disabled={isPending}
-                  />
+                      <Input
+                        label="Country of Residence"
+                        id="countryOfResidence"
+                        placeholder="e.g. United Arab Emirates"
+                        required
+                        value={formData.countryOfResidence}
+                        onChange={onChange}
+                        disabled={status === "sending"}
+                      />
 
-                  <button
-                    type="submit"
-                    disabled={isPending}
-                    className="w-full bg-[#e83f25] text-white font-bold py-4 px-6 rounded-md hover:bg-[#c73519] transition-colors duration-300 shadow-lg mt-4"
-                  >
-                    {isPending ? "Submitting..." : "Start My Business Setup"}
-                  </button>
+                      {status === "error" && (
+                        <div className="flex items-center gap-2 p-4 bg-red-50 text-red-600 rounded-lg animate-fade-in">
+                          <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                          <p className="text-sm">Something went wrong. Please try again.</p>
+                        </div>
+                      )}
+
+                      <div className="space-y-4">
+                        <button
+                          type="submit"
+                          disabled={status === "sending"}
+                          className="w-full bg-[#e83f25] text-white font-bold py-4 px-6 rounded-md hover:bg-[#c73519] transition-colors duration-300 shadow-lg mt-4 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                          {status === "sending" ? (
+                            <>
+                              <Loader2 className="w-5 h-5 animate-spin" />
+                              <span>Sending your message...</span>
+                            </>
+                          ) : (
+                            "Start My Business Setup"
+                          )}
+                        </button>
+                        
+                        {status === "sending" && (
+                          <p className="text-center text-xs text-gray-500 animate-fade-in">
+                            This may take a few seconds on first message — hang tight.
+                          </p>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </form>
               </div>
 

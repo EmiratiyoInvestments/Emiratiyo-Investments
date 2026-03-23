@@ -3,8 +3,8 @@ import { useParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { PortableText } from '@portabletext/react'
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react'
-import { client, urlFor } from '../services/sanityClient'
-import { SINGLE_BLOG_QUERY } from '../lib/blogQueries'
+import { client, urlFor } from '../config/sanityClient'
+import { SINGLE_BLOG_QUERY } from '../lib/sanity/blogQueries'
 
 const BlogDetailPage = () => {
   const { slug } = useParams()

@@ -5,7 +5,6 @@ import { Facebook, Instagram, Linkedin, Twitter, Mail, Phone, MapPin } from "luc
 const Footer = () => {
   return (
     <footer className="bg-gray-100">
-      {/* CTA Section */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
         <div
           className="relative overflow-hidden py-12 sm:py-16 px-6 sm:px-10 lg:px-16 rounded-2xl"
@@ -13,7 +12,6 @@ const Footer = () => {
             background: 'linear-gradient(135deg, #e83f25 0%, #ff5733 50%, #ff8566 100%)'
           }}
         >
-          {/* Decorative Elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-black/10 rounded-full blur-3xl"></div>
 
@@ -35,11 +33,9 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Main Footer Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="w-full py-12 lg:pt-20 lg:pb-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            {/* Company Info */}
             <div>
               <div className="mb-8 relative h-12">
                 <img
@@ -52,7 +48,6 @@ const Footer = () => {
                 Your trusted partner in Dubai real estate investment. We leverage AI technology to match investors with their perfect properties, ensuring maximum ROI and seamless transactions.
               </p>
 
-              {/* Contact Info */}
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-gray-600 hover:text-[#e83f25] transition-colors duration-300 cursor-pointer">
                   <Phone className="w-5 h-5 flex-shrink-0" />
@@ -69,7 +64,6 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Quick Links */}
             <div>
               <h4 className="font-bold text-black uppercase mb-8 tracking-wider text-sm relative inline-block after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-8 after:h-0.5 after:bg-[#e83f25]">
                 Quick Links
@@ -98,17 +92,14 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Bottom Bar */}
           <div className="mt-12 pt-8 border-t border-gray-300">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
-              {/* Copyright */}
               <div className="text-center sm:text-left">
                 <p className="text-sm text-gray-600">
                   © {new Date().getFullYear()} <Link to="/" className="hover:text-[#e83f25] transition-colors duration-300 font-semibold text-gray-800">EMIRATIYO</Link>. All rights reserved. Dubai Real Estate Investment Platform.
                 </p>
               </div>
 
-              {/* Social Media Icons */}
               <div className="flex items-center gap-3">
                 <a
                   href="https://www.instagram.com/emiratiyo/"

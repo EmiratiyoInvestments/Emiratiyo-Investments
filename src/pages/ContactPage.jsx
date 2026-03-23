@@ -1,10 +1,11 @@
-import React from "react";
-import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
-import { useSubmitEmContact } from "../services/useEmContactMutations";
+import React, { useState } from "react";
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import { useSubmitEmContact } from "../hooks/useEmContactMutations";
 
 const ContactPage = () => {
   const { mutate, isPending } = useSubmitEmContact();
+  const [status, setStatus] = useState("idle"); // idle, sending, sent, error
   const [formData, setFormData] = React.useState({
     name: "",
     phone: "",
@@ -12,6 +13,7 @@ const ContactPage = () => {
     message: "",
   });
 
+  // console.log("Hello");
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -19,13 +21,22 @@ const ContactPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+     //console.log("📨 [Optimistic UI] User submitted contact form. Setting status to: sending...");
+    setStatus("sending");
+    
+    const startTime = Date.now();
     mutate(formData, {
       onSuccess: () => {
+        const endTime = Date.now();
+        //console.log(`🎉 [Optimistic UI] Contact form SUCCESS! (Time taken: ${endTime - startTime}ms)`);
         setFormData({ name: "", phone: "", email: "", message: "" });
+        setStatus("sent");
         toast.success("Message sent! We'll get back to you soon.");
       },
       onError: (err) => {
-        console.error("EM contact submit failed:", err);
+        const endTime = Date.now();
+        //console.error(`❌ [Optimistic UI] Contact form ERROR after ${endTime - startTime}ms:`, err.message);
+        setStatus("error");
         toast.error(err?.message || "Failed to send message. Please try again.");
       },
     });
@@ -144,76 +155,114 @@ const ContactPage = () => {
                 </h2>
 
                 <form className="space-y-6" onSubmit={onSubmit}>
-                  {/* Name */}
-                  <div className="space-y-2">
-                    <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Your Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Your name"
-                      className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body"
-                      value={formData.name}
-                      onChange={onChange}
-                      disabled={isPending}
-                      required
-                    />
-                  </div>
-
-
-                  {/* Phone | Email */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Phone</label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        placeholder="Your phone number"
-                        className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body"
-                        value={formData.phone}
-                        onChange={onChange}
-                        disabled={isPending}
-                        required
-                      />
+                  {status === "sent" ? (
+                    <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in">
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <CheckCircle2 className="w-8 h-8 text-green-600" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-black mb-2">Message Sent!</h3>
+                      <p className="text-gray-600 mb-6">Thank you for reaching out. We'll get back to you shortly.</p>
+                      <button
+                        onClick={() => setStatus("idle")}
+                        className="px-6 py-2 bg-primary text-white font-bold rounded-full hover:bg-[#c73519] transition-colors"
+                      >
+                        Send another message
+                      </button>
                     </div>
-                    <div className="space-y-2">
-                      <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Email</label>
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Your email"
-                        className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body"
-                        value={formData.email}
-                        onChange={onChange}
-                        disabled={isPending}
-                        required
-                      />
-                    </div>
-                  </div>
+                  ) : (
+                    <>
+                      {/* Name */}
+                      <div className="space-y-2">
+                        <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Your Name</label>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="Your name"
+                          className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body disabled:opacity-50"
+                          value={formData.name}
+                          onChange={onChange}
+                          disabled={status === "sending"}
+                          required
+                        />
+                      </div>
 
+                      {/* Phone | Email */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Phone</label>
+                          <input
+                            type="tel"
+                            name="phone"
+                            placeholder="Your phone number"
+                            className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body disabled:opacity-50"
+                            value={formData.phone}
+                            onChange={onChange}
+                            disabled={status === "sending"}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Email</label>
+                          <input
+                            type="email"
+                            name="email"
+                            placeholder="Your email"
+                            className="w-full h-12 px-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-body disabled:opacity-50"
+                            value={formData.email}
+                            onChange={onChange}
+                            disabled={status === "sending"}
+                            required
+                          />
+                        </div>
+                      </div>
 
-                  {/* Message */}
-                  <div className="space-y-2">
-                    <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Message</label>
-                    <textarea
-                      rows="4"
-                      name="message"
-                      placeholder="Your message here..."
-                      className="w-full p-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none font-body"
-                      value={formData.message}
-                      onChange={onChange}
-                      disabled={isPending}
-                    ></textarea>
-                  </div>
+                      {/* Message */}
+                      <div className="space-y-2">
+                        <label style={{ fontFamily: 'var(--font-body)' }} className="text-sm font-semibold text-gray-700">Message</label>
+                        <textarea
+                          rows="4"
+                          name="message"
+                          placeholder="Your message here..."
+                          className="w-full p-4 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none font-body disabled:opacity-50"
+                          value={formData.message}
+                          onChange={onChange}
+                          disabled={status === "sending"}
+                        ></textarea>
+                      </div>
 
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    style={{ fontFamily: 'var(--font-body)' }}
-                    disabled={isPending}
-                    className="w-full h-[48px] bg-primary hover:bg-[#c73519] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 active:scale-[0.98]"
-                  >
-                    {isPending ? "Sending..." : "Send Message"}
-                  </button>
+                      {status === "error" && (
+                        <div className="flex items-center gap-2 p-4 bg-red-50 text-red-600 rounded-lg animate-fade-in">
+                          <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                          <p className="text-sm">Something went wrong. Please try again.</p>
+                        </div>
+                      )}
+
+                      {/* Submit Button */}
+                      <div className="space-y-4">
+                        <button
+                          type="submit"
+                          style={{ fontFamily: 'var(--font-body)' }}
+                          disabled={status === "sending"}
+                          className="w-full h-[48px] bg-primary hover:bg-[#c73519] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2"
+                        >
+                          {status === "sending" ? (
+                            <>
+                              <Loader2 className="w-5 h-5 animate-spin" />
+                              <span>Sending your message...</span>
+                            </>
+                          ) : (
+                            "Send Message"
+                          )}
+                        </button>
+                        
+                        {status === "sending" && (
+                          <p className="text-center text-xs text-gray-500 animate-fade-in">
+                            This may take a few seconds on first message — hang tight.
+                          </p>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </form>
               </div>
 

@@ -1,8 +1,8 @@
 // src/pages/MarketInsightsPage.jsx
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { client } from "../services/sanityClient";
-import { ALL_PROPERTIES_QUERY } from "../lib/propertyQueries";
+import { client } from "../config/sanityClient";
+import { ALL_PROPERTIES_QUERY } from "../lib/sanity/propertyQueries";
 import DubaiHeatmap from "../components/market-insights/maps/DubaiHeatMap";
 import WeeklySnapshot from "../components/market-insights/pricing/WeeklySnapshot";
 import AutoInsights from "../components/market-insights/pricing/AutoInsights";

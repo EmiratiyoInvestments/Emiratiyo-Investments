@@ -3,7 +3,6 @@ import React from "react";
 const AIFeatures = () => {
   return (
     <section className="relative py-9 sm:py-20 md:-mt-25 lg:py-28 bg-white overflow-hidden">
-      {/* Decorative geometric background */}
       <div className="absolute inset-0 pointer-events-none opacity-5">
         <div
           className="absolute top-[-100px] right-[-50px] w-[300px] h-[300px] bg-[#e83f25] opacity-30"
@@ -21,7 +20,6 @@ const AIFeatures = () => {
       </div>
 
       <div className="relative z-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {/* Section Heading */}
         <div className="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-4">
             Invest Smarter with{" "}
@@ -33,9 +31,7 @@ const AIFeatures = () => {
           </p>
         </div>
 
-        {/* 3-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-          {/* Card 1: AI Property Matcher */}
           <FeatureCard
             title="Propeye™"
             description="Propeye analyzes your investment goals, risk appetite, and return expectations to intelligently identify properties that align with your long-term portfolio strategy—so every decision is precise, data-backed, and confident."
@@ -45,7 +41,6 @@ const AIFeatures = () => {
             imageAlt="Dubai Luxury Real Estate"
           />
 
-          {/* Card 2: ROI Predictor */}
           <FeatureCard
             title="ROI Predictor"
             description="Predict your returns with our machine learning models based on comprehensive market data and historical trends"
@@ -55,7 +50,6 @@ const AIFeatures = () => {
             imageAlt="Modern Dubai Architecture"
           />
 
-          {/* Card 3: Market Intelligence */}
           <FeatureCard
             title="Market Intelligence"
             description="Real-time Dubai market insights powered by AI analytics to keep you ahead of market trends and opportunities"
@@ -66,7 +60,6 @@ const AIFeatures = () => {
           />
         </div>
 
-        {/* Bottom Info */}
         <div className="mt-12 sm:mt-16 text-center">
           <p className="text-gray-500 text-sm uppercase tracking-wider mb-4">
             Powered by Advanced Machine Learning
@@ -138,7 +131,6 @@ const FeatureCard = ({
         />
       </div>
 
-      {/* Card Content */}
       <div className="p-6 lg:p-8">
         <h3 className="text-2xl font-bold text-black mb-4 tracking-tight">
           {title}

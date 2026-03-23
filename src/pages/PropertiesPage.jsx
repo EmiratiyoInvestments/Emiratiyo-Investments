@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { Bed, Bath, Maximize, MapPin, Tag } from "lucide-react";
-import { client, urlFor } from "../services/sanityClient";
-import { ALL_PROPERTIES_QUERY } from "../lib/propertyQueries";
+import { client, urlFor } from "../config/sanityClient";
+import { ALL_PROPERTIES_QUERY } from "../lib/sanity/propertyQueries";
 
 const PropertiesPage = () => {
   const [selectedStatus, setSelectedStatus] = useState("all");

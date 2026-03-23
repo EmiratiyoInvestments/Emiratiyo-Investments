@@ -12,7 +12,7 @@ import {
   Cell,
 } from "recharts";
 import { Building2, BarChart3, MapPin, DollarSign } from "lucide-react";
-import { deriveAreaDataFromRows } from "../../../lib/transactionDataUtils";
+import { deriveAreaDataFromRows } from "../../../lib/utils/transactionDataUtils";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 const fmt = (n) => new Intl.NumberFormat("en-AE").format(Math.round(n));

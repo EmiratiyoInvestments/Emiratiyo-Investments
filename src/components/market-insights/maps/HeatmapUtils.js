@@ -1,5 +1,3 @@
-// src/components/market-insights/heatmapUtils.js
-
 export function getColorSale(value) {
   if (value == null) return "#94a3b8";
   if (value < 500)  return "#15803d";

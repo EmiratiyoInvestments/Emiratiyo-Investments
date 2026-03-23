@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import { Link } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { urlFor } from "../../../services/sanityClient";
+import { urlFor } from "../../../config/sanityClient";
 import {
   MapPin,
   Bed,
@@ -14,7 +14,6 @@ import {
   Minimize,
 } from "lucide-react";
 
-// Format price - numbers only
 const formatPriceLabel = (price, priceLabel) => {
   if (priceLabel) return priceLabel;
   if (!price) return "POA";
@@ -23,7 +22,6 @@ const formatPriceLabel = (price, priceLabel) => {
   return `${price.toLocaleString()}`;
 };
 
-// Get label colors based on status
 const getLabelColors = (status, isSelected) => {
   if (isSelected) {
     return {
@@ -66,7 +64,6 @@ const getLabelColors = (status, isSelected) => {
   }
 };
 
-// Create price label icon
 const createPriceIcon = (price, priceLabel, status, isSelected) => {
   const label = formatPriceLabel(price, priceLabel);
   const colors = getLabelColors(status, isSelected);
@@ -96,7 +93,6 @@ const createPriceIcon = (price, priceLabel, status, isSelected) => {
   });
 };
 
-// Fly to location helper
 const FlyToLocation = ({ coords }) => {
   const map = useMap();
   if (coords) {
@@ -105,7 +101,6 @@ const FlyToLocation = ({ coords }) => {
   return null;
 };
 
-// Fullscreen Button Component
 const FullscreenButton = ({ containerRef }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -223,25 +218,21 @@ const GlobalMap = ({ properties }) => {
 
   return (
     <div ref={containerRef} className="relative" style={{ height: "600px" }}>
-      {/* MAP */}
       <MapContainer
         center={[25.2048, 55.2708]}
         zoom={8}
         style={{ height: "100%", width: "100%", borderRadius: "16px" }}
         scrollWheelZoom={true}
       >
-        {/* English Map Tiles */}
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://carto.com/">CARTO</a>'
         />
 
-        {/* Fly to selected */}
         {selectedProperty && (
           <FlyToLocation coords={selectedProperty.location.geopoint} />
         )}
 
-        {/* Price Label Markers */}
         {validProperties.map((property) => {
           const isSelected = selectedProperty?._id === property._id;
           return (
@@ -266,10 +257,8 @@ const GlobalMap = ({ properties }) => {
         })}
       </MapContainer>
 
-      {/* FULLSCREEN BUTTON */}
       <FullscreenButton containerRef={containerRef} />
 
-      {/* LEGEND - top right */}
       <div
         className="absolute top-4 right-4 z-[1000] bg-white rounded-xl shadow-lg p-3"
         style={{ fontFamily: "var(--font-body)" }}
@@ -298,13 +287,11 @@ const GlobalMap = ({ properties }) => {
         </div>
       </div>
 
-      {/* PROPERTY DETAIL CARD - bottom left */}
       {selectedProperty && (
         <div
           className="absolute bottom-4 left-4 z-[1000] bg-white rounded-2xl shadow-2xl overflow-hidden"
           style={{ width: "300px", maxWidth: "calc(100% - 32px)" }}
         >
-          {/* Close Button */}
           <button
             onClick={() => setSelectedProperty(null)}
             className="absolute top-2 right-2 z-10 bg-white rounded-full w-7 h-7 flex items-center justify-center shadow-md hover:bg-gray-100 transition-colors"
@@ -312,7 +299,6 @@ const GlobalMap = ({ properties }) => {
             <X className="w-4 h-4 text-black" />
           </button>
 
-          {/* Property Image */}
           <div className="relative h-40">
             {selectedProperty.mainImage ? (
               <img
@@ -334,7 +320,6 @@ const GlobalMap = ({ properties }) => {
             )}
           </div>
 
-          {/* Property Info */}
           <div className="p-4">
             <h3
               className="font-bold text-black text-base mb-1 line-clamp-1"

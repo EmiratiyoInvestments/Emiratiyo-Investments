@@ -72,7 +72,6 @@ const Header = () => {
     <header className="sticky top-0 flex items-center border-b border-gray-300 px-4 sm:px-6 bg-white h-[70px] tracking-wide relative z-[1500]">
       <div className="flex items-center w-full max-w-7xl mx-auto">
 
-        {/* Logo - Desktop */}
         <Link to="/" className="max-sm:hidden relative h-12 w-44 flex-shrink-0">
           <img
             src="/logos/transparent_1.png"
@@ -81,7 +80,6 @@ const Header = () => {
           />
         </Link>
 
-        {/* Logo - Mobile */}
         <Link to="/" className="hidden max-sm:block relative h-10 w-32 flex-shrink-0">
           <img
             src="/logos/transparent_1.png"
@@ -90,10 +88,8 @@ const Header = () => {
           />
         </Link>
 
-        {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center flex-1 ml-6">
 
-          {/* Main Nav Links */}
           <ul className="flex items-center gap-x-5 xl:gap-x-7">
             <li>
               <NavLink to="/" end className={getClassName}>Home</NavLink>
@@ -115,10 +111,8 @@ const Header = () => {
             </li>
           </ul>
 
-          {/* Divider */}
           <div className="border-l border-gray-300 h-5 mx-4 xl:mx-6"></div>
 
-          {/* Secondary Links */}
           <ul className="flex items-center gap-x-5 xl:gap-x-7">
             <li>
               <NavLink to="/about" className={getClassName}>About Us</NavLink>
@@ -128,7 +122,6 @@ const Header = () => {
             </li>
           </ul>
 
-          {/* CTA Button */}
           <div className="ml-auto">
             <button className="px-4 py-2 text-sm rounded-md font-medium text-white bg-[#e83f25] border-2 border-[#e83f25] hover:bg-[#c73519] hover:border-[#c73519] cursor-pointer whitespace-nowrap transition-colors">
               Book Consultation
@@ -136,7 +129,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Right Side */}
         <div className="flex items-center ml-auto gap-3 lg:hidden">
           <button className="px-3 py-1.5 text-xs rounded-md font-medium text-white bg-[#e83f25] border-2 border-[#e83f25] hover:bg-[#c73519] cursor-pointer transition-colors">
             Book Consultation
@@ -155,7 +147,6 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
         <AnimatePresence mode="wait">
           {isMenuOpen && (
             <motion.div
@@ -165,7 +156,6 @@ const Header = () => {
               exit="closed"
               className="fixed inset-0 h-screen bg-white z-[1600] origin-top lg:hidden overflow-y-auto"
             >
-              {/* Close Button */}
               <button
                 onClick={() => setIsMenuOpen(false)}
                 className="fixed top-6 right-6 z-[1700] rounded-full bg-gray-100 w-10 h-10 flex items-center justify-center border border-gray-200 cursor-pointer hover:bg-gray-200 transition-colors"
@@ -176,7 +166,6 @@ const Header = () => {
                 </svg>
               </button>
 
-              {/* Menu Content */}
               <div className="flex flex-col items-center justify-center min-h-full py-16 px-6">
                 <motion.div
                   variants={menuContainerVariants}
@@ -185,7 +174,6 @@ const Header = () => {
                   exit="closed"
                   className="flex flex-col items-center w-full max-w-sm"
                 >
-                  {/* Logo */}
                   <motion.div variants={menuLinkVariants} className="mb-8">
                     <Link to="/" onClick={() => setIsMenuOpen(false)}>
                       <img src="/logos/transparent_1.png" alt="EMIRATIYO" className="h-24" />
@@ -218,7 +206,6 @@ const Header = () => {
                     </motion.div>
                   ))}
 
-                  {/* Mobile CTA */}
                   <motion.div variants={menuLinkVariants} className="mt-8 w-full">
                     <button className="w-full px-6 py-3 text-base rounded-lg font-semibold text-white bg-[#e83f25] hover:bg-[#c73519] cursor-pointer transition-colors">
                       Book Consultation

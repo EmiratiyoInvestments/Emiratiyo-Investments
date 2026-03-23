@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { GitCompare, Building2, BarChart3 } from "lucide-react";
-import { deriveAreaDataFromRows } from "../../../lib/transactionDataUtils";
+import { deriveAreaDataFromRows } from "../../../lib/utils/transactionDataUtils";
 
 const fmt = (n) => (n != null ? new Intl.NumberFormat("en-AE").format(Math.round(n)) : "—");
 const MAX_AREAS = 3;

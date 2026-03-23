@@ -95,7 +95,7 @@ const fmt = (n) => Number(n).toLocaleString();
 
 function InputField({ label, name, value, onChange, placeholder, prefix = 'AED' }) {
   return (
-    <div>
+    <div style={{ zIndex: 1000 }}>
       <label className="text-sm font-semibold text-black mb-1 block" style={{ fontFamily: 'var(--font-body)' }}>
         {label}
       </label>
@@ -189,7 +189,7 @@ const ROICalculator = () => {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-[999] bg-[#e83f25] text-white rounded-full shadow-2xl hover:bg-[#d63620] transition-all hover:scale-110 flex items-center gap-2 px-4 py-3"
+        className="fixed bottom-6 right-6 z-[9999] bg-[#e83f25] text-white rounded-full shadow-2xl hover:bg-[#d63620] transition-all hover:scale-110 flex items-center gap-2 px-4 py-3"
         style={{ fontFamily: 'var(--font-body)' }}
       >
         <Calculator className="w-5 h-5" />
@@ -205,7 +205,7 @@ const ROICalculator = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/50 z-[1000]"
+              className="fixed inset-0  z-[10000] bg-black/50"
             />
 
             <motion.div
@@ -214,7 +214,7 @@ const ROICalculator = () => {
               exit={{ opacity: 0, x: 100 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               className="fixed right-0 top-0 h-full z-[1001] bg-white shadow-2xl overflow-y-auto"
-              style={{ width: '440px', maxWidth: '100vw' }}
+              style={{ width: '440px', maxWidth: '100vw', zIndex: 10001}}
             >
               {/* Header */}
               <div className="bg-[#e83f25] p-6 text-white">

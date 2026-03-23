@@ -54,7 +54,6 @@ const Testimonials = () => {
 
   const TestimonialCard = ({ testimonial }) => (
     <div className="bg-white p-6 rounded-lg mx-4 shadow-lg hover:shadow-2xl transition-all duration-300 w-80 shrink-0 border-t-4 border-[#e83f25] group hover:-translate-y-1">
-      {/* Rating Stars */}
       <div className="flex gap-1 mb-4">
         {[...Array(testimonial.rating)].map((_, index) => (
           <svg
@@ -68,12 +67,10 @@ const Testimonials = () => {
         ))}
       </div>
 
-      {/* Testimonial Text */}
       <p className="text-gray-700 leading-relaxed mb-6 italic">
         "{testimonial.text}"
       </p>
 
-      {/* User Info */}
       <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
         <img
           className="w-12 h-12 rounded-full object-cover ring-2 ring-gray-100"
@@ -104,7 +101,6 @@ const Testimonials = () => {
 
   return (
     <section className="py-16 sm:py-20 lg:py-28 bg-gray-50 overflow-hidden">
-      {/* Section Heading */}
       <div className="text-center mb-12 sm:mb-16 px-4">
         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-4">
           What Our <span className="text-[#e83f25]">Investors Say</span>
@@ -114,7 +110,6 @@ const Testimonials = () => {
         </p>
       </div>
 
-      {/* Marquee Animations */}
       <style>{`
         @keyframes marqueeScroll {
           0% { transform: translateX(0%); }
@@ -134,7 +129,6 @@ const Testimonials = () => {
         }
       `}</style>
 
-      {/* First Row - Left to Right */}
       <div className="marquee-row w-full mx-auto overflow-hidden relative mb-8">
         <div className="absolute left-0 top-0 h-full w-20 md:w-32 z-10 pointer-events-none bg-gradient-to-r from-gray-50 to-transparent"></div>
         <div className="marquee-inner flex transform-gpu min-w-[200%] py-4">
@@ -145,7 +139,6 @@ const Testimonials = () => {
         <div className="absolute right-0 top-0 h-full w-20 md:w-32 z-10 pointer-events-none bg-gradient-to-l from-gray-50 to-transparent"></div>
       </div>
 
-      {/* Second Row - Right to Left */}
       <div className="marquee-row w-full mx-auto overflow-hidden relative">
         <div className="absolute left-0 top-0 h-full w-20 md:w-32 z-10 pointer-events-none bg-gradient-to-r from-gray-50 to-transparent"></div>
         <div className="marquee-inner marquee-reverse flex transform-gpu min-w-[200%] py-4">
@@ -156,7 +149,6 @@ const Testimonials = () => {
         <div className="absolute right-0 top-0 h-full w-20 md:w-32 z-10 pointer-events-none bg-gradient-to-l from-gray-50 to-transparent"></div>
       </div>
 
-      {/* Bottom Stats */}
       <div className="mt-16 text-center px-4">
         <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12 max-w-4xl mx-auto">
           <div className="text-center">

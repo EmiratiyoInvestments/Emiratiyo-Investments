@@ -23,24 +23,23 @@ const PropertyCarousel = () => {
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-gray-100 md:mt-[-170px]">
       <div className="relative overflow-hidden px-4 sm:px-6 lg:px-8">
-        {/* Infinite Scrolling Container*/}
+      
         <div className="flex h-[400px] sm:h-[500px] lg:h-[600px] animate-infinite-scroll gap-6">
           {duplicatedSlides.map((slide, index) => (
             <div
               key={index}
               className="relative flex-shrink-0 w-[80vw] sm:w-[70vw] lg:w-[60vw] h-full rounded-2xl overflow-hidden shadow-2xl"
             >
-              {/* Background Image */}
+             
               <img
                 src={slide.image}
                 alt={slide.title}
                 className="w-full h-full object-cover"
               />
 
-              {/* Gradient Overlay */}
+              
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
 
-              {/* Content */}
               <div className="absolute inset-0 flex items-end pb-16 sm:pb-20 lg:pb-24">
                 <div className="w-full px-6 sm:px-8 lg:px-12">
                   <div className="max-w-4xl">

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { Calendar, Clock, ChevronRight, Tag } from "lucide-react";
-import { client, urlFor } from "../services/sanityClient";
-import { ALL_BLOGS_QUERY, ALL_CATEGORIES_QUERY } from "../lib/blogQueries";
+import { client, urlFor } from "../config/sanityClient";
+import { ALL_BLOGS_QUERY, ALL_CATEGORIES_QUERY } from "../lib/sanity/blogQueries";
 
 const BlogsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");

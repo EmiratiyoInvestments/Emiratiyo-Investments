@@ -1,4 +1,3 @@
-// src/components/market-insights/maps/DubaiHeatMap.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, GeoJSON, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -9,7 +8,7 @@ import {
   getColorForMode, getColorTx, getLegendForMode, getLegendLabel,
   getModeHelpText, fallbackValue, normArea, fmt,
 } from "./HeatmapUtils";
-import { deriveAreaDataFromRows, buildGeoFeatureLookup } from "../../../lib/transactionDataUtils";
+import { deriveAreaDataFromRows, buildGeoFeatureLookup } from "../../../lib/utils/transactionDataUtils";
 
 const DEMO_FILL_MISSING = true;
 
@@ -33,14 +32,12 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
   const selectedLayerRef = useRef(null);
   const mapContainerRef  = useRef(null);
 
-  // Fullscreen listener
   useEffect(() => {
     const handler = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", handler);
     return () => document.removeEventListener("fullscreenchange", handler);
   }, []);
 
-  // Load GeoJSON + transaction CSV (single source)
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -74,20 +71,17 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
     return () => { cancelled = true; };
   }, []);
 
-  // Reset selected layer style on mode change
   useEffect(() => {
     if (!selectedLayerRef.current) return;
     try { selectedLayerRef.current.setStyle({ weight: 1, fillOpacity: 0.7 }); } catch {}
     selectedLayerRef.current = null;
   }, [mode]);
 
-  // Dataset meta for header (derived from DLD CSV)
   const datasetMeta = React.useMemo(() => {
     if (!areaData) return null;
     return { reportPeriod: " Sale prices from transactions", sourceName: "Dubai Land Department" };
   }, [areaData]);
 
-  // Search (skip _area_ keys; only COMM_NUM for GeoJSON)
   const normalize = (s) => String(s ?? "").toLowerCase().replace(/\s+/g, " ").trim();
   const findCommNumByQuery = (query) => {
     const q = normalize(query);
@@ -177,7 +171,6 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
       <style>{`.heatmap-btn { padding: 8px 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: var(--font-body); }`}</style>
       <div style={{ fontFamily: "var(--font-body)", background: "#f7f7f7", borderRadius: 16, overflow: "hidden", border: "1px solid #e5e7eb" }}>
 
-        {/* Header */}
         <div style={{ background: "#fff", padding: "14px 20px", borderBottom: "1px solid #e5e7eb" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
             <div>
@@ -212,7 +205,6 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
           </div>
         </div>
 
-        {/* Map */}
         <div ref={mapContainerRef} style={{ position: "relative", height: 600 }}>
           <MapContainer center={[25.2, 55.3]} zoom={11} style={{ height: "100%", width: "100%" }} scrollWheelZoom>
             <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" attribution='&copy; <a href="https://carto.com/">CARTO</a>' />
@@ -220,7 +212,6 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
             {dubaiGeoJSON && areaData && <GeoJSON key={mode} data={dubaiGeoJSON} style={style} onEachFeature={onEachFeature} />}
           </MapContainer>
 
-          {/* Loading */}
           {!dubaiGeoJSON && !loadError && (
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.7)", zIndex: 1100 }}>
               <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 14, padding: 16, boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}>
@@ -230,7 +221,6 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
             </div>
           )}
 
-          {/* Error */}
           {loadError && (
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.75)", zIndex: 1100, padding: 16 }}>
               <div style={{ background: "#fff", border: "1px solid #fecaca", borderRadius: 14, padding: 16, maxWidth: 520, width: "100%", boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}>
@@ -240,7 +230,6 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
             </div>
           )}
 
-          {/* Hover tooltip */}
           {hovered && (
             <div style={{ position: "absolute", top: 14, left: "50%", transform: "translateX(-50%)", zIndex: 1000, background: "#fff", borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.15)", padding: "10px 14px", pointerEvents: "none", minWidth: 200, border: `2px solid ${hoveredColor}` }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -263,17 +252,14 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
             </div>
           )}
 
-          {/* Selected panel */}
           <HeatmapPanel selected={selected} onClose={() => setSelected(null)} searchQuery={searchQuery} onSearchChange={setSearchQuery} onSearchGo={handleSearchGo} mode={mode} />
 
-          {/* Fullscreen */}
           <button onClick={() => isFullscreen ? document.exitFullscreen?.() : mapContainerRef.current?.requestFullscreen?.()}
             style={{ position: "absolute", bottom: 14, left: "50%", transform: "translateX(-50%)", zIndex: 1000, background: "#fff", border: "1px solid #e2e8f0", borderRadius: 999, padding: "6px 14px", display: "flex", alignItems: "center", gap: 6, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,0,0,0.12)", fontSize: 12, fontWeight: 600, color: "#334155", fontFamily: "var(--font-body)" }}>
             {isFullscreen ? <Minimize size={14} /> : <Maximize size={14} />}
             {isFullscreen ? "Exit Fullscreen" : "View Fullscreen"}
           </button>
 
-          {/* Legend */}
           <div style={{ position: "absolute", top: 14, right: 14, zIndex: 1000, background: "rgba(255,255,255,0.96)", borderRadius: 10, boxShadow: "0 4px 16px rgba(0,0,0,0.1)", padding: "10px 12px" }}>
             <div style={{ fontSize: 9, fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>{getLegendLabel(mode)}</div>
             {getLegendForMode(mode).map((l) => (
@@ -284,7 +270,6 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
             ))}
           </div>
 
-          {/* Attribution */}
           <div style={{ position: "absolute", bottom: 8, right: 10, zIndex: 1000, background: "rgba(255,255,255,0.85)", borderRadius: 6, padding: "2px 8px", fontSize: 9, color: "#9ca3af" }}>
             {mode === "transactions" ? "Transactions: Dubai Land Department Open Data" : "Price data: derived from DLD sales transactions"}
           </div>

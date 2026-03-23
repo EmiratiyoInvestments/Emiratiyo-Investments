@@ -1,0 +1,57 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js (matches Vite 7 requirements)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Create .env file from GitHub Secrets so Vite can embed them at build time
+      - name: Create .env file
+        run: |
+          echo "VITE_SANITY_PROJECT_ID=${{ secrets.VITE_SANITY_PROJECT_ID }}" >> .env
+          echo "VITE_SANITY_DATASET=${{ secrets.VITE_SANITY_DATASET }}" >> .env
+          echo "VITE_SANITY_TOKEN=${{ secrets.VITE_SANITY_TOKEN }}" >> .env
+          echo "VITE_BACKEND_API=${{ secrets.VITE_BACKEND_API }}" >> .env
+          echo "VITE_EMIRA_SECRET=${{ secrets.VITE_EMIRA_SECRET }}" >> .env
+
+      # 5. Build the production bundle
+      - name: Build project
+        run: npm run build
+
+      # 6. Deploy dist/ folder to Hostinger via FTP
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: /public_html/
+          # Deletes files on server that are no longer in dist/ (clean deploy)
+          dangerous-clean-slate: false
+          # Exclude files that should never be uploaded
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**

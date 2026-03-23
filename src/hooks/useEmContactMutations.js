@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
-import { apiClient } from './api'
+import { apiClient } from '../config/api'
 
 export const emContactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),

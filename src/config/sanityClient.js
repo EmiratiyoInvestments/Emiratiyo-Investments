@@ -9,7 +9,6 @@ export const client = createClient({
   token: import.meta.env.VITE_SANITY_TOKEN
 })
 
-// Image URL builder
 const builder = imageUrlBuilder(client)
 
 export const urlFor = (source) => builder.image(source)

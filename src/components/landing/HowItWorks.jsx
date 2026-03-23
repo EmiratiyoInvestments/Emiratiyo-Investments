@@ -3,7 +3,6 @@ import React from "react";
 const HowItWorks = () => {
   return (
     <section className="max-w-6xl mx-auto py-10 sm:py-20 md:-mt-30 lg:py-28 px-4">
-      {/* Section Heading */}
       <div className="text-center mb-16 sm:mb-20">
         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-4">
           Your Investment <span className="text-[#e83f25]">Journey</span>
@@ -13,9 +12,7 @@ const HowItWorks = () => {
         </p>
       </div>
 
-      {/* Timeline */}
       <div>
-        {/* Step 1: Free Consultation */}
         <div className="flex flex-row">
           <div className="hidden md:flex flex-col items-center">
             <div className="w-32 py-5 border-2 border-[#e83f25] rounded mr-4 uppercase flex flex-col items-center justify-center bg-white hover:bg-[#e83f25] hover:text-white transition-colors duration-300 group">
@@ -46,7 +43,6 @@ const HowItWorks = () => {
                 </div>
               </div>
               <div className="md:w-40 w-full p-8 flex items-center justify-center">
-                {/* Consultation Icon */}
                 <svg
                   className="w-24 h-24 text-[#e83f25]"
                   fill="none"
@@ -65,7 +61,6 @@ const HowItWorks = () => {
           </div>
         </div>
 
-        {/* Connector 1-2 */}
         <div className="flex items-start flex-row">
           <div className="border-t-4 border-r-4 border-transparent">
             <div className="w-16 ml-16 h-16 border-l-4 border-gray-300 border-dashed border-b-4 rounded-bl-full"></div>
@@ -76,7 +71,6 @@ const HowItWorks = () => {
           <div className="w-16 mt-16 mr-16 h-16 border-r-4 border-gray-300 border-dashed border-t-4 rounded-tr-full"></div>
         </div>
 
-        {/* Step 2: AI-Powered Matching */}
         <div className="flex flex-row-reverse">
           <div className="hidden md:flex flex-col items-center">
             <div className="w-32 py-5 border-2 border-[#e83f25] rounded ml-4 uppercase flex flex-col items-center justify-center bg-white hover:bg-[#e83f25] hover:text-white transition-colors duration-300 group">
@@ -105,7 +99,6 @@ const HowItWorks = () => {
                 </div>
               </div>
               <div className="md:w-40 w-full p-8 flex items-center justify-center">
-                {/* AI Matching Icon */}
                 <svg
                   className="w-24 h-24 text-[#e83f25]"
                   fill="none"
@@ -131,7 +124,6 @@ const HowItWorks = () => {
           </div>
         </div>
 
-        {/* Connector 2-3 */}
         <div className="flex items-start flex-row-reverse">
           <div className="border-t-4 border-l-4 border-transparent">
             <div className="w-16 mr-16 h-16 border-r-4 border-gray-300 border-dashed border-b-4 rounded-br-full"></div>
@@ -142,7 +134,6 @@ const HowItWorks = () => {
           <div className="w-16 mt-16 ml-16 h-16 border-l-4 border-gray-300 border-dashed border-t-4 rounded-tl-full"></div>
         </div>
 
-        {/* Step 3: Legal Support */}
         <div className="flex flex-row">
           <div className="hidden md:flex flex-col items-center">
             <div className="w-32 py-5 border-2 border-[#e83f25] rounded mr-4 uppercase flex flex-col items-center justify-center bg-white hover:bg-[#e83f25] hover:text-white transition-colors duration-300 group">
@@ -173,7 +164,7 @@ const HowItWorks = () => {
                 </div>
               </div>
               <div className="md:w-40 w-full p-8 flex items-center justify-center">
-                {/* Document Icon */}
+              
                 <svg
                   className="w-24 h-24 text-[#e83f25]"
                   fill="none"
@@ -192,7 +183,6 @@ const HowItWorks = () => {
           </div>
         </div>
 
-        {/* Connector 3-4 */}
         <div className="flex items-start flex-row">
           <div className="border-t-4 border-r-4 border-transparent">
             <div className="w-16 ml-16 h-16 border-l-4 border-gray-300 border-dashed border-b-4 rounded-bl-full"></div>
@@ -203,7 +193,7 @@ const HowItWorks = () => {
           <div className="w-16 mt-16 mr-16 h-16 border-r-4 border-gray-300 border-dashed border-t-4 rounded-tr-full"></div>
         </div>
 
-        {/* Step 4: After-Sales Care */}
+       
         <div className="flex flex-row-reverse">
           <div className="hidden md:flex flex-col items-center">
             <div className="w-32 py-5 border-2 border-[#e83f25] rounded ml-4 uppercase flex flex-col items-center justify-center bg-white hover:bg-[#e83f25] hover:text-white transition-colors duration-300 group">
@@ -230,7 +220,6 @@ const HowItWorks = () => {
                 </div>
               </div>
               <div className="md:w-40 w-full p-8 flex items-center justify-center">
-                {/* Key/House Icon */}
                 <svg
                   className="w-24 h-24 text-[#e83f25]"
                   fill="none"
@@ -250,7 +239,6 @@ const HowItWorks = () => {
         </div>
       </div>
 
-      {/* Bottom CTA */}
       <div className="mt-16 text-center">
         <p className="text-gray-600 mb-6">
           Ready to start your investment journey?

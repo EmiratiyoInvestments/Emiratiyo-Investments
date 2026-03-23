@@ -20,8 +20,8 @@ import {
 } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 import PropertyMap from "../components/market-insights/maps/PropertyMap";
-import { client, urlFor } from "../services/sanityClient";
-import { SINGLE_PROPERTY_QUERY } from "../lib/propertyQueries";
+import { client, urlFor } from "../config/sanityClient";
+import { SINGLE_PROPERTY_QUERY } from "../lib/sanity/propertyQueries";
 
 const PropertyDetailPage = () => {
   const { slug } = useParams();
