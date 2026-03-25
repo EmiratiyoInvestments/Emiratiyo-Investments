@@ -40,6 +40,7 @@ export default function EmiraPage() {
   const [confirmDeleteId,   setConfirmDeleteId]    = useState(null);
   const [processingMsgIdx,  setProcessingMsgIdx]   = useState(0);
   const [requestCount,      setRequestCount]       = useState(() => getRequestCount());
+  const [historyMobileOpen, setHistoryMobileOpen]  = useState(false);
 
   const abortControllerRef = useRef(null);
   const isLoggingOutRef    = useRef(false);
@@ -165,7 +166,7 @@ export default function EmiraPage() {
         .ab:disabled { opacity: 0.35; cursor: not-allowed; background: #fff; pointer-events: none; }
         .ab:disabled::after { transform: scaleY(0); }
 
-        .digit { width: 54px; height: 68px; background: #fff; border: 1.5px solid #e5e5e5; color: #000; font-size: 28px; font-family: 'Fields Display', 'Raleway', sans-serif; font-weight: 700; text-align: center; outline: none; transition: border-color 0.18s, box-shadow 0.18s; border-radius: 0; caret-color: #e83f25; }
+        .digit { width: 46px; height: 60px; background: #fff; border: 1.5px solid #e5e5e5; color: #000; font-size: 24px; font-family: 'Fields Display', 'Raleway', sans-serif; font-weight: 700; text-align: center; outline: none; transition: border-color 0.18s, box-shadow 0.18s; border-radius: 0; caret-color: #e83f25; }
         .digit:focus { border-color: #e83f25; box-shadow: 0 0 0 3px rgba(232,63,37,0.1); }
 
         .e-select { width: 100%; background: #fff; border: 1.5px solid #ebebeb; color: #000; font-size: 12px; font-family: 'Raleway', sans-serif; font-weight: 600; padding: 12px 40px 12px 14px; outline: none; appearance: none; cursor: pointer; border-radius: 0; }
@@ -192,6 +193,37 @@ export default function EmiraPage() {
         .history-entry:hover .delete-btn { opacity: 1; }
         .history-entry:hover { background: #fafafa !important; }
         .delete-btn:hover { color: #e83f25 !important; }
+
+        /* ── Responsive layout ── */
+        .emira-header { padding: 0 40px; }
+        .emira-header-left { gap: 20px; }
+        .emira-header-right { gap: 20px; }
+        .emira-request-counter { display: flex; align-items: center; gap: 10px; }
+        .emira-logout-label { display: inline; }
+        .emira-main { padding-top: 100px; padding-bottom: 60px; padding-left: 40px; padding-right: 40px; }
+        .emira-flex-outer { display: flex; gap: 24px; align-items: flex-start; }
+        .emira-inner-grid { display: grid; grid-template-columns: 300px 1fr; gap: 24px; min-height: 680px; }
+
+        /* tablet: 600–900px */
+        @media (max-width: 900px) {
+          .emira-header { padding: 0 20px; }
+          .emira-header-left { gap: 12px; }
+          .emira-header-right { gap: 10px; }
+          .emira-request-counter { gap: 6px; }
+          .emira-main { padding-top: 84px; padding-bottom: 40px; padding-left: 20px; padding-right: 20px; }
+          .emira-flex-outer { flex-direction: column; }
+          .emira-inner-grid { grid-template-columns: 1fr; min-height: auto; }
+        }
+
+        /* mobile: <480px */
+        @media (max-width: 480px) {
+          .emira-header { padding: 0 14px; height: 56px !important; }
+          .emira-header-left h1 { font-size: 18px !important; }
+          .emira-request-counter { display: none; }
+          .emira-logout-label { display: none; }
+          .emira-main { padding-top: 72px; padding-left: 14px; padding-right: 14px; padding-bottom: 30px; }
+          .digit { width: 40px !important; height: 52px !important; font-size: 20px !important; }
+        }
       `}</style>
 
       <div className="emira-root">
@@ -200,19 +232,19 @@ export default function EmiraPage() {
         <div style={{ filter: !isAuthenticated ? "blur(4px) brightness(0.85)" : "none", transition: "filter 0.4s ease", pointerEvents: !isAuthenticated ? "none" : "auto", userSelect: !isAuthenticated ? "none" : "auto" }}>
 
           {/* HEADER */}
-          <header style={{ position: "fixed", top: 0, left: 0, right: 0, height: 64, background: "#fff", borderBottom: "1px solid #ebebeb", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 40px", zIndex: 50 }}>
+          <header className="emira-header" style={{ position: "fixed", top: 0, left: 0, right: 0, height: 64, background: "#fff", borderBottom: "1px solid #ebebeb", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 50 }}>
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "#e83f25" }} />
-            <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <div className="emira-header-left" style={{ display: "flex", alignItems: "center" }}>
               <h1 style={{ fontFamily: "Fields Display, sans-serif", fontSize: 24, fontWeight: 700, color: "#000", letterSpacing: "0.02em", lineHeight: 1 }}>
                 EMIRA<span style={{ color: "#e83f25" }}>.</span>
               </h1>
-              <div style={{ width: 1, height: 18, background: "#ebebeb" }} />
+              <div style={{ width: 1, height: 18, background: "#ebebeb", margin: "0 12px" }} />
               <span className="e-label">AI Market Analyst v1.0</span>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <div className="emira-header-right" style={{ display: "flex", alignItems: "center" }}>
               {/* daily request counter */}
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <div className="emira-request-counter">
                 <svg width="36" height="36" viewBox="0 0 36 36">
                   <circle cx="18" cy="18" r="14" fill="none" stroke="#ebebeb" strokeWidth="3" />
                   <circle cx="18" cy="18" r="14" fill="none" stroke={requestCount >= 10 ? "#ef4444" : "#e83f25"} strokeWidth="3" strokeDasharray={`${Math.min(requestCount, 10) / 10 * 87.96} 87.96`} strokeLinecap="round" transform="rotate(-90 18 18)" />
@@ -223,15 +255,15 @@ export default function EmiraPage() {
                   <div style={{ fontSize: 11, fontWeight: 700, color: requestCount >= 10 ? "#ef4444" : "#000" }}>{Math.max(0, 10 - requestCount)}/10 left</div>
                 </div>
               </div>
-              <button onClick={handleLogout} className="logout-btn" style={{ display: "flex", alignItems: "center", gap: 8, background: "transparent", border: "1.5px solid #ebebeb", color: "#939393", padding: "8px 16px", fontFamily: "Raleway, sans-serif", fontSize: 10, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", cursor: "pointer", transition: "all 0.18s", borderRadius: 0 }}>
-                <LogOut size={13} /> Terminate
+              <button onClick={handleLogout} className="logout-btn" style={{ display: "flex", alignItems: "center", gap: 6, background: "transparent", border: "1.5px solid #ebebeb", color: "#939393", padding: "8px 14px", fontFamily: "Raleway, sans-serif", fontSize: 10, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", cursor: "pointer", transition: "all 0.18s", borderRadius: 0 }}>
+                <LogOut size={13} /> <span className="emira-logout-label">Terminate</span>
               </button>
             </div>
           </header>
 
           {/* MAIN */}
-          <main style={{ paddingTop: 100, paddingBottom: 60, paddingLeft: 40, paddingRight: 40, maxWidth: 1600, margin: "0 auto" }}>
-            <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+          <main className="emira-main" style={{ maxWidth: 1600, margin: "0 auto" }}>
+            <div className="emira-flex-outer">
 
               <EmiraHistory
                 history={history}
@@ -242,17 +274,19 @@ export default function EmiraPage() {
                 loadHistoryItem={loadHistoryItem}
                 deleteHistoryItem={deleteHistoryItem}
                 fetchHistory={fetchHistory}
+                isMobileOpen={historyMobileOpen}
+                setMobileOpen={setHistoryMobileOpen}
               />
 
               <div style={{ flex: 1, minWidth: 0 }}>
                 {/* page title */}
-                <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 40, flexWrap: "wrap", gap: 16 }}>
+                <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 32, flexWrap: "wrap", gap: 16 }}>
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                       <div style={{ width: 28, height: 3, background: "#e83f25" }} />
                       <span className="e-label" style={{ color: "#e83f25" }}>Dubai Real Estate</span>
                     </div>
-                    <h2 style={{ fontFamily: "Fields Display, sans-serif", fontSize: "clamp(36px, 4.5vw, 64px)", fontWeight: 700, color: "#000", lineHeight: 0.9, letterSpacing: "-0.025em" }}>
+                    <h2 style={{ fontFamily: "Fields Display, sans-serif", fontSize: "clamp(28px, 4.5vw, 64px)", fontWeight: 700, color: "#000", lineHeight: 0.9, letterSpacing: "-0.025em" }}>
                       Market<br /><span style={{ color: "#e83f25" }}>Intelligence.</span>
                     </h2>
                   </div>
@@ -267,7 +301,7 @@ export default function EmiraPage() {
                 </div>
 
                 {/* inner grid: controls | results */}
-                <div style={{ display: "grid", gridTemplateColumns: "300px 1fr", gap: 24, minHeight: 680 }}>
+                <div className="emira-inner-grid">
 
                   <EmiraControls
                     selectedArea={selectedArea}
@@ -284,7 +318,7 @@ export default function EmiraPage() {
                     stopAnalysis={stopAnalysis}
                   />
 
-                  <div style={{ minHeight: 620 }}>
+                  <div style={{ minHeight: "auto" }}>
                     <AnimatePresence mode="wait">
                       <EmiraResultCard
                         key={activeAnalysis || "empty"}
