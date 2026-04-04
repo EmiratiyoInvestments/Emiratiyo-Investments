@@ -132,7 +132,7 @@ const MarketInsightsPage = () => {
                     <p style={{ fontSize: 13, color: "#64748b", marginBottom: 16, fontFamily: "var(--font-body)" }}>
                       Heatmap by transaction volume per area. Click any area for details.
                     </p>
-                    <DubaiHeatmap initialMode="transactions" />
+                    <DubaiHeatmap initialMode="sale_apartment" />
                   </div>
                 </div>
               )}

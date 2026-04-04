@@ -44,11 +44,6 @@ export default function DubaiHeatmap({ initialMode = "sale_apartment" }) {
       setLoadError(null);
       const parseOrThrow = async (res, label) => {
         if (!res.ok) throw new Error(`Failed to load ${label} (${res.status})`);
-        const ct = res.headers.get("content-type") || "";
-        if (!ct.includes("application/json") && !ct.includes("geo+json")) {
-          const t = await res.text().catch(() => "");
-          throw new Error(`${label} not JSON. First bytes: ${JSON.stringify(t.slice(0, 80))}`);
-        }
         return res.json();
       };
       const geoRes = await fetch("/data/dubai.geojson");
