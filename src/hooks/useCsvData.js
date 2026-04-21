@@ -27,7 +27,7 @@ export function useCsvData() {
   const { data: rows = [], isLoading: loading, error } = useQuery({
     queryKey: ["transaction-csv"],
     queryFn: fetchCsvData,
-    staleTime: Infinity, // CSV doesn't change during session
+    staleTime: Infinity,
   });
 
   const stats = useMemo(() => {

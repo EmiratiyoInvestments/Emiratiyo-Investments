@@ -61,7 +61,7 @@ export function deriveAreaDataFromRows(rows, geoFeatures = {}) {
     const geoName = resolveAreaToGeoJSON(d.name);
     const n = normArea(geoName);
     txDataByArea[n] = (txDataByArea[n] || 0) + d.txCount;
-    txDataByArea[key] = (txDataByArea[key] || 0) + d.txCount; // also key by DLD name
+    txDataByArea[key] = (txDataByArea[key] || 0) + d.txCount;
   });
 
   // Build areaDataByCommNum: COMM_NUM -> { name, sale_apartment, sale_villa, ... }

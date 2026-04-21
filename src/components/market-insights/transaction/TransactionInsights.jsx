@@ -165,7 +165,7 @@ export default function TransactionInsights() {
           Transaction Intelligence
         </h2>
         <p style={{ fontSize: 13, color: "#64748b" }}>
-          Computed from official Dubai Land Department data · Jan–Feb 2026
+          Computed from official Dubai Land Department data · Jan–April 2026
         </p>
       </div>
 

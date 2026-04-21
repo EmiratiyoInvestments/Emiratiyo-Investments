@@ -1,4 +1,18 @@
 {
+  "headers": [
+    {
+      "source": "/data/(.*).geojson",
+      "headers": [
+        { "key": "Content-Type", "value": "application/geo+json" }
+      ]
+    },
+    {
+      "source": "/data/(.*).csv",
+      "headers": [
+        { "key": "Content-Type", "value": "text/csv" }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

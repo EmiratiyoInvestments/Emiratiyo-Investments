@@ -6,4 +6,3 @@ import axios from 'axios'
    baseURL: API_BASE_URL,
    timeout: 120000,
  })
-

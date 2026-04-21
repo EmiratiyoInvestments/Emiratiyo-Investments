@@ -61,7 +61,6 @@ export default function EmiraAuth({ isAuthenticated, login, isLoggingOutRef }) {
     <AnimatePresence>
       {!isAuthenticated && !isLoggingOutRef.current && (
         <>
-          {/* frosted backdrop */}
           <div style={{
             position: "fixed", inset: 0,
             background: "rgba(247,247,247,0.6)",

@@ -31,7 +31,7 @@ export const PROCESSING_MSGS = [
 
 export const EMIRA_SECRET = import.meta.env.VITE_EMIRA_SECRET || "49352";
 
-/* ─── localStorage request counter ──────────────────────────────── */
+/* localStorage request counter */
 
 export const getRequestCount = () => {
   const today = new Date().toDateString();
@@ -50,7 +50,7 @@ export const incrementRequestCount = () => {
   return next;
 };
 
-/* ─── date formatter ─────────────────────────────────────────────── */
+/* date formatter */
 
 export const formatDate = (dateStr) => {
   const d = new Date(dateStr);
@@ -61,7 +61,7 @@ export const formatDate = (dateStr) => {
   );
 };
 
-/* ─── text extractors ────────────────────────────────────────────── */
+/* text extractors */
 
 export const extractNumber = (text, label) => {
   const match = text.match(new RegExp(label + "[^\\d]*(\\d[\\d,]*)", "i"));
@@ -76,7 +76,7 @@ export const extractMidpoint = (text, label) => {
   );
 };
 
-/* ─── market context builder ─────────────────────────────────────── */
+/* market context builder */
 
 export const buildMarketContext = (stats, selectedArea) => {
   if (!stats) return "";
