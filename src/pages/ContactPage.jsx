@@ -55,7 +55,7 @@ const ContactPage = () => {
             }}
           ></div>
 
-          {/* Exact Gradient Overlay */}
+          {/* Exact Gradient   Overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80 z-10"></div>
 
           {/* Hero Content */}
@@ -108,7 +108,7 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <h3 style={{ fontFamily: 'var(--font-body)' }} className="font-bold text-black text-lg">Email Us</h3>
-                      <p style={{ fontFamily: 'var(--font-body)' }} className="text-gray-600 mt-1">info@emiratiyo.ae</p>
+                      <p style={{ fontFamily: 'var(--font-body)' }} className="text-gray-600 mt-1">info@emiratiyo.com</p>
                     </div>
                   </div>
 
@@ -119,7 +119,7 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <h3 style={{ fontFamily: 'var(--font-body)' }} className="font-bold text-black text-lg">Call Us</h3>
-                      <p style={{ fontFamily: 'var(--font-body)' }} className="text-gray-600 mt-1">+971 4 XXX XXXX</p>
+                      <p style={{ fontFamily: 'var(--font-body)' }} className="text-gray-600 mt-1">+971 58 581 1040</p>
                     </div>
                   </div>
                 </div>

@@ -55,7 +55,7 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center gap-3 text-gray-600 hover:text-[#e83f25] transition-colors duration-300 cursor-pointer">
                   <Mail className="w-5 h-5 flex-shrink-0" />
-                  <span>Cxo@emiratiyo.com</span>
+                  <span>info@emiratiyo.com</span>
                 </div>
                 <div className="flex items-start gap-3 text-gray-600 hover:text-[#e83f25] transition-colors duration-300 cursor-pointer">
                   <MapPin className="w-5 h-5 flex-shrink-0 mt-1" />

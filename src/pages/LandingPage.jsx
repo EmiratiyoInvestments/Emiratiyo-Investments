@@ -1,7 +1,7 @@
 import React from "react";
 import Hero from "../components/landing/Hero";
 import WhyChoseUs from "../components/landing/WhyChoseUs";
-import Features from "../components/landing/Features";
+
 import HowItWorks from "../components/landing/HowItWorks";
 import Testimonials from "../components/landing/Testimonials";
 import PropertyCarousel from "../components/landing/PropertyCarousel";
@@ -20,9 +20,7 @@ const LandingPage = () => {
         <div>
           <WhyChoseUs />
         </div>
-        <div>
-          <Features />
-        </div>
+
         <div>
           <HowItWorks />
         </div>
