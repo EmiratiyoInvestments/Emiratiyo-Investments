@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useSubmitEmContact } from "../hooks/useEmContactMutations";
+import { useServerStatus } from "../hooks/useServerStatus";
 
 const ContactPage = () => {
   const { mutate, isPending } = useSubmitEmContact();
+  const { isConnecting } = useServerStatus();
   const [status, setStatus] = useState("idle"); // idle, sending, sent, error
   const [formData, setFormData] = React.useState({
     name: "",
@@ -242,7 +244,7 @@ const ContactPage = () => {
                         <button
                           type="submit"
                           style={{ fontFamily: 'var(--font-body)' }}
-                          disabled={status === "sending"}
+                          disabled={status === "sending" || isConnecting}
                           className="w-full h-[48px] bg-primary hover:bg-[#c73519] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2"
                         >
                           {status === "sending" ? (

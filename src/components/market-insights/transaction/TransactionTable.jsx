@@ -4,12 +4,12 @@ import Papa from "papaparse";
 import { Download, Settings2 } from "lucide-react";
 
 const SQM_TO_SQFT = 10.7639;
-const PAGE_SIZE   = 15;
+const PAGE_SIZE = 15;
 
-const fmt  = (n) => new Intl.NumberFormat("en-AE").format(Math.round(n));
+const fmt = (n) => new Intl.NumberFormat("en-AE").format(Math.round(n));
 const fmtM = (n) => {
   if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(2)}B`;
-  if (n >= 1_000_000)     return `${(n / 1_000_000).toFixed(2)}M`;
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(2)}M`;
   return fmt(n);
 };
 
@@ -26,58 +26,58 @@ const SortArrow = ({ sortKey, k, sortDir }) => {
 
 // All columns definition — toggle visibility per column
 const ALL_COLUMNS = [
-  { key: "txNum",        label: "Tx #",           sortable: false },
-  { key: "date",         label: "Date",            sortable: true  },
-  { key: "area",         label: "Area",            sortable: false },
-  { key: "masterProject",label: "Master Project",  sortable: false },
-  { key: "project",      label: "Project",         sortable: false },
-  { key: "type",         label: "Type",            sortable: false },
-  { key: "procedure",    label: "Procedure",       sortable: false },
-  { key: "freehold",     label: "Freehold",        sortable: false },
-  { key: "usage",        label: "Usage",           sortable: false },
-  { key: "propType",     label: "Property",        sortable: false },
-  { key: "rooms",        label: "Rooms",           sortable: false },
-  { key: "parking",      label: "Parking",         sortable: false },
-  { key: "value",        label: "Value (AED)",     sortable: true  },
-  { key: "priceSqft",    label: "AED/sqft",        sortable: true  },
-  { key: "sizeSqft",     label: "Size (sqft)",     sortable: true  },
-  { key: "actualSqft",   label: "Actual (sqft)",   sortable: false },
-  { key: "buyers",       label: "Buyers",          sortable: false },
-  { key: "sellers",      label: "Sellers",         sortable: false },
-  { key: "metro",        label: "Nearest Metro",   sortable: false },
-  { key: "mall",         label: "Nearest Mall",    sortable: false },
-  { key: "landmark",     label: "Nearest Landmark",sortable: false },
+  { key: "txNum", label: "Tx #", sortable: false },
+  { key: "date", label: "Date", sortable: true },
+  { key: "area", label: "Area", sortable: false },
+  { key: "masterProject", label: "Master Project", sortable: false },
+  { key: "project", label: "Project", sortable: false },
+  { key: "type", label: "Type", sortable: false },
+  { key: "procedure", label: "Procedure", sortable: false },
+  { key: "freehold", label: "Freehold", sortable: false },
+  { key: "usage", label: "Usage", sortable: false },
+  { key: "propType", label: "Property", sortable: false },
+  { key: "rooms", label: "Rooms", sortable: false },
+  { key: "parking", label: "Parking", sortable: false },
+  { key: "value", label: "Value (AED)", sortable: true },
+  { key: "priceSqft", label: "AED/sqft", sortable: true },
+  { key: "sizeSqft", label: "Size (sqft)", sortable: true },
+  { key: "actualSqft", label: "Actual (sqft)", sortable: false },
+  { key: "buyers", label: "Buyers", sortable: false },
+  { key: "sellers", label: "Sellers", sortable: false },
+  { key: "metro", label: "Nearest Metro", sortable: false },
+  { key: "mall", label: "Nearest Mall", sortable: false },
+  { key: "landmark", label: "Nearest Landmark", sortable: false },
 ];
 
 // Default visible columns
 const DEFAULT_VISIBLE = new Set([
-  "txNum","date","area","project","type","freehold","usage",
-  "propType","rooms","parking","value","priceSqft","sizeSqft",
-  "buyers","metro",
+  "txNum", "date", "area", "project", "type", "freehold", "usage",
+  "propType", "rooms", "parking", "value", "priceSqft", "sizeSqft",
+  "buyers", "metro",
 ]);
 
 export default function TransactionTable() {
-  const [rows, setRows]       = useState([]);
+  const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(null);
+  const [error, setError] = useState(null);
   const [showColPicker, setShowColPicker] = useState(false);
-  const [visibleCols, setVisibleCols]     = useState(DEFAULT_VISIBLE);
+  const [visibleCols, setVisibleCols] = useState(DEFAULT_VISIBLE);
 
   // Filters
-  const [search, setSearch]           = useState("");
-  const [filterType, setFilterType]   = useState("all");
+  const [search, setSearch] = useState("");
+  const [filterType, setFilterType] = useState("all");
   const [filterUsage, setFilterUsage] = useState("all");
   const [filterFreehold, setFilterFreehold] = useState("all");
-  const [filterArea, setFilterArea]   = useState("all");
-  const [sortKey, setSortKey]         = useState("date");
-  const [sortDir, setSortDir]         = useState("desc");
-  const [page, setPage]               = useState(1);
+  const [filterArea, setFilterArea] = useState("all");
+  const [sortKey, setSortKey] = useState("date");
+  const [sortDir, setSortDir] = useState("desc");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     Papa.parse("/data/transaction-26.csv", {
       download: true, header: true, skipEmptyLines: true,
       complete: (results) => { setRows(results.data); setLoading(false); },
-      error:    (err)     => { setError(err.message); setLoading(false); },
+      error: (err) => { setError(err.message); setLoading(false); },
     });
   }, []);
 
@@ -101,23 +101,23 @@ export default function TransactionTable() {
         r.NEAREST_LANDMARK_EN?.toLowerCase().includes(q)
       );
     }
-    if (filterType     !== "all") data = data.filter((r) => r.IS_OFFPLAN_EN?.trim() === filterType);
-    if (filterUsage    !== "all") data = data.filter((r) => r.USAGE_EN?.trim() === filterUsage);
+    if (filterType !== "all") data = data.filter((r) => r.IS_OFFPLAN_EN?.trim() === filterType);
+    if (filterUsage !== "all") data = data.filter((r) => r.USAGE_EN?.trim() === filterUsage);
     if (filterFreehold !== "all") data = data.filter((r) => r.IS_FREE_HOLD_EN?.trim() === filterFreehold);
-    if (filterArea     !== "all") data = data.filter((r) => r.AREA_EN?.trim() === filterArea);
+    if (filterArea !== "all") data = data.filter((r) => r.AREA_EN?.trim() === filterArea);
 
     data.sort((a, b) => {
       let va, vb;
-      if      (sortKey === "date")      { va = a.INSTANCE_DATE || ""; vb = b.INSTANCE_DATE || ""; }
-      else if (sortKey === "value")     { va = parseFloat(a.TRANS_VALUE) || 0; vb = parseFloat(b.TRANS_VALUE) || 0; }
+      if (sortKey === "date") { va = a.INSTANCE_DATE || ""; vb = b.INSTANCE_DATE || ""; }
+      else if (sortKey === "value") { va = parseFloat(a.TRANS_VALUE) || 0; vb = parseFloat(b.TRANS_VALUE) || 0; }
       else if (sortKey === "priceSqft") {
         const sA = parseFloat(a.PROCEDURE_AREA), sB = parseFloat(b.PROCEDURE_AREA);
         va = sA > 0 ? (parseFloat(a.TRANS_VALUE) || 0) / (sA * SQM_TO_SQFT) : 0;
         vb = sB > 0 ? (parseFloat(b.TRANS_VALUE) || 0) / (sB * SQM_TO_SQFT) : 0;
       }
-      else if (sortKey === "sizeSqft")  { va = parseFloat(a.PROCEDURE_AREA) || 0; vb = parseFloat(b.PROCEDURE_AREA) || 0; }
+      else if (sortKey === "sizeSqft") { va = parseFloat(a.PROCEDURE_AREA) || 0; vb = parseFloat(b.PROCEDURE_AREA) || 0; }
       if (va < vb) return sortDir === "asc" ? -1 : 1;
-      if (va > vb) return sortDir === "asc" ?  1 : -1;
+      if (va > vb) return sortDir === "asc" ? 1 : -1;
       return 0;
     });
 
@@ -125,7 +125,7 @@ export default function TransactionTable() {
   }, [salesRows, search, filterType, filterUsage, filterFreehold, filterArea, sortKey, sortDir]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-  const paged      = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const paged = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const handleSort = (key) => {
     if (sortKey === key) setSortDir((d) => d === "asc" ? "desc" : "asc");
@@ -183,29 +183,29 @@ export default function TransactionTable() {
 
   // Cell renderer per column key
   const renderCell = (col, r, i) => {
-    const sqm       = parseFloat(r.PROCEDURE_AREA);
+    const sqm = parseFloat(r.PROCEDURE_AREA);
     const actualSqm = parseFloat(r.ACTUAL_AREA);
-    const val       = parseFloat(r.TRANS_VALUE);
-    const sqft      = sqm > 0 ? Math.round(sqm * SQM_TO_SQFT) : null;
-    const actualSqft= actualSqm > 0 ? Math.round(actualSqm * SQM_TO_SQFT) : null;
+    const val = parseFloat(r.TRANS_VALUE);
+    const sqft = sqm > 0 ? Math.round(sqm * SQM_TO_SQFT) : null;
+    const actualSqft = actualSqm > 0 ? Math.round(actualSqm * SQM_TO_SQFT) : null;
     const priceSqft = sqm > 0 && val > 0 ? Math.round(val / (sqm * SQM_TO_SQFT)) : null;
     const isOffPlan = r.IS_OFFPLAN_EN?.trim() === "Off-Plan";
     const isFreehold = r.IS_FREE_HOLD_EN?.trim() === "Free Hold";
-    const date      = r.INSTANCE_DATE ? r.INSTANCE_DATE.slice(0, 10) : "—";
-    const project   = r.PROJECT_EN?.trim() || "—";
-    const master    = r.MASTER_PROJECT_EN?.trim() || "—";
+    const date = r.INSTANCE_DATE ? r.INSTANCE_DATE.slice(0, 10) : "—";
+    const project = r.PROJECT_EN?.trim() || "—";
+    const master = r.MASTER_PROJECT_EN?.trim() || "—";
 
     switch (col.key) {
       case "txNum":
-        return <td key={col.key} style={{ ...tdBase, fontSize: 11, color: "#94a3b8", fontFamily: "monospace", whiteSpace: "nowrap" }}>{r.TRANSACTION_NUMBER?.replace("-2026","") || "—"}</td>;
+        return <td key={col.key} style={{ ...tdBase, fontSize: 11, color: "#94a3b8", fontFamily: "monospace", whiteSpace: "nowrap" }}>{r.TRANSACTION_NUMBER?.replace("-2026", "") || "—"}</td>;
       case "date":
         return <td key={col.key} style={{ ...tdBase, whiteSpace: "nowrap" }}>{date}</td>;
       case "area":
         return <td key={col.key} style={{ ...tdBase, fontWeight: 700, color: "#0f172a", minWidth: 140 }}>{r.AREA_EN?.trim() || "—"}</td>;
       case "masterProject":
-        return <td key={col.key} style={{ ...tdBase, color: "#64748b", minWidth: 140 }}>{master.length > 28 ? master.slice(0,26)+"…" : master}</td>;
+        return <td key={col.key} style={{ ...tdBase, color: "#64748b", minWidth: 140 }}>{master.length > 28 ? master.slice(0, 26) + "…" : master}</td>;
       case "project":
-        return <td key={col.key} style={{ ...tdBase, color: "#475569", minWidth: 160 }}>{project.length > 30 ? project.slice(0,28)+"…" : project}</td>;
+        return <td key={col.key} style={{ ...tdBase, color: "#475569", minWidth: 160 }}>{project.length > 30 ? project.slice(0, 28) + "…" : project}</td>;
       case "type":
         return <td key={col.key} style={tdBase}><Badge label={isOffPlan ? "Off-Plan" : "Ready"} color={isOffPlan ? "#0369a1" : "#15803d"} bg={isOffPlan ? "#eff6ff" : "#f0fdf4"} /></td>;
       case "procedure":
@@ -251,7 +251,7 @@ export default function TransactionTable() {
           Browse Transactions
         </h2>
         <p style={{ fontSize: 13, color: "#64748b" }}>
-          Every individual sale record from Dubai Land Department · Jan–Feb 2026 · {salesRows.length.toLocaleString()} total transactions
+          Every individual sale record from Dubai Land Department - 2026 · {salesRows.length.toLocaleString()} total transactions
         </p>
       </div>
 
@@ -384,10 +384,10 @@ export default function TransactionTable() {
             </span>
             <div style={{ display: "flex", gap: 6 }}>
               {[
-                { label: "«", action: () => setPage(1),                                     disabled: page === 1 },
-                { label: "‹ Prev", action: () => setPage((p) => Math.max(1, p - 1)),        disabled: page === 1 },
-                { label: "Next ›", action: () => setPage((p) => Math.min(totalPages, p+1)), disabled: page === totalPages },
-                { label: "»", action: () => setPage(totalPages),                            disabled: page === totalPages },
+                { label: "«", action: () => setPage(1), disabled: page === 1 },
+                { label: "‹ Prev", action: () => setPage((p) => Math.max(1, p - 1)), disabled: page === 1 },
+                { label: "Next ›", action: () => setPage((p) => Math.min(totalPages, p + 1)), disabled: page === totalPages },
+                { label: "»", action: () => setPage(totalPages), disabled: page === totalPages },
               ].map(({ label, action, disabled }) => (
                 <button key={label} onClick={action} disabled={disabled}
                   style={{ padding: "6px 12px", border: "1px solid #e5e7eb", borderRadius: 8, fontSize: 13, cursor: disabled ? "not-allowed" : "pointer", color: disabled ? "#cbd5e1" : "#374151", background: "#fff", fontWeight: 600, fontFamily: "var(--font-body)" }}>

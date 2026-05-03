@@ -47,7 +47,7 @@ export default function HeatmapPanel({ selected, onClose, searchQuery, onSearchC
           )}
           {selected.txCount != null && (
             <span style={{ fontSize: 12, padding: "3px 8px", borderRadius: 999, background: "#eff6ff", color: "#0369a1", fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6 }}>
-              <Building2 size={12} strokeWidth={2.5} /> {selected.txCount} deals (Jan–Feb 2026)
+              <Building2 size={12} strokeWidth={2.5} /> {selected.txCount} deals (2026)
             </span>
           )}
           {selected.data?.__estimated && (

@@ -85,7 +85,7 @@ export function getLegendForMode(mode) {
 }
 
 export function getLegendLabel(mode) {
-  if (mode === "transactions") return "Deals (Jan–Feb 2026)";
+  if (mode === "transactions") return "Deals - (2026)";
   if (mode.startsWith("sale")) return "AED / sqft";
   return "AED / year";
 }
@@ -132,6 +132,6 @@ export function getModeHelpText(mode) {
   if (mode === "sale_villa")     return "Average villa sale price (AED/sqft)";
   if (mode === "rent_apartment") return "Average apartment annual rent (AED/year)";
   if (mode === "rent_villa")     return "Average villa annual rent (AED/year)";
-  if (mode === "transactions")   return "Number of sales transactions · Jan–Feb 2026 · Source: DLD";
+  if (mode === "transactions")   return "Number of sales transactions - 2026 · Source: DLD";
   return "";
 }

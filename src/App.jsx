@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import ServicesPage from "./pages/ServicesPage";
@@ -37,26 +37,6 @@ const MainLayout = ({ children }) => {
 };
 
 const App = () => {
-  useEffect(() => {
-    // Silent pre-warm ping to wake up the backend server (Fly.io cold start)
-    const pingBackend = async () => {
-      try {
-        const backendUrl = import.meta.env.VITE_BACKEND_API;
-        if (backendUrl) {
-          // console.log("🚀 [Cold Start Fix] Attempting to wake up backend at:", backendUrl);
-          const startTime = Date.now();
-          const response = await fetch(`${backendUrl}/api/health`);
-          const endTime = Date.now();
-          // console.log(`[Cold Start Fix] Backend is awake! (Time taken: ${endTime - startTime}ms, Status: ${response.status})`);
-        } else {
-          // console.warn("[Cold Start Fix] VITE_BACKEND_API is not defined. Ping skipped.");
-        }
-      } catch (error) {
-        // console.error("[Cold Start Fix] Ping failed (this is expected if server is still sleeping):", error.message);
-      }
-    };
-    pingBackend();
-  }, []);
 
   return (
     <Router>
