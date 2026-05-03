@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -42,12 +43,12 @@ const Hero = () => {
     >
       <div className="relative w-full z-40 min-h-[600px] sm:h-[90vh] sm:min-h-[750px] flex flex-col items-center justify-center pt-10 sm:pt-0">
         <img
-          src="https://plus.unsplash.com/premium_photo-1661964298224-7747aa0ac10c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="/images/Dubai.jpg"
           alt="Luxury Dubai Property"
           className="absolute inset-0 w-full h-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80 z-10"></div>
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
 
         <div className="absolute bottom-[-1px] z-20 left-0 w-full">
           <svg
@@ -88,10 +89,10 @@ const Hero = () => {
           </div>
 
           <div className="flex justify-center">
-            <button className="group px-7 py-4 sm:px-10 sm:py-5 text-base sm:text-lg font-bold text-white bg-[#e83f25] rounded-md hover:bg-[#c73519] transition-all duration-300 shadow-2xl flex items-center gap-3">
+            <Link to="/contact" className="group px-7 py-4 sm:px-10 sm:py-5 text-base sm:text-lg font-bold text-white bg-[#e83f25] rounded-md hover:bg-[#c73519] transition-all duration-300 shadow-2xl flex items-center gap-3">
               Start Investing
               <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </Link>
           </div>
         </div>
 

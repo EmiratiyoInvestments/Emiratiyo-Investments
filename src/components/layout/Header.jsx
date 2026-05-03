@@ -123,14 +123,14 @@ const Header = () => {
           </ul>
 
           <div className="ml-auto">
-            <Link to="/business-setup" className="px-4 py-2 text-sm rounded-md font-medium text-white bg-[#e83f25] border-2 border-[#e83f25] hover:bg-[#c73519] hover:border-[#c73519] cursor-pointer whitespace-nowrap transition-colors">
+            <Link to="/contact" className="px-4 py-2 text-sm rounded-md font-medium text-white bg-[#e83f25] border-2 border-[#e83f25] hover:bg-[#c73519] hover:border-[#c73519] cursor-pointer whitespace-nowrap transition-colors">
               Book Consultation
             </Link>
           </div>
         </div>
 
         <div className="flex items-center ml-auto gap-3 lg:hidden">
-          <Link to="/business-setup" className="px-3 py-1.5 text-xs rounded-md font-medium text-white bg-[#e83f25] border-2 border-[#e83f25] hover:bg-[#c73519] cursor-pointer transition-colors">
+          <Link to="/contact" className="px-3 py-1.5 text-xs rounded-md font-medium text-white bg-[#e83f25] border-2 border-[#e83f25] hover:bg-[#c73519] cursor-pointer transition-colors">
             Book Consultation
           </Link>
           <button
@@ -207,7 +207,7 @@ const Header = () => {
                   ))}
 
                   <motion.div variants={menuLinkVariants} className="mt-8 w-full">
-                    <Link to="/business-setup" onClick={() => setIsMenuOpen(false)} className="block w-full px-6 py-3 text-base text-center rounded-lg font-semibold text-white bg-[#e83f25] hover:bg-[#c73519] cursor-pointer transition-colors">
+                    <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="block w-full px-6 py-3 text-base text-center rounded-lg font-semibold text-white bg-[#e83f25] hover:bg-[#c73519] cursor-pointer transition-colors">
                       Book Consultation
                     </Link>
                   </motion.div>

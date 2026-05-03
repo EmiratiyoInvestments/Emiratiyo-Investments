@@ -6,7 +6,7 @@ const WhyDubai = () => {
     "Zero Income Tax",
     "Zero Capital Gains Tax",
     "Zero Wealth Tax",
-    "10% Average ROI",
+    "Projected 10% ROI",
     "Golden Visa Eligibility",
     "USD-Pegged Currency Stability",
     "Direct Flights from 97 Countries",

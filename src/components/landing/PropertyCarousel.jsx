@@ -5,7 +5,7 @@ const PropertyCarousel = () => {
     {
       image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1920&q=80",
       title: "Invest in Dubai's Most Profitable Market",
-      subtitle: "AI-powered matching • Guaranteed ROI • Legal support included"
+      subtitle: "AI-powered matching • Projected ROI • Legal support included"
     },
     {
       image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80",

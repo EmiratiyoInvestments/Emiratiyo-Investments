@@ -46,7 +46,7 @@ const ContactPage = () => {
     <div className="bg-[#f7f7f7] min-h-screen">
       <main>
         {/* Hero Section */}
-        <section className="relative w-full h-[45vh] lg:h-[60vh] flex items-center justify-center overflow-hidden">
+        <section className="relative w-full h-[30vh] lg:h-[40vh] flex items-center justify-center overflow-hidden">
           {/* Background Image */}
           <div
             className="absolute inset-0 bg-cover bg-center z-0"
@@ -146,7 +146,7 @@ const ContactPage = () => {
               </div>
 
               {/* Right Column: Send us a message */}
-              <div className="p-10 lg:p-14 bg-gray-50/50">
+              <div className="p-10 lg:p-14 bg-gray-50/50 order-first lg:order-last">
                 <h2
                   style={{ fontFamily: 'var(--font-display)' }}
                   className="text-3xl lg:text-4xl font-bold text-black mb-10"

@@ -46,7 +46,7 @@ const BusinessSetupPage = () => {
       <section className="relative w-full overflow-hidden">
 
         {/* HERO SECTION */}
-        <div className="relative w-full h-[500px] md:h-[600px] flex items-center justify-center">
+        <div className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center">
           <img
             src="/images/museum.jpg"
             alt="Dubai Urban City"
@@ -83,7 +83,7 @@ const BusinessSetupPage = () => {
               </div>
 
               {/* RIGHT SIDE – FORM */}
-              <div className="p-8 md:p-12">
+              <div className="p-8 md:p-12 order-first lg:order-last">
                 <h2 className="text-2xl md:text-3xl font-bold text-[#000000] mb-6">
                   Start Your Business Setup
                 </h2>
