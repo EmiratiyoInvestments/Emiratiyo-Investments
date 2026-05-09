@@ -23,9 +23,9 @@ const ContactPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-     //console.log("📨 [Optimistic UI] User submitted contact form. Setting status to: sending...");
+    //console.log("📨 [Optimistic UI] User submitted contact form. Setting status to: sending...");
     setStatus("sending");
-    
+
     const startTime = Date.now();
     mutate(formData, {
       onSuccess: () => {
@@ -256,7 +256,7 @@ const ContactPage = () => {
                             "Send Message"
                           )}
                         </button>
-                        
+
                         {status === "sending" && (
                           <p className="text-center text-xs text-gray-500 animate-fade-in">
                             This may take a few seconds on first message — hang tight.

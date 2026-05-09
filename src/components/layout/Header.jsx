@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useServerStatus } from "../../hooks/useServerStatus";
 
 const menuVariants = {
   closed: {
@@ -54,6 +55,52 @@ const menuLinkVariants = {
       ease: [0.22, 1, 0.36, 1],
     },
   },
+};
+
+const ServerDot = () => {
+  const { isReady } = useServerStatus();
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      style={{ position: "relative", display: "inline-flex", alignItems: "center" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <span
+        style={{
+          display: "inline-block",
+          width: 8,
+          height: 8,
+          borderRadius: "50%",
+          backgroundColor: isReady ? "#22c55e" : "#9ca3af",
+          flexShrink: 0,
+          animation: isReady ? "none" : "serverPulse 1.8s ease-in-out infinite",
+        }}
+      />
+      {hovered && (
+        <span
+          style={{
+            position: "absolute",
+            bottom: "calc(100% + 6px)",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#1f2937",
+            color: "#f9fafb",
+            fontSize: 11,
+            fontWeight: 500,
+            padding: "3px 8px",
+            borderRadius: 5,
+            whiteSpace: "nowrap",
+            pointerEvents: "none",
+            zIndex: 9999,
+          }}
+        >
+          {isReady ? "Live" : "Connecting..."}
+        </span>
+      )}
+    </div>
+  );
 };
 
 const Header = () => {
@@ -122,7 +169,8 @@ const Header = () => {
             </li>
           </ul>
 
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-3">
+            <ServerDot />
             <Link to="/contact" className="px-4 py-2 text-sm rounded-md font-medium text-white bg-[#e83f25] border-2 border-[#e83f25] hover:bg-[#c73519] hover:border-[#c73519] cursor-pointer whitespace-nowrap transition-colors">
               Book Consultation
             </Link>
@@ -130,6 +178,7 @@ const Header = () => {
         </div>
 
         <div className="flex items-center ml-auto gap-3 lg:hidden">
+          <ServerDot />
           <Link to="/contact" className="px-3 py-1.5 text-xs rounded-md font-medium text-white bg-[#e83f25] border-2 border-[#e83f25] hover:bg-[#c73519] cursor-pointer transition-colors">
             Book Consultation
           </Link>
@@ -211,12 +260,22 @@ const Header = () => {
                       Book Consultation
                     </Link>
                   </motion.div>
+
+                  <motion.div variants={menuLinkVariants} className="mt-4 flex justify-center">
+                    <ServerDot />
+                  </motion.div>
                 </motion.div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
+      <style>{`
+        @keyframes serverPulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.4; transform: scale(0.85); }
+        }
+      `}</style>
     </header>
   );
 };

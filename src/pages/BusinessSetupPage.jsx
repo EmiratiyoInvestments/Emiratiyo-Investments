@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { CheckCircle, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useSubmitEmBusinessSetup } from "../hooks/useEmBusinessSetupMutations";
+import { useServerStatus } from "../hooks/useServerStatus";
 
 const BusinessSetupPage = () => {
   const { mutate, isPending } = useSubmitEmBusinessSetup();
+  const { isConnecting } = useServerStatus();
   const [status, setStatus] = useState("idle"); // idle, sending, sent, error
   const [formData, setFormData] = React.useState({
     fullName: "",
@@ -160,7 +162,7 @@ const BusinessSetupPage = () => {
                       <div className="space-y-4">
                         <button
                           type="submit"
-                          disabled={status === "sending"}
+                          disabled={status === "sending" || isConnecting}
                           className="w-full bg-[#e83f25] text-white font-bold py-4 px-6 rounded-md hover:bg-[#c73519] transition-colors duration-300 shadow-lg mt-4 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           {status === "sending" ? (

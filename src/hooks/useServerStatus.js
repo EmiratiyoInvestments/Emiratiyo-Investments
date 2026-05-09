@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { API_BASE_URL } from '../config/api'
 
-let _status = 'connecting'          // 'connecting' | 'ready'
+let _status = 'connecting'
 let _listeners = new Set()
 
 const notify = () => _listeners.forEach((fn) => fn(_status))
@@ -52,7 +52,7 @@ export const useServerStatus = () => {
   }, [])
 
   return {
-    status,
+    status,                       
     isReady: status === 'ready',
     isConnecting: status === 'connecting',
   }
