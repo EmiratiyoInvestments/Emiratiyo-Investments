@@ -1,59 +1,60 @@
 import { useState, useEffect } from 'react'
 import { apiClient } from '../config/api'
 
-let _status = 'connecting'
-let _listeners = new Set()
+export function useServerStatus() {
+  const [status, setStatus] = useState('connecting')
 
-const notify = () => _listeners.forEach((fn) => fn(_status))
-
-const setStatus = (next) => {
-  if (_status !== next) {
-    _status = next
-    notify()
-  }
-}
-
-let _started = false
-
-const startPoller = () => {
-  if (_started) return
-  _started = true
-
-  const ping = async () => {
+  const wakeServer = async () => {
     try {
       const res = await apiClient.get('https://emiratiyo-api.fly.dev/actuator/health', {
         signal: AbortSignal.timeout(8000),
       })
       if (res.status === 200 && res.data?.status === 'UP') {
         setStatus('ready')
-        setTimeout(ping, 25000) 
-        return 
+        return true
       }
-    } catch {
+    } catch (err) {
+      // Server is likely sleeping or booting
     }
-    setTimeout(ping, 2000) 
+    return false
   }
 
-  ping()
-}
-
-export const useServerStatus = () => {
-  const [status, setLocalStatus] = useState(_status)
-
   useEffect(() => {
-    startPoller()
+    let mounted = true
+    let retryCount = 0
+    const maxRetries = 5 // Limited retries on initial load to avoid infinite loops
 
-    const listener = (next) => setLocalStatus(next)
-    _listeners.add(listener)
+    const initialWake = async () => {
+      const success = await wakeServer()
+      if (!success && mounted && retryCount < maxRetries) {
+        retryCount++
+        setTimeout(initialWake, 3000) // 3s delay between initial load retries
+      } else if (!success && retryCount >= maxRetries) {
+        setStatus('error')
+      }
+    }
 
-    setLocalStatus(_status)
+    initialWake()
 
-    return () => _listeners.delete(listener)
+    // Page Visibility API: Ping ONCE when user returns to tab
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        wakeServer()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      mounted = false
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
   }, [])
 
   return {
-    status,                       
+    status,
     isReady: status === 'ready',
     isConnecting: status === 'connecting',
+    isError: status === 'error'
   }
 }
