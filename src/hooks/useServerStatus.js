@@ -3,10 +3,11 @@ import { apiClient } from '../config/api'
 
 export function useServerStatus() {
   const [status, setStatus] = useState('connecting')
+  //https://emiratiyo-api.fly.dev/actuator/health'
 
   const wakeServer = async () => {
     try {
-      const res = await apiClient.get('https://emiratiyo-api.fly.dev/actuator/health', {
+      const res = await apiClient.get('', {
         signal: AbortSignal.timeout(8000),
       })
       if (res.status === 200 && res.data?.status === 'UP') {

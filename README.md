@@ -9,7 +9,7 @@ Dubai real estate intelligence platform — live transaction data, AI market ana
 | Resource | URL |
 |---|---|
 | Production site | https://emiratiyo.com |
-| Backend API | https://emiratiyo-api.fly.dev |
+| Backend API |  |
 | Backend repo | https://github.com/EmiratiyoInvestments/emiratiyo-investments-api |
 | Weekly market data source | https://dxbinteract.com/weekly-property-summary |
 | Transaction data source | https://dubailand.gov.ae/en/open-data/real-estate-data/#/ |

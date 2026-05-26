@@ -2,7 +2,7 @@
 
 Backend API for Emiratiyo Investments.
 
-- **API Base URL:** `https://emiratiyo-api.fly.dev`
+- **API Base URL:** ``
 - **Repository:** https://github.com/EmiratiyoInvestments/emiratiyo-investments-api
 - **Infrastructure:** Fly.io (always-on, auto-wake ping from frontend on load)
 
