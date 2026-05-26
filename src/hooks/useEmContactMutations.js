@@ -15,8 +15,8 @@ export const emContactSchema = z.object({
 
 export const submitEmContact = async (payload) => {
   const parsed = emContactSchema.parse(payload)
-  const response = await apiClient.post('/api/em/contact', parsed)
-  return response.data
+  const response = await apiClient.post('contact', parsed)
+  return response.data.data
 }
 
 export const useSubmitEmContact = () => {

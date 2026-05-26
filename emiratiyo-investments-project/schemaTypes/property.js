@@ -195,6 +195,42 @@ export default {
       }
     },
     {
+      name: 'buildingName',
+      title: 'Building Name',
+      type: 'string',
+      description: 'e.g. Al Murjan Tower'
+    },
+    {
+      name: 'furnishing',
+      title: 'Furnishing',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Furnished', value: 'furnished' },
+          { title: 'Unfurnished', value: 'unfurnished' },
+          { title: 'Semi-Furnished', value: 'semi-furnished' },
+        ]
+      }
+    },
+    {
+      name: 'floorNumber',
+      title: 'Floor Number',
+      type: 'number',
+    },
+    {
+      name: 'viewType',
+      title: 'View Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Sea View', value: 'sea-view' },
+          { title: 'City View', value: 'city-view' },
+          { title: 'Garden View', value: 'garden-view' },
+          { title: 'Pool View', value: 'pool-view' },
+        ]
+      }
+    },
+    {
       name: 'amenities',
       title: 'Amenities',
       type: 'array',

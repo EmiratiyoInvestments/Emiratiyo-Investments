@@ -38,9 +38,11 @@ const PropertyDetailPage = () => {
     : [];
 
   const formatPrice = (price, label) => {
-    if (label) return label;
-    if (!price) return "Price on Request";
-    return `AED ${price.toLocaleString()}`;
+    if (typeof price === "number" && price > 0) {
+      const priceStr = `AED ${price.toLocaleString()}`;
+      return label ? `${priceStr} ${label}` : priceStr;
+    }
+    return label || "Price on Request";
   };
 
   const formatArea = (area, unit) => {
@@ -120,6 +122,30 @@ const PropertyDetailPage = () => {
     return phone.replace(/\s+/g, "");
   };
 
+  const formatFloorNumber = (floor) => {
+    if (!floor) return null;
+    const num = floor % 100;
+    if (num === 1) return "1st Floor";
+    if (num === 2) return "2nd Floor";
+    if (num === 3) return "3rd Floor";
+    return `${floor}th Floor`;
+  };
+
+  const formatFurnishing = (furnishing) => {
+    if (!furnishing) return null;
+    return furnishing.charAt(0).toUpperCase() + furnishing.slice(1);
+  };
+
+  const formatViewType = (viewType) => {
+    if (!viewType) return null;
+    return viewType.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+  };
+
+  const formatPricePerSqft = (price, area) => {
+    if (!price || !area) return null;
+    return `${Math.round(price / area)} AED/sqft`;
+  };
+
   const formatWhatsAppLink = (whatsapp, propertyTitle) => {
     const message = encodeURIComponent(
       `Hi, I'm interested in the property: ${propertyTitle}`,
@@ -137,12 +163,11 @@ const PropertyDetailPage = () => {
     );
   };
 
-  // PortableText components for rendering rich text
   const portableTextComponents = {
     block: {
       h1: ({ children }) => (
         <h1
-          className="text-3xl font-bold mb-4 text-black"
+          className="text-3xl font-bold mb-5 mt-8 text-[#e83f25] first:mt-0"
           style={{ fontFamily: "var(--font-display)" }}
         >
           {children}
@@ -150,7 +175,7 @@ const PropertyDetailPage = () => {
       ),
       h2: ({ children }) => (
         <h2
-          className="text-2xl font-bold mb-3 text-black"
+          className="text-2xl font-bold mb-4 mt-8 text-[#e83f25] first:mt-0"
           style={{ fontFamily: "var(--font-display)" }}
         >
           {children}
@@ -158,7 +183,7 @@ const PropertyDetailPage = () => {
       ),
       h3: ({ children }) => (
         <h3
-          className="text-xl font-bold mb-3 text-black"
+          className="text-xl font-bold mt-8 mb-4 text-[#e83f25] first:mt-0"
           style={{ fontFamily: "var(--font-display)" }}
         >
           {children}
@@ -166,73 +191,32 @@ const PropertyDetailPage = () => {
       ),
       normal: ({ children }) => (
         <p
-          className="mb-4 text-gray-600 leading-relaxed"
+          className="mb-4 text-gray-700 leading-relaxed text-[15px]"
           style={{ fontFamily: "var(--font-body)" }}
         >
           {children}
         </p>
-      ),
-      blockquote: ({ children }) => (
-        <blockquote className="border-l-4 border-[#e83f25] pl-4 italic my-4 text-gray-600">
-          {children}
-        </blockquote>
       ),
     },
     marks: {
       strong: ({ children }) => (
         <strong className="font-bold text-black">{children}</strong>
       ),
-      em: ({ children }) => <em className="italic">{children}</em>,
-      link: ({ children, value }) => (
-        <a
-          href={value.href}
-          className="text-[#e83f25] hover:underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {children}
-        </a>
-      ),
+      em: ({ children }) => <em className="italic text-gray-700">{children}</em>,
     },
     list: {
       bullet: ({ children }) => (
-        <ul
-          className="list-disc list-inside mb-4 space-y-2 text-gray-600"
-          style={{ fontFamily: "var(--font-body)" }}
-        >
+        <ul className="mb-6 mt-3 space-y-2.5" style={{ fontFamily: "var(--font-body)" }}>
           {children}
         </ul>
       ),
-      number: ({ children }) => (
-        <ol
-          className="list-decimal list-inside mb-4 space-y-2 text-gray-600"
-          style={{ fontFamily: "var(--font-body)" }}
-        >
-          {children}
-        </ol>
-      ),
     },
     listItem: {
-      bullet: ({ children }) => <li className="ml-4">{children}</li>,
-      number: ({ children }) => <li className="ml-4">{children}</li>,
-    },
-    types: {
-      image: ({ value }) => (
-        <div className="my-6">
-          <img
-            src={urlFor(value).width(800).url()}
-            alt={value.alt || "Property image"}
-            className="w-full rounded-lg"
-          />
-          {value.caption && (
-            <p
-              className="text-sm text-gray-500 text-center mt-2"
-              style={{ fontFamily: "var(--font-body)" }}
-            >
-              {value.caption}
-            </p>
-          )}
-        </div>
+      bullet: ({ children }) => (
+        <li className="flex items-start gap-3 text-gray-700">
+          <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#e83f25] flex-shrink-0"></div>
+          <span className="text-[15px] leading-relaxed flex-1">{children}</span>
+        </li>
       ),
     },
   };
@@ -349,11 +333,10 @@ const PropertyDetailPage = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`relative h-20 rounded-lg overflow-hidden ${
-                        index === currentImageIndex
+                      className={`relative h-20 rounded-lg overflow-hidden ${index === currentImageIndex
                           ? "ring-2 ring-[#e83f25]"
                           : "opacity-60 hover:opacity-100"
-                      } transition-all`}
+                        } transition-all`}
                     >
                       <img
                         src={urlFor(image).width(200).url()}
@@ -483,14 +466,14 @@ const PropertyDetailPage = () => {
               )}
               {/* Full Description */}
               {property.description && (
-                <div className="mb-8">
+                <div className="mb-12 pt-8 border-t border-gray-100">
                   <h2
-                    className="text-2xl font-bold text-black mb-4"
+                    className="text-2xl font-bold text-black mb-6"
                     style={{ fontFamily: "var(--font-display)" }}
                   >
-                    Description
+                    About this Property
                   </h2>
-                  <div className="prose max-w-none">
+                  <div className="max-w-none">
                     <PortableText
                       value={property.description}
                       components={portableTextComponents}
@@ -589,6 +572,20 @@ const PropertyDetailPage = () => {
                   </p>
                 </div>
 
+                {/* WhatsApp Button */}
+                {property.agent?.whatsapp && (
+                  <a
+                    href={`https://wa.me/${property.agent.whatsapp}?text=${encodeURIComponent(`Hi, I'm interested in: ${property.title}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors"
+                    style={{ fontFamily: "var(--font-body)" }}
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    WhatsApp
+                  </a>
+                )}
+
                 {/* Agent Preview Card */}
                 {property.agent && (
                   <div className="bg-white border border-gray-200 p-6 rounded-xl">
@@ -676,6 +673,102 @@ const PropertyDetailPage = () => {
                           style={{ fontFamily: "var(--font-body)" }}
                         >
                           {property.developer}
+                        </span>
+                      </div>
+                    )}
+                    {property.completionStatus && (
+                      <div className="flex justify-between">
+                        <span
+                          className="text-gray-500"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          Completion Status
+                        </span>
+                        <span
+                          className="font-medium text-black capitalize"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          {property.completionStatus.replace("-", " ")}
+                        </span>
+                      </div>
+                    )}
+                    {property.buildingName && (
+                      <div className="flex justify-between">
+                        <span
+                          className="text-gray-500"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          Building Name
+                        </span>
+                        <span
+                          className="font-medium text-black"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          {property.buildingName}
+                        </span>
+                      </div>
+                    )}
+                    {property.floorNumber && (
+                      <div className="flex justify-between">
+                        <span
+                          className="text-gray-500"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          Floor
+                        </span>
+                        <span
+                          className="font-medium text-black"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          {formatFloorNumber(property.floorNumber)}
+                        </span>
+                      </div>
+                    )}
+                    {property.furnishing && (
+                      <div className="flex justify-between">
+                        <span
+                          className="text-gray-500"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          Furnishing
+                        </span>
+                        <span
+                          className="font-medium text-black"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          {formatFurnishing(property.furnishing)}
+                        </span>
+                      </div>
+                    )}
+                    {property.viewType && (
+                      <div className="flex justify-between">
+                        <span
+                          className="text-gray-500"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          View
+                        </span>
+                        <span
+                          className="font-medium text-black"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          {formatViewType(property.viewType)}
+                        </span>
+                      </div>
+                    )}
+                    {formatPricePerSqft(property.price, property.area) && (
+                      <div className="flex justify-between">
+                        <span
+                          className="text-gray-500"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          Price per sqft
+                        </span>
+                        <span
+                          className="font-medium text-black"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          {formatPricePerSqft(property.price, property.area)}
                         </span>
                       </div>
                     )}

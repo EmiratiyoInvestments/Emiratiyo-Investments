@@ -42,7 +42,7 @@ VITE_SANITY_DATASET=production
 VITE_SANITY_TOKEN=sk...your-token-here
 
 # Backend
-VITE_BACKEND_API=https://thecheatschool-api.fly.dev
+VITE_BACKEND_API=https://emiratiyo-api.fly.dev/api/v1
 VITE_EMIRA_SECRET=your-secret-here
 ```
 
@@ -57,7 +57,7 @@ VITE_SANITY_DATASET=production
 VITE_SANITY_TOKEN=
 
 # Backend
-VITE_BACKEND_API=https://thecheatschool-api.fly.dev
+VITE_BACKEND_API=https://emiratiyo-api.fly.dev/api/v1
 VITE_EMIRA_SECRET=
 ```
 

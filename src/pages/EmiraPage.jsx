@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { LogOut } from "lucide-react";
 import { toast, Toaster } from "sonner";
-import { useEmiraStore }        from "../store/emiraStore";
-import { useCsvData }           from "../hooks/useCsvData";
+import { useEmiraStore } from "../store/emiraStore";
+import { useCsvData } from "../hooks/useCsvData";
 import { performEmiraAnalysis } from "../hooks/useEmiraMutations";
+import { apiClient } from "../config/api";
 
 import {
   ANALYSIS_BUTTONS,
@@ -14,9 +15,9 @@ import {
   incrementRequestCount,
   buildMarketContext,
 } from "../features/emira/emiraFormatters";
-import EmiraAuth       from "../features/emira/EmiraAuth";
-import EmiraHistory    from "../features/emira/EmiraHistory";
-import EmiraControls   from "../features/emira/EmiraControls";
+import EmiraAuth from "../features/emira/EmiraAuth";
+import EmiraHistory from "../features/emira/EmiraHistory";
+import EmiraControls from "../features/emira/EmiraControls";
 import EmiraResultCard from "../features/emira/EmiraResultCard";
 
 /* ─────────────────────────────────────────── component */
@@ -32,19 +33,19 @@ export default function EmiraPage() {
     setError, setActiveAnalysis, setLastAnalysisTime, resetAnalysis,
   } = useEmiraStore();
 
-  const [selectedArea,      setSelectedArea]      = useState("");
-  const [additionalContext, setAdditionalContext]  = useState("");
-  const [history,           setHistory]            = useState([]);
-  const [selectedHistoryId, setSelectedHistoryId]  = useState(null);
-  const [historyLoading,    setHistoryLoading]     = useState(false);
-  const [confirmDeleteId,   setConfirmDeleteId]    = useState(null);
-  const [processingMsgIdx,  setProcessingMsgIdx]   = useState(0);
-  const [requestCount,      setRequestCount]       = useState(() => getRequestCount());
-  const [historyMobileOpen, setHistoryMobileOpen]  = useState(false);
+  const [selectedArea, setSelectedArea] = useState("");
+  const [additionalContext, setAdditionalContext] = useState("");
+  const [history, setHistory] = useState([]);
+  const [selectedHistoryId, setSelectedHistoryId] = useState(null);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [processingMsgIdx, setProcessingMsgIdx] = useState(0);
+  const [requestCount, setRequestCount] = useState(() => getRequestCount());
+  const [historyMobileOpen, setHistoryMobileOpen] = useState(false);
 
   const abortControllerRef = useRef(null);
-  const isLoggingOutRef    = useRef(false);
-  const resultEndRef       = useRef(null);
+  const isLoggingOutRef = useRef(false);
+  const resultEndRef = useRef(null);
 
   const { stats, loading: csvLoading } = useCsvData();
 
@@ -52,21 +53,28 @@ export default function EmiraPage() {
   const fetchHistory = async () => {
     try {
       setHistoryLoading(true);
-      const res  = await fetch(`${import.meta.env.VITE_BACKEND_API}/api/internal/history`, { headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352' } });
-      const data = await res.json();
+      const res = await apiClient.get('internal/emira/history', {
+        headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352' }
+      });
+      const data = res.data;
       setHistory(Array.isArray(data) ? data : []);
-    } catch (err) { console.error("Failed to fetch history:", err); }
+    } catch (err) { 
+      console.error("Failed to fetch history:", err);
+    }
     finally { setHistoryLoading(false); }
   };
 
   const loadHistoryItem = async (id) => {
     try {
-      const res  = await fetch(`${import.meta.env.VITE_BACKEND_API}/api/internal/history/${id}`, { headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352'} });
-      const data = await res.json();
-      if (data?.responseText) {
-        useEmiraStore.getState().setAnalysisResult(data.responseText);
-        setActiveAnalysis(data.analysisType);
-        setSelectedArea(data.area || "");
+      const res = await apiClient.get(`internal/emira/history/${id}`, {
+        headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352' }
+      });
+      const item = res.data;
+      if (item) {
+        const content = item.responseText || "";
+        useEmiraStore.getState().setAnalysisResult(content);
+        setActiveAnalysis(item.analysisType || "MARKET_OVERVIEW");
+        setSelectedArea(item.area || "");
         setIsComplete(true);
         setSelectedHistoryId(id);
       }
@@ -76,14 +84,24 @@ export default function EmiraPage() {
   const deleteHistoryItem = async (e, id) => {
     e.stopPropagation();
     setHistory((prev) => prev.filter((item) => item.id !== id));
-    try { await fetch(`${import.meta.env.VITE_BACKEND_API}/api/internal/history/${id}`, { method: "DELETE", headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352' } }); }
-    catch (err) { console.error("Failed to delete history item:", err); }
+    try {
+      await apiClient.delete(`internal/emira/history/${id}`, {
+        headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352' }
+      });
+    } catch (err) { console.error("Failed to delete history item:", err); }
   };
 
-  useEffect(() => { if (isAuthenticated) fetchHistory(); }, [isAuthenticated]);
-  useEffect(() => { resultEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [analysisResult]);
+  useEffect(() => { 
+    if (isAuthenticated) fetchHistory(); 
+  }, [isAuthenticated]);
 
-  /* ── rotating processing messages ── */
+  /* Auto-scroll removed as requested */
+  // useEffect(() => { 
+  //   if (isStreaming) {
+  //     resultEndRef.current?.scrollIntoView({ behavior: "smooth" }); 
+  //   }
+  // }, [analysisResult, isStreaming]);
+
   useEffect(() => {
     if (!isStreaming) return;
     setProcessingMsgIdx(0);
@@ -102,33 +120,42 @@ export default function EmiraPage() {
     const controller = new AbortController();
     abortControllerRef.current = controller;
     try {
-      const response = await performEmiraAnalysis({
-        payload: { area: selectedArea, analysisType: typeId, marketContext: buildMarketContext(stats, selectedArea), additionalContext },
+      const resultData = await performEmiraAnalysis({
+        payload: {
+          area: selectedArea || "General Dubai",
+          analysisType: typeId,
+          marketContext: buildMarketContext(stats, selectedArea),
+          additionalContext
+        },
         signal: controller.signal,
       });
-      const reader  = response.body.getReader();
-      const decoder = new TextDecoder();
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
+
+      if (resultData) {
+        useEmiraStore.getState().setAnalysisResult(resultData || "");
         setIsComplete(true);
         setLastAnalysisTime(new Date());
-        for (const line of decoder.decode(value, { stream: true }).split("\n")) {
-          if (line.startsWith("event:error") || line.includes("event: error")) { setError("Emira is temporarily unavailable. Please try again."); return; }
-          if (line.startsWith("data:")) {
-            const data = line.slice(5).trim();
-            if (!data || data === "[DONE]") continue;
-            try { const p = JSON.parse(data); if (p.content) appendAnalysisResult(p.content + " "); }
-            catch { appendAnalysisResult(data + " "); }
-          }
-        }
       }
-    } catch (err) { if (err.name !== "AbortError") setError(err.message || "An error occurred."); }
-    finally {
-      setIsStreaming(false);
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        setError(err.message || "An error occurred.");
+      }
+    } finally {
       abortControllerRef.current = null;
-      toast.success("Report saved — click it in History to see the formatted result.", {
-        duration: 7000,
+      try {
+        await new Promise((r) => setTimeout(r, 1500));
+        const res = await apiClient.get('internal/emira/history', {
+          headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || "49352" }
+        });
+        const data = res.data;
+        const latest = Array.isArray(data) && data[0];
+        if (latest?.id) {
+          await loadHistoryItem(latest.id);
+          setHistory(Array.isArray(data) ? data : []);
+        }
+      } catch (e) { console.error("Auto-format load failed:", e); }
+      setIsStreaming(false);
+      toast.success("Analysis complete — report saved to History.", {
+        duration: 5000,
         style: { fontFamily: "Raleway, sans-serif", fontSize: 13, fontWeight: 600 },
       });
     }
@@ -146,7 +173,7 @@ export default function EmiraPage() {
 
   const activeBtn = ANALYSIS_BUTTONS.find((b) => b.id === activeAnalysis);
 
-  /* ══════════════════════════════════════════════════════ RENDER */
+  /*  RENDER */
   return (
     <>
       <style>{`
@@ -155,7 +182,7 @@ export default function EmiraPage() {
         .emira-root *, .emira-root *::before, .emira-root *::after { box-sizing: border-box; }
         .emira-root { min-height: 100vh; background: #f7f7f7; font-family: 'Raleway', sans-serif; color: #000; }
 
-        .e-label { font-size: 9px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: #939393; font-family: 'Raleway', sans-serif; }
+        .e-label { font-size: 13px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #939393; font-family: 'Raleway', sans-serif; }
 
         .ab { width: 100%; background: #fff; border: none; border-bottom: 1px solid #f0f0f0; padding: 16px 24px; cursor: pointer; display: flex; align-items: center; gap: 16px; font-family: 'Raleway', sans-serif; text-align: left; position: relative; overflow: hidden; }
         .ab::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: #e83f25; transform: scaleY(0); transform-origin: bottom; transition: transform 0.22s ease; }

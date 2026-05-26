@@ -5,26 +5,17 @@ const EMIRA_SECRET = import.meta.env.VITE_EMIRA_SECRET || '49352'
 
 /**
  * Encapsulates the Emira analysis logic.
- * Uses fetch for native browser-side streaming support.
+ * Now uses standard axios POST request for JSON response.
  */
 export const performEmiraAnalysis = async ({ payload, signal }) => {
-  const baseUrl = apiClient.defaults.baseURL || 'https://thecheatschool-api.fly.dev'
-  
-  const response = await fetch(`${baseUrl}/api/internal/analyse`, {
-    method: 'POST',
+  const response = await apiClient.post('internal/emira/analyse', payload, {
     headers: {
-      'Content-Type': 'application/json',
       'X-Internal-Key': EMIRA_SECRET,
     },
-    body: JSON.stringify(payload),
     signal,
   })
 
-  if (!response.ok) {
-    throw new Error('Analysis failed')
-  }
-
-  return response
+  return response.data.data
 }
 
 export const useEmiraAnalysis = () => {

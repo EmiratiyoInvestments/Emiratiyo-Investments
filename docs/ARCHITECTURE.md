@@ -2,8 +2,8 @@
 
 Backend API for Emiratiyo Investments.
 
-- **API Base URL:** `https://thecheatschool-api.fly.dev`
-- **Repository:** https://github.com/thecheatschool/the-cheat-school-server
+- **API Base URL:** `https://emiratiyo-api.fly.dev`
+- **Repository:** https://github.com/EmiratiyoInvestments/emiratiyo-investments-api
 - **Infrastructure:** Fly.io (always-on, auto-wake ping from frontend on load)
 
 ---
@@ -46,21 +46,21 @@ Monolith layered architecture. No microservices. Clear separation between routin
 ### Health
 | Method | Path | Description |
 |---|---|---|
-| `GET` | `/api/health` | Liveness check — used for cold-start pre-warm ping |
+| `GET` | `/actuator/health` | Liveness check — used for cold-start pre-warm ping |
 
 ### Emira AI
 | Method | Path | Description |
 |---|---|---|
-| `POST` | `/api/internal/analyse` | Streams SSE analysis response from AI model |
-| `GET` | `/api/internal/history` | Returns list of saved analysis reports |
-| `GET` | `/api/internal/history/:id` | Returns full text of a single report |
-| `DELETE` | `/api/internal/history/:id` | Deletes a report |
+| `POST` | `/api/v1/internal/emira/analyse` | Streams SSE analysis response from AI model |
+| `GET` | `/api/v1/internal/emira/history` | Returns list of saved analysis reports |
+| `GET` | `/api/v1/internal/emira/history/:id` | Returns full text of a single report |
+| `DELETE` | `/api/v1/internal/emira/history/:id` | Deletes a report |
 
 ### Public Forms
 | Method | Path | Description |
 |---|---|---|
-| `POST` | `/api/contact` | Contact form submission |
-| `POST` | `/api/business-setup` | Business setup enquiry |
+| `POST` | `/api/v1/contact` | Contact form submission |
+| `POST` | `/api/v1/business-setup` | Business setup enquiry |
 
 ---
 
@@ -81,4 +81,4 @@ Frontend reads the stream via `ReadableStream`, accumulates chunks into Zustand 
 
 ## Cold Start
 
-Fly.io spins down idle instances. `App.jsx` fires a silent `GET /api/health` ping on every page load to pre-warm the server before any user action.
+Fly.io spins down idle instances. `App.jsx` fires a silent `GET /actuator/health` ping on every page load to pre-warm the server before any user action.

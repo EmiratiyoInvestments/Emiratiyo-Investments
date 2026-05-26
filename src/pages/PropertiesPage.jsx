@@ -1,37 +1,106 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { Bed, Bath, Maximize, MapPin, Tag } from "lucide-react";
+import {
+  Bed,
+  Bath,
+  Maximize,
+  MapPin,
+  Tag,
+  Search,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { client, urlFor } from "../config/sanityClient";
 import { ALL_PROPERTIES_QUERY } from "../lib/sanity/propertyQueries";
+import { usePropertyFilters } from "../hooks/usePropertyFilters";
+import Pagination from "../components/blog/Pagination";
 
 const PropertiesPage = () => {
-  const [selectedStatus, setSelectedStatus] = useState("all");
-  const [selectedType, setSelectedType] = useState("all");
-
   const { data: properties, isLoading: propertiesLoading } = useQuery({
     queryKey: ["properties"],
     queryFn: () => client.fetch(ALL_PROPERTIES_QUERY),
   });
 
-  // Filter properties based on selected status and type
-  const filteredProperties = properties?.filter((property) => {
-    const statusMatch =
-      selectedStatus === "all" || property.status === selectedStatus;
-    const typeMatch =
-      selectedType === "all" || property.propertyType === selectedType;
-    return statusMatch && typeMatch;
-  });
+  const {
+    searchQuery,
+    filters,
+    sortBy,
+    currentPage,
+    totalPages,
+    filteredProperties,
+    paginatedProperties,
+    featuredProperty,
+    remainingProperties,
+    resultsCount,
+    totalCount,
+    handleSearch,
+    handleStatusChange,
+    handleTypeChange,
+    handleBedroomsChange,
+    handlePriceChange,
+    handleSortChange,
+    handlePageChange,
+    clearAllFilters,
+    removeFilter,
+    getActiveFilters,
+  } = usePropertyFilters(properties || []);
 
-  const featuredProperty = filteredProperties?.find((p) => p.featured);
-  const remainingProperties = filteredProperties?.filter(
-    (p) => p._id !== featuredProperty?._id,
-  );
+  const activeFilters = getActiveFilters();
+  const hasActiveFilters = Object.keys(activeFilters).length > 0;
+
+  // Helper for price range label
+  const getPriceRangeLabel = () => {
+    const isSale =
+      filters.status === "all" ||
+      filters.status === "for-sale" ||
+      filters.status === "off-plan";
+    const priceLabels = {
+      "under-1m": "Under 1M",
+      "1m-3m": "1M-3M",
+      "3m-5m": "3M-5M",
+      "5m-plus": "5M+",
+      "under-50k": "Under 50K",
+      "50k-100k": "50K-100K",
+      "100k-200k": "100K-200K",
+      "200k-plus": "200K+",
+    };
+    return priceLabels[filters.priceRange] || "Any";
+  };
+
+  const getFilterBadgeLabel = (filterKey, value) => {
+    const labels = {
+      search: `"${value}"`,
+      status: {
+        "for-sale": "For Sale",
+        "for-rent": "For Rent",
+        "off-plan": "Off-Plan",
+        sold: "Sold",
+      },
+      propertyType: {
+        apartment: "Apartment",
+        villa: "Villa",
+        townhouse: "Townhouse",
+        penthouse: "Penthouse",
+        studio: "Studio",
+      },
+      bedrooms: value,
+      priceRange: getPriceRangeLabel(),
+    };
+
+    if (filterKey === "status" || filterKey === "propertyType") {
+      return labels[filterKey][value] || value;
+    }
+    return labels[filterKey] || value;
+  };
 
   const formatPrice = (price, label) => {
-    if (label) return label;
-    if (!price) return "Price on Request";
-    return `AED ${price.toLocaleString()}`;
+    if (typeof price === "number" && price > 0) {
+      const priceStr = `AED ${price.toLocaleString()}`;
+      return label ? `${priceStr} ${label}` : priceStr;
+    }
+    return label || "Price on Request";
   };
 
   const formatArea = (area, unit) => {
@@ -95,7 +164,7 @@ const PropertiesPage = () => {
       <main className="min-h-screen bg-white pt-24 pb-20">
         <div className="max-w-6xl mx-auto px-6">
           {/* PAGE HEADER */}
-          <div className="mb-12 text-center">
+          <div className="mb-8 text-center">
             <p
               className="text-sm font-semibold uppercase tracking-widest text-[#e83f25] mb-3"
               style={{ fontFamily: "var(--font-body)" }}
@@ -117,132 +186,251 @@ const PropertiesPage = () => {
             </p>
           </div>
 
-          {/* FILTERS */}
-          <div className="mb-12 space-y-4">
+          {/* SEARCH BAR */}
+          <div className="mb-8">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="🔍 Search by title, location, building name..."
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 bg-[#f7f7f7] rounded-lg border border-gray-200 focus:outline-none focus:border-[#e83f25] transition-colors"
+                style={{ fontFamily: "var(--font-body)" }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => handleSearch("")}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* FILTER PILLS SECTION */}
+          <div className="mb-8 space-y-6 bg-[#f7f7f7] p-6 rounded-lg">
             {/* Status Filter */}
             <div>
               <p
-                className="text-sm font-semibold text-gray-600 mb-3"
+                className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3"
                 style={{ fontFamily: "var(--font-body)" }}
               >
-                Property Status
+                Status
               </p>
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => setSelectedStatus("all")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedStatus === "all"
-                    ? "bg-[#e83f25] text-white"
-                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+              <div className="flex gap-2 flex-wrap">
+                {[
+                  { label: "All", value: "all" },
+                  { label: "For Sale", value: "for-sale" },
+                  { label: "For Rent", value: "for-rent" },
+                  { label: "Off-Plan", value: "off-plan" },
+                  { label: "Sold", value: "sold" },
+                ].map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => handleStatusChange(option.value)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      filters.status === option.value
+                        ? "bg-[#e83f25] text-white"
+                        : "bg-white text-black hover:bg-[#e83f25] hover:text-white border border-gray-200"
                     }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  All
-                </button>
-                <button
-                  onClick={() => setSelectedStatus("for-sale")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedStatus === "for-sale"
-                    ? "bg-[#e83f25] text-white"
-                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                    }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  For Sale
-                </button>
-                <button
-                  onClick={() => setSelectedStatus("for-rent")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedStatus === "for-rent"
-                    ? "bg-[#e83f25] text-white"
-                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                    }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  For Rent
-                </button>
-                <button
-                  onClick={() => setSelectedStatus("off-plan")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedStatus === "off-plan"
-                    ? "bg-[#e83f25] text-white"
-                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                    }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  Off-Plan
-                </button>
+                    style={{ fontFamily: "var(--font-body)" }}
+                  >
+                    {option.label}
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* Type Filter */}
             <div>
               <p
-                className="text-sm font-semibold text-gray-600 mb-3"
+                className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3"
                 style={{ fontFamily: "var(--font-body)" }}
               >
-                Property Type
+                Type
               </p>
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => setSelectedType("all")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedType === "all"
-                    ? "bg-[#e83f25] text-white"
-                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+              <div className="flex gap-2 flex-wrap">
+                {[
+                  { label: "All", value: "all" },
+                  { label: "Apartment", value: "apartment" },
+                  { label: "Villa", value: "villa" },
+                  { label: "Townhouse", value: "townhouse" },
+                  { label: "Penthouse", value: "penthouse" },
+                  { label: "Studio", value: "studio" },
+                ].map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => handleTypeChange(option.value)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      filters.propertyType === option.value
+                        ? "bg-[#e83f25] text-white"
+                        : "bg-white text-black hover:bg-[#e83f25] hover:text-white border border-gray-200"
                     }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  All Types
-                </button>
-                <button
-                  onClick={() => setSelectedType("apartment")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedType === "apartment"
-                    ? "bg-[#e83f25] text-white"
-                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    style={{ fontFamily: "var(--font-body)" }}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Bedrooms Filter */}
+            <div>
+              <p
+                className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3"
+                style={{ fontFamily: "var(--font-body)" }}
+              >
+                Bedrooms
+              </p>
+              <div className="flex gap-2 flex-wrap">
+                {[
+                  { label: "Any", value: "any" },
+                  { label: "1+", value: "1+" },
+                  { label: "2+", value: "2+" },
+                  { label: "3+", value: "3+" },
+                  { label: "4+", value: "4+" },
+                ].map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => handleBedroomsChange(option.value)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      filters.bedrooms === option.value
+                        ? "bg-[#e83f25] text-white"
+                        : "bg-white text-black hover:bg-[#e83f25] hover:text-white border border-gray-200"
                     }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  Apartment
-                </button>
-                <button
-                  onClick={() => setSelectedType("villa")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedType === "villa"
-                    ? "bg-[#e83f25] text-white"
-                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
+                    style={{ fontFamily: "var(--font-body)" }}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Price Filter */}
+            <div>
+              <p
+                className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3"
+                style={{ fontFamily: "var(--font-body)" }}
+              >
+                Price
+              </p>
+              <div className="flex gap-2 flex-wrap">
+                {(filters.status === "all" ||
+                filters.status === "for-sale" ||
+                filters.status === "off-plan"
+                  ? [
+                      { label: "Any", value: "any" },
+                      { label: "Under 1M", value: "under-1m" },
+                      { label: "1M - 3M", value: "1m-3m" },
+                      { label: "3M - 5M", value: "3m-5m" },
+                      { label: "5M+", value: "5m-plus" },
+                    ]
+                  : [
+                      { label: "Any", value: "any" },
+                      { label: "Under 50K", value: "under-50k" },
+                      { label: "50K - 100K", value: "50k-100k" },
+                      { label: "100K - 200K", value: "100k-200k" },
+                      { label: "200K+", value: "200k-plus" },
+                    ]
+                ).map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => handlePriceChange(option.value)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      filters.priceRange === option.value
+                        ? "bg-[#e83f25] text-white"
+                        : "bg-white text-black hover:bg-[#e83f25] hover:text-white border border-gray-200"
                     }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  Villa
-                </button>
-                <button
-                  onClick={() => setSelectedType("townhouse")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedType === "townhouse"
-                    ? "bg-[#e83f25] text-white"
-                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                    }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  Townhouse
-                </button>
-                <button
-                  onClick={() => setSelectedType("penthouse")}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedType === "penthouse"
-                    ? "bg-[#e83f25] text-white"
-                    : "bg-[#f7f7f7] text-black hover:bg-[#e83f25] hover:text-white"
-                    }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  Penthouse
-                </button>
+                    style={{ fontFamily: "var(--font-body)" }}
+                  >
+                    {option.label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* NO PROPERTIES STATE */}
+          {/* SORT & RESULTS ROW */}
+          <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <p
+              className="text-sm text-gray-600"
+              style={{ fontFamily: "var(--font-body)" }}
+            >
+              Showing{" "}
+              <span className="font-semibold text-black">
+                {resultsCount === 0 ? 0 : (currentPage - 1) * 9 + 1}
+              </span>{" "}
+              to{" "}
+              <span className="font-semibold text-black">
+                {Math.min(currentPage * 9, resultsCount)}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-black">{resultsCount}</span>{" "}
+              properties
+            </p>
+
+            <select
+              value={sortBy}
+              onChange={(e) => handleSortChange(e.target.value)}
+              className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 cursor-pointer hover:border-[#e83f25] focus:outline-none focus:border-[#e83f25] transition-colors"
+              style={{ fontFamily: "var(--font-body)" }}
+            >
+              <option value="newest">Sort: Newest</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="bedrooms">Most Bedrooms</option>
+              <option value="area">Largest Area</option>
+            </select>
+          </div>
+
+          {/* ACTIVE FILTERS BADGES */}
+          {hasActiveFilters && (
+            <div className="mb-8 flex flex-wrap items-center gap-2">
+              {Object.entries(activeFilters).map(([key, value]) => (
+                <div
+                  key={key}
+                  className="flex items-center gap-2 bg-[#e83f25] text-white px-3 py-1.5 rounded-full text-sm"
+                  style={{ fontFamily: "var(--font-body)" }}
+                >
+                  <span>{getFilterBadgeLabel(key, value)}</span>
+                  <button
+                    onClick={() => removeFilter(key)}
+                    className="ml-1 hover:opacity-70 transition-opacity"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={clearAllFilters}
+                className="text-sm font-medium text-gray-600 hover:text-[#e83f25] transition-colors ml-2"
+                style={{ fontFamily: "var(--font-body)" }}
+              >
+                Clear all
+              </button>
+            </div>
+          )}
+
+          {/* NO RESULTS STATE */}
           {filteredProperties?.length === 0 && (
             <div className="text-center py-20">
               <p
-                className="text-gray-400 text-lg"
+                className="text-gray-400 text-lg mb-4"
                 style={{ fontFamily: "var(--font-body)" }}
               >
-                No properties found matching your criteria.
+                No properties match your search.
               </p>
+              {hasActiveFilters && (
+                <button
+                  onClick={clearAllFilters}
+                  className="px-6 py-2 bg-[#e83f25] text-white rounded-lg font-medium hover:bg-[#d63620] transition-colors"
+                  style={{ fontFamily: "var(--font-body)" }}
+                >
+                  Clear all filters
+                </button>
+              )}
             </div>
           )}
 
@@ -386,7 +574,7 @@ const PropertiesPage = () => {
               >
                 All Properties
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                 {remainingProperties.map((property) => (
                   <Link
                     to={`/properties/${property.slug.current}`}
@@ -509,6 +697,17 @@ const PropertiesPage = () => {
                   </Link>
                 ))}
               </div>
+
+              {/* PAGINATION */}
+              {totalPages > 1 && (
+                <div className="flex justify-center">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              )}
             </>
           )}
         </div>

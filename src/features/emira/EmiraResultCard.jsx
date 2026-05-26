@@ -37,6 +37,8 @@ export default function EmiraResultCard({
       "GROSS YIELD:", "NET YIELD:", "RISK LEVEL:", "OVERALL OUTLOOK:", "HOT OR NOT:",
       "OVERSUPPLY RISK:", "MACRO RISKS:", "LIQUIDITY RISK:", "REGULATORY RISK:",
       "MARKET TIMING:", "TRANSACTION ACTIVITY:", "BUYER DEMAND:", "PRICE TREND:",
+      "GOVERNMENT INITIATIVES:", "INFRASTRUCTURE:", "DEMAND FACTORS:", "SUPPLY PIPELINE:",
+      "MARKET MOMENTUM:", "VERDICT:",
     ];
     const ACCENT_HEADERS = [
       "CURRENT PRICE", "1 YEAR FORECAST", "3 YEAR FORECAST", "5 YEAR FORECAST",
@@ -53,27 +55,51 @@ export default function EmiraResultCard({
     ];
 
     const renderHighlighted = (str) => {
-      const RED_WORDS   = /\b(High|Strong|Bullish|Excellent)\b/g;
-      const GREEN_WORDS = /\b(Low risk|Safe|Stable)\b/gi;
+      const RED_WORDS   = /\b(High|Strong|Bullish|Excellent|Rapid|Booming)\b/g;
+      const GREEN_WORDS = /\b(Low risk|Safe|Stable|Positive|Steady)\b/gi;
+      const BOLD_PHRASES = [
+        "GOLDEN VISA", "D33", "ECONOMIC AGENDA", "EMIRATES ROAD E611", 
+        "SHEIKH MOHAMMED BIN ZAYED ROAD E311", "2040 URBAN MASTER PLAN",
+        "DUBAI METRO", "AL MAKTOUM AIRPORT"
+      ];
+
       return str.split(/(\*\*.*?\*\*)/g).flatMap((part, pi) => {
         if (part.startsWith("**") && part.endsWith("**"))
           return [<strong key={`b${pi}`} style={{ fontWeight: 700 }}>{part.slice(2, -2)}</strong>];
+        
         const segments = [];
         let remaining = part;
         let safetyIdx = 0;
+        
         while (remaining.length > 0 && safetyIdx++ < 200) {
           const redMatch   = RED_WORDS.exec(remaining);   RED_WORDS.lastIndex = 0;
           const greenMatch = GREEN_WORDS.exec(remaining); GREEN_WORDS.lastIndex = 0;
-          const first = [redMatch, greenMatch].filter(Boolean).sort((a, b) => a.index - b.index)[0];
+          
+          // Find first bold phrase
+          let boldMatch = null;
+          for (const phrase of BOLD_PHRASES) {
+            const idx = remaining.toUpperCase().indexOf(phrase);
+            if (idx !== -1 && (!boldMatch || idx < boldMatch.index)) {
+              boldMatch = { index: idx, text: remaining.slice(idx, idx + phrase.length) };
+            }
+          }
+
+          const first = [redMatch, greenMatch, boldMatch].filter(Boolean).sort((a, b) => a.index - b.index)[0];
           if (!first) { segments.push(remaining); break; }
           if (first.index > 0) segments.push(remaining.slice(0, first.index));
-          const isRed = first === redMatch;
-          segments.push(
-            <span key={`h${pi}-${first.index}`} style={{ color: isRed ? "#e83f25" : "#22c55e", fontWeight: 600 }}>
-              {first[0]}
-            </span>
-          );
-          remaining = remaining.slice(first.index + first[0].length);
+          
+          if (first === boldMatch) {
+            segments.push(<strong key={`bold-${pi}-${first.index}`} style={{ fontWeight: 700, color: "#000" }}>{first.text}</strong>);
+            remaining = remaining.slice(first.index + first.text.length);
+          } else {
+            const isRed = first === redMatch;
+            segments.push(
+              <span key={`h${pi}-${first.index}`} style={{ color: isRed ? "#e83f25" : "#22c55e", fontWeight: 600 }}>
+                {first[0]}
+              </span>
+            );
+            remaining = remaining.slice(first.index + first[0].length);
+          }
         }
         return segments;
       });
@@ -81,7 +107,7 @@ export default function EmiraResultCard({
 
     return text.split("\n").map((line, i) => {
       const trimmed = line.trim().replace(/\*\*/g, "");
-      if (!trimmed) return <div key={i} style={{ height: 12 }} />;
+      if (!trimmed) return <div key={i} style={{ height: 4 }} />;
 
       const matchedHeader = HEADERS.find((h) => trimmed.toUpperCase().includes(h));
       if (matchedHeader && trimmed.includes(":")) {
@@ -91,24 +117,26 @@ export default function EmiraResultCard({
         const isAccent = ACCENT_HEADERS.some((ah) => labelUp.includes(ah));
         const isShort  = value.length < 15;
         return (
-          <div key={i} style={{ marginBottom: 20, paddingBottom: 16, borderBottom: "1.5px solid #f0f0f0" }}>
-            <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.15em", textTransform: "uppercase", color: isAccent ? "#e83f25" : "#939393", display: "block", marginBottom: 6 }}>
+          <div key={i} style={{ marginBottom: 8, paddingBottom: 4, borderBottom: "1.5px solid #f0f0f0" }}>
+            <span style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.15em", textTransform: "uppercase", color: isAccent ? "#e83f25" : "#939393", display: "block", marginBottom: 2 }}>
               {label.trim()}
             </span>
-            <span style={isShort ? {
-              fontFamily: "Fields Display, sans-serif", fontSize: 28, fontWeight: 700, color: "#000", lineHeight: 1.1,
-            } : {
-              fontFamily: "Raleway, sans-serif", fontSize: 16, fontWeight: 700, color: "#0f172a", lineHeight: 1.5,
-            }}>
-              {value}
-            </span>
+            {value && (
+              <span style={isShort ? {
+                fontFamily: "Fields Display, sans-serif", fontSize: 28, fontWeight: 700, color: "#000", lineHeight: 1.1,
+              } : {
+                fontFamily: "Raleway, sans-serif", fontSize: 17, fontWeight: 700, color: "#0f172a", lineHeight: 1.5,
+              }}>
+                {value}
+              </span>
+            )}
           </div>
         );
       }
 
       if (trimmed.startsWith("-") || trimmed.startsWith("*") || trimmed.startsWith("•")) {
         return (
-          <div key={i} style={{ display: "flex", gap: 12, marginBottom: 12, alignItems: "flex-start" }}>
+          <div key={i} style={{ display: "flex", gap: 12, marginBottom: 8, alignItems: "flex-start" }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#e83f25", marginTop: 8, flexShrink: 0 }} />
             <p style={{ color: "#333", lineHeight: 1.7, margin: 0, fontSize: 14 }}>
               {renderHighlighted(trimmed.replace(/^[-*•]\s*/, ""))}
@@ -119,14 +147,14 @@ export default function EmiraResultCard({
 
       if (trimmed.toUpperCase().includes("DISCLAIMER:")) {
         return (
-          <p key={i} style={{ fontSize: 11, color: "#939393", marginTop: 40, fontStyle: "italic", borderTop: "1px solid #ebebeb", paddingTop: 20, lineHeight: 1.6 }}>
+          <p key={i} style={{ fontSize: 11, color: "#939393", marginTop: 24, fontStyle: "italic", borderTop: "1px solid #ebebeb", paddingTop: 16, lineHeight: 1.6 }}>
             {trimmed}
           </p>
         );
       }
 
       return (
-        <p key={i} style={{ color: "#444", marginBottom: 16, lineHeight: 1.8, fontSize: 14 }}>
+        <p key={i} style={{ color: "#444", marginBottom: 12, lineHeight: 1.8, fontSize: 14 }}>
           {renderHighlighted(trimmed)}
         </p>
       );

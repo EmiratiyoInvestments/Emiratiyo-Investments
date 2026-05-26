@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { API_BASE_URL } from '../config/api'
+import { apiClient } from '../config/api'
 
 let _status = 'connecting'
 let _listeners = new Set()
@@ -21,17 +21,17 @@ const startPoller = () => {
 
   const ping = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/actuator/health`, {
-        method: 'GET',
+      const res = await apiClient.get('https://emiratiyo-api.fly.dev/actuator/health', {
         signal: AbortSignal.timeout(8000),
       })
-      if (res.ok) {
+      if (res.status === 200 && res.data?.status === 'UP') {
         setStatus('ready')
+        setTimeout(ping, 25000) 
         return 
       }
     } catch {
     }
-    setTimeout(ping, 10000) 
+    setTimeout(ping, 2000) 
   }
 
   ping()

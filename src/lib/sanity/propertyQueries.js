@@ -68,6 +68,10 @@ export const SINGLE_PROPERTY_QUERY = `*[_type == "property" && slug.current == $
     }
   },
   completionStatus,
+  buildingName,
+  furnishing,
+  floorNumber,
+  viewType,
   amenities,
   featured,
   virtualTourUrl,

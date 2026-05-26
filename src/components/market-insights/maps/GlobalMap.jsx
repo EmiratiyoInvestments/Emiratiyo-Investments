@@ -15,11 +15,12 @@ import {
 } from "lucide-react";
 
 const formatPriceLabel = (price, priceLabel) => {
-  if (priceLabel) return priceLabel;
-  if (!price) return "POA";
-  if (price >= 1000000) return `${(price / 1000000).toFixed(1)}M`;
-  if (price >= 1000) return `${(price / 1000).toFixed(0)}K`;
-  return `${price.toLocaleString()}`;
+  if (typeof price === "number" && price > 0) {
+    if (price >= 1000000) return `${(price / 1000000).toFixed(1)}M`;
+    if (price >= 1000) return `${(price / 1000).toFixed(0)}K`;
+    return `${price.toLocaleString()}`;
+  }
+  return priceLabel || "POA";
 };
 
 const getLabelColors = (status, isSelected) => {
@@ -186,9 +187,11 @@ const GlobalMap = ({ properties }) => {
   };
 
   const formatPrice = (price, label) => {
-    if (label) return label;
-    if (!price) return "Price on Request";
-    return `AED ${price.toLocaleString()}`;
+    if (typeof price === "number" && price > 0) {
+      const priceStr = `AED ${price.toLocaleString()}`;
+      return label ? `${priceStr} ${label}` : priceStr;
+    }
+    return label || "Price on Request";
   };
 
   if (!validProperties || validProperties.length === 0) {

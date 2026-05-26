@@ -15,8 +15,8 @@ export const emBusinessSetupSchema = z.object({
 
 export const submitEmBusinessSetup = async (payload) => {
   const parsed = emBusinessSetupSchema.parse(payload)
-  const response = await apiClient.post('/api/em/business-setup', parsed)
-  return response.data
+  const response = await apiClient.post('business-setup', parsed)
+  return response.data.data
 }
 
 export const useSubmitEmBusinessSetup = () => {
