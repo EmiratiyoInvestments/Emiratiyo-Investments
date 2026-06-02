@@ -15,6 +15,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import "./index.css";
 import ROICalculator from "./components/ui/ROICalculator";
+import { Analytics } from "@vercel/analytics/react";
 
 const MainLayout = ({ children }) => {
   const location = useLocation();
@@ -39,24 +40,27 @@ const MainLayout = ({ children }) => {
 const App = () => {
 
   return (
-    <Router>
-      <MainLayout>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/home" element={<LandingPage />} />
-          <Route path="/blog" element={<BlogsPage />} />
-          <Route path="/blog/:slug" element={<BlogDetailPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/market-insights" element={<MarketInsightsPage />} />
-          <Route path="/properties" element={<PropertiesPage />} />
-          <Route path="/properties/:slug" element={<PropertyDetailPage />} />
-          <Route path="/business-setup" element={<BusinessSetupPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/agent" element={<EmiraPage />} />
-        </Routes>
-      </MainLayout>
-    </Router>
+    <>
+      <Router>
+        <MainLayout>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/home" element={<LandingPage />} />
+            <Route path="/blog" element={<BlogsPage />} />
+            <Route path="/blog/:slug" element={<BlogDetailPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/market-insights" element={<MarketInsightsPage />} />
+            <Route path="/properties" element={<PropertiesPage />} />
+            <Route path="/properties/:slug" element={<PropertyDetailPage />} />
+            <Route path="/business-setup" element={<BusinessSetupPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/agent" element={<EmiraPage />} />
+          </Routes>
+        </MainLayout>
+      </Router>
+      <Analytics />
+    </>
   );
 };
 
