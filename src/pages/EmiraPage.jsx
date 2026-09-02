@@ -4,35 +4,34 @@ import { motion, AnimatePresence } from "framer-motion";
 import { LogOut } from "lucide-react";
 import { toast, Toaster } from "sonner";
 import { useEmiraStore } from "../store/emiraStore";
-import { useCsvData } from "../hooks/useCsvData";
+import { useTransactionData } from "../features/market-intelligence";
 import { performEmiraAnalysis } from "../hooks/useEmiraMutations";
 import { apiClient } from "../config/api";
-
-import {
-  ANALYSIS_BUTTONS,
-  PROCESSING_MSGS,
-  getRequestCount,
-  incrementRequestCount,
-  buildMarketContext,
-} from "../features/emira/emiraFormatters";
+import { ANALYSIS_BUTTONS, PROCESSING_MSGS, getRequestCount, incrementRequestCount, buildMarketContext } from "../features/emira/emiraFormatters";
 import EmiraAuth from "../features/emira/EmiraAuth";
 import EmiraHistory from "../features/emira/EmiraHistory";
 import EmiraControls from "../features/emira/EmiraControls";
 import EmiraResultCard from "../features/emira/EmiraResultCard";
-
-/* ─────────────────────────────────────────── component */
-
 export default function EmiraPage() {
   const navigate = useNavigate();
-
   const {
-    isAuthenticated, login, logout,
-    analysisResult, isStreaming, isComplete, error: streamError,
-    activeAnalysis, lastAnalysisTime,
-    appendAnalysisResult, setIsStreaming, setIsComplete,
-    setError, setActiveAnalysis, setLastAnalysisTime, resetAnalysis,
+    isAuthenticated,
+    login,
+    logout,
+    analysisResult,
+    isStreaming,
+    isComplete,
+    error: streamError,
+    activeAnalysis,
+    lastAnalysisTime,
+    appendAnalysisResult,
+    setIsStreaming,
+    setIsComplete,
+    setError,
+    setActiveAnalysis,
+    setLastAnalysisTime,
+    resetAnalysis
   } = useEmiraStore();
-
   const [selectedArea, setSelectedArea] = useState("");
   const [additionalContext, setAdditionalContext] = useState("");
   const [history, setHistory] = useState([]);
@@ -42,32 +41,35 @@ export default function EmiraPage() {
   const [processingMsgIdx, setProcessingMsgIdx] = useState(0);
   const [requestCount, setRequestCount] = useState(() => getRequestCount());
   const [historyMobileOpen, setHistoryMobileOpen] = useState(false);
-
   const abortControllerRef = useRef(null);
   const isLoggingOutRef = useRef(false);
   const resultEndRef = useRef(null);
-
-  const { stats, loading: csvLoading } = useCsvData();
-
-  /* ── history ── */
+  const {
+    stats,
+    loading: csvLoading
+  } = useTransactionData();
   const fetchHistory = async () => {
     try {
       setHistoryLoading(true);
       const res = await apiClient.get('internal/emira/history', {
-        headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352' }
+        headers: {
+          "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352'
+        }
       });
       const data = res.data;
       setHistory(Array.isArray(data) ? data : []);
-    } catch (err) { 
+    } catch (err) {
       console.error("Failed to fetch history:", err);
+    } finally {
+      setHistoryLoading(false);
     }
-    finally { setHistoryLoading(false); }
   };
-
-  const loadHistoryItem = async (id) => {
+  const loadHistoryItem = async id => {
     try {
       const res = await apiClient.get(`internal/emira/history/${id}`, {
-        headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352' }
+        headers: {
+          "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352'
+        }
       });
       const item = res.data;
       if (item) {
@@ -78,39 +80,33 @@ export default function EmiraPage() {
         setIsComplete(true);
         setSelectedHistoryId(id);
       }
-    } catch (err) { console.error("Failed to load history item:", err); }
+    } catch (err) {
+      console.error("Failed to load history item:", err);
+    }
   };
-
   const deleteHistoryItem = async (e, id) => {
     e.stopPropagation();
-    setHistory((prev) => prev.filter((item) => item.id !== id));
+    setHistory(prev => prev.filter(item => item.id !== id));
     try {
       await apiClient.delete(`internal/emira/history/${id}`, {
-        headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352' }
+        headers: {
+          "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || '49352'
+        }
       });
-    } catch (err) { console.error("Failed to delete history item:", err); }
+    } catch (err) {
+      console.error("Failed to delete history item:", err);
+    }
   };
-
-  useEffect(() => { 
-    if (isAuthenticated) fetchHistory(); 
+  useEffect(() => {
+    if (isAuthenticated) fetchHistory();
   }, [isAuthenticated]);
-
-  /* Auto-scroll removed as requested */
-  // useEffect(() => { 
-  //   if (isStreaming) {
-  //     resultEndRef.current?.scrollIntoView({ behavior: "smooth" }); 
-  //   }
-  // }, [analysisResult, isStreaming]);
-
   useEffect(() => {
     if (!isStreaming) return;
     setProcessingMsgIdx(0);
-    const id = setInterval(() => setProcessingMsgIdx((i) => (i + 1) % PROCESSING_MSGS.length), 2000);
+    const id = setInterval(() => setProcessingMsgIdx(i => (i + 1) % PROCESSING_MSGS.length), 2000);
     return () => clearInterval(id);
   }, [isStreaming]);
-
-  /* ── analysis ── */
-  const startAnalysis = async (typeId) => {
+  const startAnalysis = async typeId => {
     if (isStreaming) abortControllerRef.current?.abort();
     setRequestCount(incrementRequestCount());
     resetAnalysis();
@@ -127,9 +123,8 @@ export default function EmiraPage() {
           marketContext: buildMarketContext(stats, selectedArea),
           additionalContext
         },
-        signal: controller.signal,
+        signal: controller.signal
       });
-
       if (resultData) {
         useEmiraStore.getState().setAnalysisResult(resultData || "");
         setIsComplete(true);
@@ -142,9 +137,11 @@ export default function EmiraPage() {
     } finally {
       abortControllerRef.current = null;
       try {
-        await new Promise((r) => setTimeout(r, 1500));
+        await new Promise(r => setTimeout(r, 1500));
         const res = await apiClient.get('internal/emira/history', {
-          headers: { "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || "49352" }
+          headers: {
+            "X-Internal-Key": import.meta.env.VITE_EMIRA_SECRET || "49352"
+          }
         });
         const data = res.data;
         const latest = Array.isArray(data) && data[0];
@@ -152,17 +149,24 @@ export default function EmiraPage() {
           await loadHistoryItem(latest.id);
           setHistory(Array.isArray(data) ? data : []);
         }
-      } catch (e) { console.error("Auto-format load failed:", e); }
+      } catch (e) {
+        console.error("Auto-format load failed:", e);
+      }
       setIsStreaming(false);
       toast.success("Analysis complete — report saved to History.", {
         duration: 5000,
-        style: { fontFamily: "Raleway, sans-serif", fontSize: 13, fontWeight: 600 },
+        style: {
+          fontFamily: "Raleway, sans-serif",
+          fontSize: 13,
+          fontWeight: 600
+        }
       });
     }
   };
-
-  const stopAnalysis = () => { abortControllerRef.current?.abort(); setIsStreaming(false); };
-
+  const stopAnalysis = () => {
+    abortControllerRef.current?.abort();
+    setIsStreaming(false);
+  };
   const handleLogout = () => {
     isLoggingOutRef.current = true;
     logout();
@@ -170,12 +174,8 @@ export default function EmiraPage() {
     resetAnalysis();
     navigate("/");
   };
-
-  const activeBtn = ANALYSIS_BUTTONS.find((b) => b.id === activeAnalysis);
-
-  /*  RENDER */
-  return (
-    <>
+  const activeBtn = ANALYSIS_BUTTONS.find(b => b.id === activeAnalysis);
+  return <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -221,7 +221,6 @@ export default function EmiraPage() {
         .history-entry:hover { background: #fafafa !important; }
         .delete-btn:hover { color: #e83f25 !important; }
 
-        /* ── Responsive layout ── */
         .emira-header { padding: 0 40px; }
         .emira-header-left { gap: 20px; }
         .emira-header-right { gap: 20px; }
@@ -231,7 +230,6 @@ export default function EmiraPage() {
         .emira-flex-outer { display: flex; gap: 24px; align-items: flex-start; }
         .emira-inner-grid { display: grid; grid-template-columns: 300px 1fr; gap: 24px; min-height: 680px; }
 
-        /* tablet: 600–900px */
         @media (max-width: 900px) {
           .emira-header { padding: 0 20px; }
           .emira-header-left { gap: 12px; }
@@ -242,7 +240,6 @@ export default function EmiraPage() {
           .emira-inner-grid { grid-template-columns: 1fr; min-height: auto; }
         }
 
-        /* mobile: <480px */
         @media (max-width: 480px) {
           .emira-header { padding: 0 14px; height: 56px !important; }
           .emira-header-left h1 { font-size: 18px !important; }
@@ -255,22 +252,66 @@ export default function EmiraPage() {
 
       <div className="emira-root">
 
-        {/* PAGE (blurred when unauthed) */}
-        <div style={{ filter: !isAuthenticated ? "blur(4px) brightness(0.85)" : "none", transition: "filter 0.4s ease", pointerEvents: !isAuthenticated ? "none" : "auto", userSelect: !isAuthenticated ? "none" : "auto" }}>
+        {}
+        <div style={{
+        filter: !isAuthenticated ? "blur(4px) brightness(0.85)" : "none",
+        transition: "filter 0.4s ease",
+        pointerEvents: !isAuthenticated ? "none" : "auto",
+        userSelect: !isAuthenticated ? "none" : "auto"
+      }}>
 
-          {/* HEADER */}
-          <header className="emira-header" style={{ position: "fixed", top: 0, left: 0, right: 0, height: 64, background: "#fff", borderBottom: "1px solid #ebebeb", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 50 }}>
-            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "#e83f25" }} />
-            <div className="emira-header-left" style={{ display: "flex", alignItems: "center" }}>
-              <h1 style={{ fontFamily: "Fields Display, sans-serif", fontSize: 24, fontWeight: 700, color: "#000", letterSpacing: "0.02em", lineHeight: 1 }}>
-                EMIRA<span style={{ color: "#e83f25" }}>.</span>
+          {}
+          <header className="emira-header" style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 64,
+          background: "#fff",
+          borderBottom: "1px solid #ebebeb",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          zIndex: 50
+        }}>
+            <div style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 3,
+            background: "#e83f25"
+          }} />
+            <div className="emira-header-left" style={{
+            display: "flex",
+            alignItems: "center"
+          }}>
+              <h1 style={{
+              fontFamily: "Fields Display, sans-serif",
+              fontSize: 24,
+              fontWeight: 700,
+              color: "#000",
+              letterSpacing: "0.02em",
+              lineHeight: 1
+            }}>
+                EMIRA<span style={{
+                color: "#e83f25"
+              }}>.</span>
               </h1>
-              <div style={{ width: 1, height: 18, background: "#ebebeb", margin: "0 12px" }} />
+              <div style={{
+              width: 1,
+              height: 18,
+              background: "#ebebeb",
+              margin: "0 12px"
+            }} />
               <span className="e-label">AI Market Analyst v1.0</span>
             </div>
 
-            <div className="emira-header-right" style={{ display: "flex", alignItems: "center" }}>
-              {/* daily request counter */}
+            <div className="emira-header-right" style={{
+            display: "flex",
+            alignItems: "center"
+          }}>
+              {}
               <div className="emira-request-counter">
                 <svg width="36" height="36" viewBox="0 0 36 36">
                   <circle cx="18" cy="18" r="14" fill="none" stroke="#ebebeb" strokeWidth="3" />
@@ -278,89 +319,119 @@ export default function EmiraPage() {
                   <text x="18" y="22" textAnchor="middle" fontSize="9" fontWeight="800" fill={requestCount >= 10 ? "#ef4444" : "#000"} fontFamily="Raleway, sans-serif">{Math.min(requestCount, 10)}</text>
                 </svg>
                 <div>
-                  <div className="e-label" style={{ marginBottom: 2 }}>Today</div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: requestCount >= 10 ? "#ef4444" : "#000" }}>{Math.max(0, 10 - requestCount)}/10 left</div>
+                  <div className="e-label" style={{
+                  marginBottom: 2
+                }}>Today</div>
+                  <div style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color: requestCount >= 10 ? "#ef4444" : "#000"
+                }}>{Math.max(0, 10 - requestCount)}/10 left</div>
                 </div>
               </div>
-              <button onClick={handleLogout} className="logout-btn" style={{ display: "flex", alignItems: "center", gap: 6, background: "transparent", border: "1.5px solid #ebebeb", color: "#939393", padding: "8px 14px", fontFamily: "Raleway, sans-serif", fontSize: 10, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", cursor: "pointer", transition: "all 0.18s", borderRadius: 0 }}>
+              <button onClick={handleLogout} className="logout-btn" style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              background: "transparent",
+              border: "1.5px solid #ebebeb",
+              color: "#939393",
+              padding: "8px 14px",
+              fontFamily: "Raleway, sans-serif",
+              fontSize: 10,
+              fontWeight: 800,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              transition: "all 0.18s",
+              borderRadius: 0
+            }}>
                 <LogOut size={13} /> <span className="emira-logout-label">Terminate</span>
               </button>
             </div>
           </header>
 
-          {/* MAIN */}
-          <main className="emira-main" style={{ maxWidth: 1600, margin: "0 auto" }}>
+          {}
+          <main className="emira-main" style={{
+          maxWidth: 1600,
+          margin: "0 auto"
+        }}>
             <div className="emira-flex-outer">
 
-              <EmiraHistory
-                history={history}
-                historyLoading={historyLoading}
-                selectedHistoryId={selectedHistoryId}
-                confirmDeleteId={confirmDeleteId}
-                setConfirmDeleteId={setConfirmDeleteId}
-                loadHistoryItem={loadHistoryItem}
-                deleteHistoryItem={deleteHistoryItem}
-                fetchHistory={fetchHistory}
-                isMobileOpen={historyMobileOpen}
-                setMobileOpen={setHistoryMobileOpen}
-              />
+              <EmiraHistory history={history} historyLoading={historyLoading} selectedHistoryId={selectedHistoryId} confirmDeleteId={confirmDeleteId} setConfirmDeleteId={setConfirmDeleteId} loadHistoryItem={loadHistoryItem} deleteHistoryItem={deleteHistoryItem} fetchHistory={fetchHistory} isMobileOpen={historyMobileOpen} setMobileOpen={setHistoryMobileOpen} />
 
-              <div style={{ flex: 1, minWidth: 0 }}>
-                {/* page title */}
-                <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 32, flexWrap: "wrap", gap: 16 }}>
+              <div style={{
+              flex: 1,
+              minWidth: 0
+            }}>
+                {}
+                <div style={{
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "space-between",
+                marginBottom: 32,
+                flexWrap: "wrap",
+                gap: 16
+              }}>
                   <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-                      <div style={{ width: 28, height: 3, background: "#e83f25" }} />
-                      <span className="e-label" style={{ color: "#e83f25" }}>Dubai Real Estate</span>
+                    <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    marginBottom: 8
+                  }}>
+                      <div style={{
+                      width: 28,
+                      height: 3,
+                      background: "#e83f25"
+                    }} />
+                      <span className="e-label" style={{
+                      color: "#e83f25"
+                    }}>Dubai Real Estate</span>
                     </div>
-                    <h2 style={{ fontFamily: "Fields Display, sans-serif", fontSize: "clamp(28px, 4.5vw, 64px)", fontWeight: 700, color: "#000", lineHeight: 0.9, letterSpacing: "-0.025em" }}>
-                      Market<br /><span style={{ color: "#e83f25" }}>Intelligence.</span>
+                    <h2 style={{
+                    fontFamily: "Fields Display, sans-serif",
+                    fontSize: "clamp(28px, 4.5vw, 64px)",
+                    fontWeight: 700,
+                    color: "#000",
+                    lineHeight: 0.9,
+                    letterSpacing: "-0.025em"
+                  }}>
+                      Market<br /><span style={{
+                      color: "#e83f25"
+                    }}>Intelligence.</span>
                     </h2>
                   </div>
-                  {lastAnalysisTime && (
-                    <div style={{ textAlign: "right" }}>
-                      <div className="e-label" style={{ marginBottom: 6 }}>Last Transmission</div>
-                      <div style={{ fontFamily: "Fields Display, sans-serif", fontSize: 24, fontWeight: 700, color: "#000" }}>
-                        {lastAnalysisTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  {lastAnalysisTime && <div style={{
+                  textAlign: "right"
+                }}>
+                      <div className="e-label" style={{
+                    marginBottom: 6
+                  }}>Last Transmission</div>
+                      <div style={{
+                    fontFamily: "Fields Display, sans-serif",
+                    fontSize: 24,
+                    fontWeight: 700,
+                    color: "#000"
+                  }}>
+                        {lastAnalysisTime.toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit"
+                    })}
                       </div>
-                    </div>
-                  )}
+                    </div>}
                 </div>
 
-                {/* inner grid: controls | results */}
+                {}
                 <div className="emira-inner-grid">
 
-                  <EmiraControls
-                    selectedArea={selectedArea}
-                    setSelectedArea={setSelectedArea}
-                    additionalContext={additionalContext}
-                    setAdditionalContext={setAdditionalContext}
-                    stats={stats}
-                    csvLoading={csvLoading}
-                    requestCount={requestCount}
-                    isStreaming={isStreaming}
-                    isComplete={isComplete}
-                    activeAnalysis={activeAnalysis}
-                    startAnalysis={startAnalysis}
-                    stopAnalysis={stopAnalysis}
-                  />
+                  <EmiraControls selectedArea={selectedArea} setSelectedArea={setSelectedArea} additionalContext={additionalContext} setAdditionalContext={setAdditionalContext} stats={stats} csvLoading={csvLoading} requestCount={requestCount} isStreaming={isStreaming} isComplete={isComplete} activeAnalysis={activeAnalysis} startAnalysis={startAnalysis} stopAnalysis={stopAnalysis} />
 
-                  <div style={{ minHeight: "auto" }}>
+                  <div style={{
+                  minHeight: "auto"
+                }}>
                     <AnimatePresence mode="wait">
-                      <EmiraResultCard
-                        key={activeAnalysis || "empty"}
-                        analysisResult={analysisResult}
-                        isComplete={isComplete}
-                        activeAnalysis={activeAnalysis}
-                        selectedArea={selectedArea}
-                        stats={stats}
-                        isStreaming={isStreaming}
-                        streamError={streamError}
-                        processingMsgIdx={processingMsgIdx}
-                        resultEndRef={resultEndRef}
-                        activeBtn={activeBtn}
-                        lastAnalysisTime={lastAnalysisTime}
-                      />
+                      <EmiraResultCard key={activeAnalysis || "empty"} analysisResult={analysisResult} isComplete={isComplete} activeAnalysis={activeAnalysis} selectedArea={selectedArea} stats={stats} isStreaming={isStreaming} streamError={streamError} processingMsgIdx={processingMsgIdx} resultEndRef={resultEndRef} activeBtn={activeBtn} lastAnalysisTime={lastAnalysisTime} />
                     </AnimatePresence>
                   </div>
 
@@ -370,14 +441,9 @@ export default function EmiraPage() {
           </main>
         </div>
 
-        {/* AUTH OVERLAY */}
-        <EmiraAuth
-          isAuthenticated={isAuthenticated}
-          login={login}
-          isLoggingOutRef={isLoggingOutRef}
-        />
+        {}
+        <EmiraAuth isAuthenticated={isAuthenticated} login={login} isLoggingOutRef={isLoggingOutRef} />
 
       </div>
-    </>
-  );
+    </>;
 }

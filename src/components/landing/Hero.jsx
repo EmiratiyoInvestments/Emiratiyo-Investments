@@ -1,79 +1,70 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import {
-  LineChart,
-  Line,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  AreaChart,
-  Area,
-} from "recharts";
-
+import { LineChart, Line, ResponsiveContainer, BarChart, Bar, AreaChart, Area } from "recharts";
 const Hero = () => {
-  const data1 = [
-    { v: 30 },
-    { v: 50 },
-    { v: 45 },
-    { v: 70 },
-    { v: 65 },
-    { v: 85 },
-  ];
-  const data2 = [
-    { v: 40 },
-    { v: 35 },
-    { v: 55 },
-    { v: 50 },
-    { v: 70 },
-    { v: 90 },
-  ];
-  const data3 = [
-    { v: 20 },
-    { v: 45 },
-    { v: 40 },
-    { v: 60 },
-    { v: 55 },
-    { v: 75 },
-  ];
-
-  return (
-    <section
-      className="relative w-full overflow-hidden  bg-white"
-    >
+  const data1 = [{
+    v: 30
+  }, {
+    v: 50
+  }, {
+    v: 45
+  }, {
+    v: 70
+  }, {
+    v: 65
+  }, {
+    v: 85
+  }];
+  const data2 = [{
+    v: 40
+  }, {
+    v: 35
+  }, {
+    v: 55
+  }, {
+    v: 50
+  }, {
+    v: 70
+  }, {
+    v: 90
+  }];
+  const data3 = [{
+    v: 20
+  }, {
+    v: 45
+  }, {
+    v: 40
+  }, {
+    v: 60
+  }, {
+    v: 55
+  }, {
+    v: 75
+  }];
+  return <section className="relative w-full overflow-hidden  bg-white">
       <div className="relative w-full z-40 min-h-[600px] sm:h-[90vh] sm:min-h-[750px] flex flex-col items-center justify-center pt-10 sm:pt-0">
-        <img
-          src="/images/Dubai.jpg"
-          alt="Luxury Dubai Property"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        <img src="/images/Dubai.jpg" alt="Luxury Dubai Property" className="absolute inset-0 w-full h-full object-cover" />
 
         <div className="absolute inset-0 bg-black/60 z-10"></div>
 
         <div className="absolute bottom-[-1px] z-20 left-0 w-full">
-          <svg
-            className="w-full block"
-            style={{ height: "120px" }}
-            viewBox="0 0 1440 150"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-          >
+          <svg className="w-full block" style={{
+          height: "120px"
+        }} viewBox="0 0 1440 150" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
             <path d="M0 0L720 100L1440 0V150H0V0Z" fill="#f7f7f7" />
           </svg>
         </div>
 
         <div className="relative cursor-pointer z-30 w-full max-w-5xl px-6 text-center sm:translate-y-0">
-          <h1
-            style={{ color: "white" }}
-            className="text-3xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight tracking-tight"
-          >
+          <h1 style={{
+          color: "white"
+        }} className="text-3xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight tracking-tight">
             AI-Powered Real Estate Investments
             <br />
-            <span
-              className="text-[#e83f25]"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
+            <span className="text-[#e83f25]" style={{
+            fontFamily: "var(--font-display)"
+          }}>
               in UAE
             </span>
           </h1>
@@ -104,13 +95,7 @@ const Hero = () => {
                 <div className="mb-2">
                   <ResponsiveContainer width="100%" height={40}>
                     <LineChart data={data1}>
-                      <Line
-                        type="monotone"
-                        dataKey="v"
-                        stroke="#e83f25"
-                        strokeWidth={3}
-                        dot={false}
-                      />
+                      <Line type="monotone" dataKey="v" stroke="#e83f25" strokeWidth={3} dot={false} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -138,13 +123,7 @@ const Hero = () => {
                 <div className="mb-2">
                   <ResponsiveContainer width="100%" height={40}>
                     <AreaChart data={data3}>
-                      <Area
-                        type="monotone"
-                        dataKey="v"
-                        stroke="#e83f25"
-                        fill="#e83f25"
-                        fillOpacity={0.3}
-                      />
+                      <Area type="monotone" dataKey="v" stroke="#e83f25" fill="#e83f25" fillOpacity={0.3} />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -164,8 +143,6 @@ const Hero = () => {
         </div>
       </div>
 
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;

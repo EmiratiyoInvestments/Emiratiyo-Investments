@@ -1,35 +1,16 @@
 import React from "react";
 import { Check } from "lucide-react";
-
 const WhyDubai = () => {
-  const benefits = [
-    "Zero Income Tax",
-    "Zero Capital Gains Tax",
-    "Zero Wealth Tax",
-    "Projected 10% ROI",
-    "Golden Visa Eligibility",
-    "USD-Pegged Currency Stability",
-    "Direct Flights from 97 Countries",
-    "Freehold Ownership Available",
-  ];
+  const benefits = ["Zero Income Tax", "Zero Capital Gains Tax", "Zero Wealth Tax", "Projected 10% ROI", "Golden Visa Eligibility", "USD-Pegged Currency Stability", "Direct Flights from 97 Countries", "Freehold Ownership Available"];
+  return <section className="relative md:-mt-25 py-30 z-10 bg-white overflow-hidden">
+      <div className="absolute  right-10 w-40 h-40 opacity-5" style={{
+      background: "#e83f25",
+      clipPath: "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
+    }}></div>
 
-  return (
-    <section className="relative md:-mt-25 py-30 z-10 bg-white overflow-hidden">
-      <div
-        className="absolute  right-10 w-40 h-40 opacity-5"
-        style={{
-          background: "#e83f25",
-          clipPath:
-            "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)",
-        }}
-      ></div>
-
-      <div
-        className="absolute bottom-20 left-10 w-32 h-32 opacity-5 rounded-full"
-        style={{
-          background: "#000000",
-        }}
-      ></div>
+      <div className="absolute bottom-20 left-10 w-32 h-32 opacity-5 rounded-full" style={{
+      background: "#000000"
+    }}></div>
 
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
@@ -75,40 +56,28 @@ const WhyDubai = () => {
             </div>
 
             <div className="rounded-2xl overflow-hidden shadow-lg h-80">
-              <img
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800"
-                alt="Construction Site"
-                className="w-full h-full object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800" alt="Construction Site" className="w-full h-full object-cover" />
             </div>
           </div>
 
           <div>
             <div className="rounded-2xl overflow-hidden shadow-lg h-80 mb-10">
-              <img
-                src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800"
-                alt="Dubai Skyline"
-                className="w-full h-full object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" alt="Dubai Skyline" className="w-full h-full object-cover" />
             </div>
 
             <div className="grid grid-cols-2 gap-x-8 gap-y-8 mt-12">
-              {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-center gap-4">
+              {benefits.map((benefit, index) => <div key={index} className="flex items-center gap-4">
                   <div className="w-8 h-8 bg-[#e83f25]/10 rounded-full flex items-center justify-center text-[#e83f25] flex-shrink-0">
                     <Check className="w-5 h-5" strokeWidth={3} />
                   </div>
                   <p className="text-base text-[#000000] font-medium">
                     {benefit}
                   </p>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default WhyDubai;

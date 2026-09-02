@@ -1,17 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react";
-
 const Footer = () => {
-  return (
-    <footer className="bg-gray-100">
+  return <footer className="bg-gray-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
-        <div
-          className="relative overflow-hidden py-12 sm:py-16 px-6 sm:px-10 lg:px-16 rounded-2xl"
-          style={{
-            background: 'linear-gradient(135deg, #e83f25 0%, #ff5733 50%, #ff8566 100%)'
-          }}
-        >
+        <div className="relative overflow-hidden py-12 sm:py-16 px-6 sm:px-10 lg:px-16 rounded-2xl" style={{
+        background: 'linear-gradient(135deg, #e83f25 0%, #ff5733 50%, #ff8566 100%)'
+      }}>
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-black/10 rounded-full blur-3xl"></div>
 
@@ -38,11 +33,7 @@ const Footer = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             <div>
               <div className="mb-8 relative h-12">
-                <img
-                  src="/logos/transparent_1.png"
-                  alt="EMIRATIYO"
-                  className="absolute top-1/2 -translate-y-1/2 h-44 w-auto -ml-8 max-w-none"
-                />
+                <img src="/logos/transparent_1.png" alt="EMIRATIYO" className="absolute top-1/2 -translate-y-1/2 h-44 w-auto -ml-8 max-w-none" />
               </div>
               <p className="text-gray-600 leading-relaxed mb-6">
                 Your trusted partner in Dubai real estate investment. We leverage AI technology to match investors with their perfect properties, ensuring maximum ROI and seamless transactions.
@@ -69,25 +60,34 @@ const Footer = () => {
                 Quick Links
               </h4>
               <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                {[
-                  { to: "/", label: "Home" },
-                  { to: "/services", label: "Services" },
-                  { to: "/properties", label: "Properties" },
-                  { to: "/market-insights", label: "Market Insights" },
-                  { to: "/business-setup", label: "Business Setup" },
-                  { to: "/contact", label: "Contact" },
-                  { to: "/about", label: "About Us" },
-                  { to: "/blog", label: "Blog" },
-                ].map((link) => (
-                  <Link
-                    key={link.to}
-                    className="text-gray-600 hover:text-[#e83f25] transition-all duration-300 inline-flex items-center gap-2.5 group hover:translate-x-1"
-                    to={link.to}
-                  >
+                {[{
+                to: "/",
+                label: "Home"
+              }, {
+                to: "/services",
+                label: "Services"
+              }, {
+                to: "/properties",
+                label: "Properties"
+              }, {
+                to: "/market-insights",
+                label: "Market Insights"
+              }, {
+                to: "/business-setup",
+                label: "Business Setup"
+              }, {
+                to: "/contact",
+                label: "Contact"
+              }, {
+                to: "/about",
+                label: "About Us"
+              }, {
+                to: "/blog",
+                label: "Blog"
+              }].map(link => <Link key={link.to} className="text-gray-600 hover:text-[#e83f25] transition-all duration-300 inline-flex items-center gap-2.5 group hover:translate-x-1" to={link.to}>
                     <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-[#e83f25] transition-colors duration-300 flex-shrink-0"></span>
                     <span className="text-[15px]">{link.label}</span>
-                  </Link>
-                ))}
+                  </Link>)}
               </div>
             </div>
           </div>
@@ -101,20 +101,10 @@ const Footer = () => {
               </div>
 
               <div className="flex items-center gap-3">
-                <a
-                  href="https://www.instagram.com/emiratiyo/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 inline-flex justify-center items-center rounded-lg border border-gray-300 text-gray-600 hover:text-white hover:bg-[#e83f25] hover:border-[#e83f25] transition-all duration-300"
-                >
+                <a href="https://www.instagram.com/emiratiyo/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 inline-flex justify-center items-center rounded-lg border border-gray-300 text-gray-600 hover:text-white hover:bg-[#e83f25] hover:border-[#e83f25] transition-all duration-300">
                   <Instagram className="w-5 h-5" />
                 </a>
-                <a
-                  href="https://www.linkedin.com/company/emiratiyo/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 inline-flex justify-center items-center rounded-lg border border-gray-300 text-gray-600 hover:text-white hover:bg-[#e83f25] hover:border-[#e83f25] transition-all duration-300"
-                >
+                <a href="https://www.linkedin.com/company/emiratiyo/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 inline-flex justify-center items-center rounded-lg border border-gray-300 text-gray-600 hover:text-white hover:bg-[#e83f25] hover:border-[#e83f25] transition-all duration-300">
                   <Linkedin className="w-5 h-5" />
                 </a>
               </div>
@@ -122,8 +112,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;

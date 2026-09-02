@@ -1,22 +1,13 @@
 import React from "react";
-
 const AIFeatures = () => {
-  return (
-    <section className="relative py-9 sm:py-20 md:-mt-25 lg:py-28 bg-white overflow-hidden">
+  return <section className="relative py-9 sm:py-20 md:-mt-25 lg:py-28 bg-white overflow-hidden">
       <div className="absolute inset-0 pointer-events-none opacity-5">
-        <div
-          className="absolute top-[-100px] right-[-50px] w-[300px] h-[300px] bg-[#e83f25] opacity-30"
-          style={{
-            clipPath:
-              "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)",
-          }}
-        ></div>
-        <div
-          className="absolute bottom-[-150px] left-[-80px] w-[400px] h-[400px] bg-black opacity-20"
-          style={{
-            clipPath: "polygon(0 0, 100% 0, 85% 100%, 0% 100%)",
-          }}
-        ></div>
+        <div className="absolute top-[-100px] right-[-50px] w-[300px] h-[300px] bg-[#e83f25] opacity-30" style={{
+        clipPath: "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
+      }}></div>
+        <div className="absolute bottom-[-150px] left-[-80px] w-[400px] h-[400px] bg-black opacity-20" style={{
+        clipPath: "polygon(0 0, 100% 0, 85% 100%, 0% 100%)"
+      }}></div>
       </div>
 
       <div className="relative z-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -32,32 +23,11 @@ const AIFeatures = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-          <FeatureCard
-            title="Propeye™"
-            description="Propeye analyzes your investment goals, risk appetite, and return expectations to intelligently identify properties that align with your long-term portfolio strategy—so every decision is precise, data-backed, and confident."
-            ctaText="Try Now"
-            ctaLink="#"
-            imageSrc="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80"
-            imageAlt="Dubai Luxury Real Estate"
-          />
+          <FeatureCard title="Propeye™" description="Propeye analyzes your investment goals, risk appetite, and return expectations to intelligently identify properties that align with your long-term portfolio strategy—so every decision is precise, data-backed, and confident." ctaText="Try Now" ctaLink="#" imageSrc="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" imageAlt="Dubai Luxury Real Estate" />
 
-          <FeatureCard
-            title="ROI Predictor"
-            description="Predict your returns with our machine learning models based on comprehensive market data and historical trends"
-            ctaText="Calculate ROI"
-            ctaLink="#"
-            imageSrc="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80"
-            imageAlt="Modern Dubai Architecture"
-          />
+          <FeatureCard title="ROI Predictor" description="Predict your returns with our machine learning models based on comprehensive market data and historical trends" ctaText="Calculate ROI" ctaLink="#" imageSrc="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" imageAlt="Modern Dubai Architecture" />
 
-          <FeatureCard
-            title="Market Intelligence"
-            description="Real-time Dubai market insights powered by AI analytics to keep you ahead of market trends and opportunities"
-            ctaText="View Insights"
-            ctaLink="#"
-            imageSrc="https://images.unsplash.com/photo-1721184367933-5b0d8bb8360c?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            imageAlt="Dubai Marina Skyline"
-          />
+          <FeatureCard title="Market Intelligence" description="Real-time Dubai market insights powered by AI analytics to keep you ahead of market trends and opportunities" ctaText="View Insights" ctaLink="#" imageSrc="https://images.unsplash.com/photo-1721184367933-5b0d8bb8360c?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" imageAlt="Dubai Marina Skyline" />
         </div>
 
         <div className="mt-12 sm:mt-16 text-center">
@@ -109,26 +79,19 @@ const AIFeatures = () => {
           }
         }
       `}</style>
-    </section>
-  );
+    </section>;
 };
-
 const FeatureCard = ({
   title,
   description,
   ctaText,
   ctaLink,
   imageSrc,
-  imageAlt,
+  imageAlt
 }) => {
-  return (
-    <div className="group bg-white shadow-lg hover:shadow-2xl transition-all duration-400 hover:-translate-y-2 cursor-pointer overflow-hidden">
+  return <div className="group bg-white shadow-lg hover:shadow-2xl transition-all duration-400 hover:-translate-y-2 cursor-pointer overflow-hidden">
       <div className="h-48 sm:h-56 lg:h-64 relative overflow-hidden">
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-        />
+        <img src={imageSrc} alt={imageAlt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
       </div>
 
       <div className="p-6 lg:p-8">
@@ -136,29 +99,14 @@ const FeatureCard = ({
           {title}
         </h3>
         <p className="text-gray-600 leading-relaxed mb-6">{description}</p>
-        <a
-          href={ctaLink}
-          className="relative inline-flex items-center gap-2 font-semibold tracking-wide uppercase text-sm text-black hover:text-[#e83f25] transition-colors duration-300 group/link"
-        >
+        <a href={ctaLink} className="relative inline-flex items-center gap-2 font-semibold tracking-wide uppercase text-sm text-black hover:text-[#e83f25] transition-colors duration-300 group/link">
           {ctaText}
-          <svg
-            className="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 5l7 7-7 7"
-            />
+          <svg className="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
           </svg>
           <span className="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-[#e83f25] transition-all duration-300 group-hover/link:w-full"></span>
         </a>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default AIFeatures;

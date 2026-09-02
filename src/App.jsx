@@ -38,7 +38,6 @@ const MainLayout = ({ children }) => {
 };
 
 const App = () => {
-
   return (
     <>
       <Router>

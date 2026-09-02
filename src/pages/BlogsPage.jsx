@@ -7,18 +7,20 @@ import SearchBar from "../components/blog/SearchBar";
 import SortFilter from "../components/blog/SortFilter";
 import BlogList from "../components/blog/BlogList";
 import Pagination from "../components/blog/Pagination";
-
 const BlogsPage = () => {
-  const { data: blogs, isLoading: blogsLoading } = useQuery({
+  const {
+    data: blogs,
+    isLoading: blogsLoading
+  } = useQuery({
     queryKey: ["blogs"],
-    queryFn: () => client.fetch(ALL_BLOGS_QUERY),
+    queryFn: () => client.fetch(ALL_BLOGS_QUERY)
   });
-
-  const { data: categories } = useQuery({
+  const {
+    data: categories
+  } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => client.fetch(ALL_CATEGORIES_QUERY),
+    queryFn: () => client.fetch(ALL_CATEGORIES_QUERY)
   });
-
   const {
     search,
     sortOrder,
@@ -35,77 +37,33 @@ const BlogsPage = () => {
     handleMonthFilter,
     handleCategoryFilter,
     handlePageChange,
-    clearAllFilters,
+    clearAllFilters
   } = useBlogFilters(blogs);
-
-  return (
-    <div>
+  return <div>
       <main className="min-h-screen bg-white pt-24 pb-20">
-        <div className="max-w-6xl mx-auto px-6">
-          {/* ── Page Header ── */}
-          <div className="mb-12 text-center">
-            <p
-              className="text-sm font-semibold uppercase tracking-widest text-[#e83f25] mb-3"
-              style={{ fontFamily: "var(--font-body)" }}
-            >
+        <div className="max-w-6xl mx-auto px-6">          <div className="mb-12 text-center">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#e83f25] mb-3" style={{
+            fontFamily: "var(--font-body)"
+          }}>
               Our Blog
             </p>
-            <h1
-              className="text-5xl font-bold text-black mb-4"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
+            <h1 className="text-5xl font-bold text-black mb-4" style={{
+            fontFamily: "var(--font-display)"
+          }}>
               Market Insights & News
             </h1>
-            <p
-              className="text-gray-500 text-lg max-w-2xl mx-auto"
-              style={{ fontFamily: "var(--font-body)" }}
-            >
+            <p className="text-gray-500 text-lg max-w-2xl mx-auto" style={{
+            fontFamily: "var(--font-body)"
+          }}>
               Stay ahead with the latest Dubai real estate trends, investment
               strategies, and market analysis.
             </p>
-          </div>
-
-          {/* ── Search + Filter Controls ── */}
-          <div className="space-y-5 mb-12">
-            {/* Search Bar Row */}
-            <div className="flex justify-center">
+          </div>          <div className="space-y-5 mb-12">            <div className="flex justify-center">
               <SearchBar value={search} onChange={handleSearch} />
-            </div>
-
-            {/* Sort + Filter Row */}
-            <SortFilter
-              sortOrder={sortOrder}
-              onSortChange={handleSort}
-              selectedMonth={selectedMonth}
-              onMonthChange={handleMonthFilter}
-              availableMonths={availableMonths}
-              selectedCategory={selectedCategory}
-              onCategoryChange={handleCategoryFilter}
-              categories={categories}
-              hasActiveFilters={hasActiveFilters}
-              onClearAll={clearAllFilters}
-              totalResults={totalResults}
-            />
-          </div>
-
-          {/* ── Blog Grid ── */}
-          <BlogList
-            blogs={paginatedBlogs}
-            isLoading={blogsLoading}
-            onClearFilters={clearAllFilters}
-            hasActiveFilters={hasActiveFilters}
-          />
-
-          {/* ── Pagination ── */}
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
+            </div>            <SortFilter sortOrder={sortOrder} onSortChange={handleSort} selectedMonth={selectedMonth} onMonthChange={handleMonthFilter} availableMonths={availableMonths} selectedCategory={selectedCategory} onCategoryChange={handleCategoryFilter} categories={categories} hasActiveFilters={hasActiveFilters} onClearAll={clearAllFilters} totalResults={totalResults} />
+          </div>          <BlogList blogs={paginatedBlogs} isLoading={blogsLoading} onClearFilters={clearAllFilters} hasActiveFilters={hasActiveFilters} />          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default BlogsPage;

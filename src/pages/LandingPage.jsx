@@ -1,15 +1,13 @@
 import React from "react";
 import Hero from "../components/landing/Hero";
 import WhyChoseUs from "../components/landing/WhyChoseUs";
-
+import CompareAreas from "../components/landing/CompareAreas";
 import HowItWorks from "../components/landing/HowItWorks";
 import Testimonials from "../components/landing/Testimonials";
 import PropertyCarousel from "../components/landing/PropertyCarousel";
 import FAQ from "../components/landing/FAQ";
-
 const LandingPage = () => {
-  return (
-    <div>
+  return <div>
       <main>
         <div className="min-h-screen flex items-center justify-center">
           <Hero />
@@ -20,7 +18,7 @@ const LandingPage = () => {
         <div>
           <WhyChoseUs />
         </div>
-
+        <CompareAreas />
         <div>
           <HowItWorks />
         </div>
@@ -29,8 +27,6 @@ const LandingPage = () => {
         </div>
         <FAQ />
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default LandingPage;
