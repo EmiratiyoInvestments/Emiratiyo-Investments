@@ -52,81 +52,82 @@ const BusinessSetupPage = () => {
     });
   };
   return <div className="w-full bg-[#f7f7f7]">
-      <section className="relative w-full overflow-hidden">        <div className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center">
-          <img src="/images/museum.jpg" alt="Dubai Urban City" className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-black/60" />
+    <section className="relative w-full overflow-hidden">
+      <div className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center">
+        <img src="/images/museum.jpg" alt="Dubai Urban City" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/60" />
 
-          <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-              Build Smart. Launch Fast.
-            </h1>
-            <p className="text-lg md:text-xl text-white/90 leading-relaxed">
-              From idea to operation in just 48 hours
-            </p>
-          </div>
-        </div>        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-32 pb-20 z-20">
-          <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-2">              <div className="bg-[#f7f7f7] p-8 md:p-12 flex flex-col justify-center">
-                <h2 className="text-2xl md:text-3xl font-bold text-[#000000] mb-6">
-                  Get Started with Confidence
-                </h2>
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto mb-16 md:mb-24">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+            Build Smart. Launch Fast.
+          </h1>
+        </div>
+      </div>
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-32 pb-20 z-20">
+        <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            <div className="bg-[#f7f7f7] p-8 md:p-12 flex flex-col justify-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#000000] mb-6">
+                Get Started with Confidence
+              </h2>
 
-                <div className="space-y-4">
-                  <Feature text="Dubai-based Business Setup Experts" />
-                  <Feature text="Real Estate Focused Licensing" />
-                  <Feature text="Fast-track setup within 48 hours" />
-                </div>
-              </div>              <div className="p-8 md:p-12 order-first lg:order-last">
-                <h2 className="text-2xl md:text-3xl font-bold text-[#000000] mb-6">
-                  Start Your Business Setup
-                </h2>
-
-                <form className="space-y-5" onSubmit={onSubmit}>
-                  {status === "sent" ? <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in">
-                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                        <CheckCircle2 className="w-8 h-8 text-green-600" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-[#000000] mb-2">Submission Received!</h3>
-                      <p className="text-gray-600 mb-6">Thank you. Our business setup experts will contact you shortly.</p>
-                      <button onClick={() => setStatus("idle")} className="px-6 py-2 bg-[#e83f25] text-white font-bold rounded-md hover:bg-[#c73519] transition-colors">
-                        New Submission
-                      </button>
-                    </div> : <>
-                      <Input label="Full Name" id="fullName" placeholder="Enter your full name" required value={formData.fullName} onChange={onChange} disabled={status === "sending"} />
-
-                      <Input label="Email Address" id="email" type="email" placeholder="name@example.com" required value={formData.email} onChange={onChange} disabled={status === "sending"} />
-
-                      <Input label="Mobile Number" id="mobileNumber" type="tel" placeholder="+971 50 123 4567" required value={formData.mobileNumber} onChange={onChange} disabled={status === "sending"} />
-
-                      <Input label="Country of Residence" id="countryOfResidence" placeholder="e.g. United Arab Emirates" required value={formData.countryOfResidence} onChange={onChange} disabled={status === "sending"} />
-
-                      {status === "error" && <div className="flex items-center gap-2 p-4 bg-red-50 text-red-600 rounded-lg animate-fade-in">
-                          <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                          <p className="text-sm">Something went wrong. Please try again.</p>
-                        </div>}
-
-                      <div className="space-y-4">
-                        <button type="submit" disabled={status === "sending" || isConnecting} className="w-full bg-[#e83f25] text-white font-bold py-4 px-6 rounded-md hover:bg-[#c73519] transition-colors duration-300 shadow-lg mt-4 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
-                          {status === "sending" ? <>
-                              <Loader2 className="w-5 h-5 animate-spin" />
-                              <span>Sending your message...</span>
-                            </> : "Start My Business Setup"}
-                        </button>
-                        
-                        {status === "sending" && <p className="text-center text-xs text-gray-500 animate-fade-in">
-                            This may take a few seconds on first message — hang tight.
-                          </p>}
-                      </div>
-                    </>}
-                </form>
+              <div className="space-y-4">
+                <Feature text="Dubai-based Business Setup Experts" />
+                <Feature text="Real Estate Focused Licensing" />
+                <Feature text="Fast-track setup within 48 hours" />
               </div>
-
             </div>
+            <div className="p-8 md:p-12 order-first lg:order-last">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#000000] mb-6">
+                Start Your Business Setup
+              </h2>
+
+              <form className="space-y-5" onSubmit={onSubmit}>
+                {status === "sent" ? <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-[#000000] mb-2">Submission Received!</h3>
+                  <p className="text-gray-600 mb-6">Thank you. Our business setup experts will contact you shortly.</p>
+                  <button onClick={() => setStatus("idle")} className="px-6 py-2 bg-[#e83f25] text-white font-bold rounded-md hover:bg-[#c73519] transition-colors">
+                    New Submission
+                  </button>
+                </div> : <>
+                  <Input label="Full Name" id="fullName" placeholder="Enter your full name" required value={formData.fullName} onChange={onChange} disabled={status === "sending"} />
+
+                  <Input label="Email Address" id="email" type="email" placeholder="name@example.com" required value={formData.email} onChange={onChange} disabled={status === "sending"} />
+
+                  <Input label="Mobile Number" id="mobileNumber" type="tel" placeholder="+971 50 123 4567" required value={formData.mobileNumber} onChange={onChange} disabled={status === "sending"} />
+
+                  <Input label="Country of Residence" id="countryOfResidence" placeholder="e.g. United Arab Emirates" required value={formData.countryOfResidence} onChange={onChange} disabled={status === "sending"} />
+
+                  {status === "error" && <div className="flex items-center gap-2 p-4 bg-red-50 text-red-600 rounded-lg animate-fade-in">
+                    <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                    <p className="text-sm">Something went wrong. Please try again.</p>
+                  </div>}
+
+                  <div className="space-y-4">
+                    <button type="submit" disabled={status === "sending" || isConnecting} className="w-full bg-[#e83f25] text-white font-bold py-4 px-6 rounded-md hover:bg-[#c73519] transition-colors duration-300 shadow-lg mt-4 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                      {status === "sending" ? <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>Sending your message...</span>
+                      </> : "Start My Business Setup"}
+                    </button>
+
+                    {status === "sending" && <p className="text-center text-xs text-gray-500 animate-fade-in">
+                      This may take a few seconds on first message — hang tight.
+                    </p>}
+                  </div>
+                </>}
+              </form>
+            </div>
+
           </div>
         </div>
+      </div>
 
-      </section>
-    </div>;
+    </section>
+  </div>;
 };
 const Feature = ({
   text

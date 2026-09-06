@@ -74,9 +74,7 @@ const Hero = () => {
               Discover luxury real estate investments in UAE's most
               prestigious locations.
             </p>
-            <p className="text-sm sm:text-lg md:text-xl text-white leading-relaxed max-w-3xl mx-auto">
-              AI-powered insights for smarter investment decisions.
-            </p>
+           
           </div>
 
           <div className="flex justify-center">
