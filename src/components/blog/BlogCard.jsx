@@ -32,7 +32,11 @@ const BlogCard = ({
   blog
 }) => <Link to={`/blog/${blog.slug.current}`} className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:border-[#e83f25]/10 transition-all duration-400 hover:-translate-y-1.5" id={`blog-card-${blog._id}`}>
     <div className="relative h-52 overflow-hidden">
-      {blog.mainImage ? <img src={urlFor(blog.mainImage).width(500).height(300).url()} alt={blog.mainImage.alt || blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" loading="lazy" /> : <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+      {blog.coverImageUrl ? (
+        <img src={blog.coverImageUrl} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" loading="lazy" />
+      ) : blog.mainImage ? (
+        <img src={urlFor(blog.mainImage).width(500).height(300).url()} alt={blog.mainImage.alt || blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" loading="lazy" />
+      ) : <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
           <span className="text-gray-400 text-4xl" style={{
         fontFamily: "var(--font-display)"
       }}>E</span>

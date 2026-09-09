@@ -7,6 +7,8 @@ Dubai real estate intelligence platform — live transaction data, AI market ana
 
 ```
 emiratiyo-investments/
+├── automations/
+│   └── emiratiyo-blog-automation.blueprint.json  # n8n workflow for automated blog publishing
 ├── scripts/
 │   └── push-weekly-report.mjs      # Pushes weekly market data to Sanity
 ├── public/                          # Static assets served at root
@@ -119,6 +121,7 @@ Monolith layered architecture deployed on Fly.io.
 
 - [docs/ENV_SETUP.md](docs/ENV_SETUP.md) — All environment variables
 - [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) — How to contribute
+- [automations/](automations/) — n8n workflow blueprints
 
 
 © 2026 Emiratiyo. All Rights Reserved. See [LICENSE](./LICENSE).

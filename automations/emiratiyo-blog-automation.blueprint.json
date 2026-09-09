@@ -1,0 +1,202 @@
+{
+  "name": "Emiratiyo Blog Automation",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "6d13f49c-7e27-4234-81c9-257738de730c",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        480,
+        -128
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"contents\": [{\"parts\": [{\"text\": \"You must return ONLY a valid raw JSON object. No markdown, no code fences, no backticks, no extra text before or after the JSON. Write a detailed engaging blog post about Dubai real estate. FORBIDDEN: off-plan investment advantages, generic why Dubai is good to invest, off-plan payment plan benefits, capital appreciation pitches. These are overdone. Choose your own creative specific topic - neighborhood deep dives, lifestyle realities, legal quirks, market myths, tenant stories, expat experiences, hidden costs, community comparisons, scams, demographic shifts, anything genuinely interesting. Be unpredictable every time. CONTENT: 600-900 words, opinionated engaging voice not a brochure, vary paragraph lengths, practical advice. Include at least 2 statistics with real numbers citing plausible sources like Bayut, Property Finder, Dubai Land Department, or Knight Frank 2024/2025 reports. Return a JSON object with: title (string), excerpt (100-150 chars punchy), readTime (number), tags (string with exactly 3 tags pre-quoted comma-separated like \\\\\\\"tag1\\\\\\\",\\\\\\\"tag2\\\\\\\",\\\\\\\"tag3\\\\\\\"), body (array of block objects). BLOCK FORMATS: H2 heading: {\\\\\\\"_type\\\\\\\":\\\\\\\"block\\\\\\\",\\\\\\\"_key\\\\\\\":\\\\\\\"a01\\\\\\\",\\\\\\\"style\\\\\\\":\\\\\\\"h2\\\\\\\",\\\\\\\"children\\\\\\\":[{\\\\\\\"_type\\\\\\\":\\\\\\\"span\\\\\\\",\\\\\\\"_key\\\\\\\":\\\\\\\"s01\\\\\\\",\\\\\\\"text\\\\\\\":\\\\\\\"Heading text\\\\\\\",\\\\\\\"marks\\\\\\\":[]}],\\\\\\\"markDefs\\\\\\\":[]}. Normal paragraph: {\\\\\\\"_type\\\\\\\":\\\\\\\"block\\\\\\\",\\\\\\\"_key\\\\\\\":\\\\\\\"b02\\\\\\\",\\\\\\\"style\\\\\\\":\\\\\\\"normal\\\\\\\",\\\\\\\"children\\\\\\\":[{\\\\\\\"_type\\\\\\\":\\\\\\\"span\\\\\\\",\\\\\\\"_key\\\\\\\":\\\\\\\"s02\\\\\\\",\\\\\\\"text\\\\\\\":\\\\\\\"Paragraph text\\\\\\\",\\\\\\\"marks\\\\\\\":[]}],\\\\\\\"markDefs\\\\\\\":[]}. Bold inline: {\\\\\\\"_type\\\\\\\":\\\\\\\"block\\\\\\\",\\\\\\\"_key\\\\\\\":\\\\\\\"c03\\\\\\\",\\\\\\\"style\\\\\\\":\\\\\\\"normal\\\\\\\",\\\\\\\"children\\\\\\\":[{\\\\\\\"_type\\\\\\\":\\\\\\\"span\\\\\\\",\\\\\\\"_key\\\\\\\":\\\\\\\"s03\\\\\\\",\\\\\\\"text\\\\\\\":\\\\\\\"Regular text \\\\\\\",\\\\\\\"marks\\\\\\\":[]},{\\\\\\\"_type\\\\\\\":\\\\\\\"span\\\\\\\",\\\\\\\"_key\\\\\\\":\\\\\\\"s04\\\\\\\",\\\\\\\"text\\\\\\\":\\\\\\\"bold part\\\\\\\",\\\\\\\"marks\\\\\\\":[\\\\\\\"strong\\\\\\\"]},{\\\\\\\"_type\\\\\\\":\\\\\\\"span\\\\\\\",\\\\\\\"_key\\\\\\\":\\\\\\\"s05\\\\\\\",\\\\\\\"text\\\\\\\":\\\\\\\" rest.\\\\\\\",\\\\\\\"marks\\\\\\\":[]}],\\\\\\\"markDefs\\\\\\\":[]}. Bullet: {\\\\\\\"_type\\\\\\\":\\\\\\\"block\\\\\\\",\\\\\\\"_key\\\\\\\":\\\\\\\"d04\\\\\\\",\\\\\\\"style\\\\\\\":\\\\\\\"normal\\\\\\\",\\\\\\\"listItem\\\\\\\":\\\\\\\"bullet\\\\\\\",\\\\\\\"level\\\\\\\":1,\\\\\\\"children\\\\\\\":[{\\\\\\\"_type\\\\\\\":\\\\\\\"span\\\\\\\",\\\\\\\"_key\\\\\\\":\\\\\\\"s06\\\\\\\",\\\\\\\"text\\\\\\\":\\\\\\\"Bullet text\\\\\\\",\\\\\\\"marks\\\\\\\":[]}],\\\\\\\"markDefs\\\\\\\":[]}. KEY RULES: every _key unique, format like a01 b02 s01 s02, never repeat. No newlines or markdown inside text values. STRUCTURE: 3-4 h2 blocks, 6-8 normal paragraph blocks mixing plain and bold-inline, 3-4 bullet items, minimum 14 blocks total. If unable to comply return: {\\\\\\\"error\\\\\\\":true,\\\\\\\"body\\\\\\\":[]}\"}]}], \"generationConfig\": {\"thinkingConfig\": {\"thinkingBudget\": 0}, \"responseMimeType\": \"application/json\"}}",
+        "options": {}
+      },
+      "id": "f86d1cd7-057d-4161-9818-f3eb7fa09d50",
+      "name": "Generate Blog Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        752,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.item.json.candidates[0].content.parts[0].text;\nconst cleaned = raw.replace(/```json/g, '').replace(/```/g, '').trim();\nconst blog = JSON.parse(cleaned);\n\n// blog.tags arrives as a pre-quoted string like: \"tag1\",\"tag2\",\"tag3\"\nconst tagsArray = JSON.parse('[' + blog.tags + ']');\n\n// Build a search query for Unsplash - bias it toward real estate imagery\nconst searchQuery = 'Dubai real estate ' + tagsArray[0];\n\nreturn [{\n  json: {\n    title: blog.title,\n    excerpt: blog.excerpt,\n    readTime: blog.readTime,\n    body: blog.body,\n    tags: tagsArray,\n    searchQuery: searchQuery\n  }\n}];"
+      },
+      "id": "e6abc4bc-1367-4565-a7d7-cf32abe97717",
+      "name": "Parse Blog JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.unsplash.com/search/photos",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.searchQuery }}"
+            },
+            {
+              "name": "per_page",
+              "value": "1"
+            },
+            {
+              "name": "orientation",
+              "value": "landscape"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0ebc9245-83fc-4815-9915-92da69a13840",
+      "name": "Search Unsplash Photo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1232,
+        -32
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "FiCLUbeG4wqncVPA",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://kgljxpj0.api.sanity.io/v2024-01-01/data/mutate/production",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ (() => {\nconst blog = $('Parse Blog JSON').item.json;\nconst photo = $json.results && $json.results[0];\nconst uniqueId = 'drafts.' + Date.now() + '-' + Math.random().toString(36).substring(2, 8);\n\nreturn JSON.stringify({\n  mutations: [{\n    create: {\n      _id: uniqueId,\n      _type: 'blog',\n      title: blog.title,\n      excerpt: blog.excerpt,\n      readTime: blog.readTime,\n      slug: { _type: 'slug', current: blog.title },\n      body: blog.body,\n      tags: blog.tags,\n      coverImageUrl: photo ? photo.urls.regular : null,\n      coverImageCredit: photo ? ('Photo by ' + photo.user.name + ' on Unsplash') : null\n    }\n  }]\n});\n})() }}",
+        "options": {}
+      },
+      "id": "427a3e9f-3275-4963-b25a-dd1e9452fb9e",
+      "name": "Create Sanity Draft",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1472,
+        -32
+      ],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "bsmlt3g5mDlpGk5Z",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "daysInterval": 2
+            }
+          ]
+        }
+      },
+      "id": "4fa249e5-9e32-4f82-b68d-708fe4e429fd",
+      "name": "Every 2 Days",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        64
+      ],
+      "notes": "Leave the whole workflow set to Inactive until go-live day. On go-live, just toggle the workflow Active - this node will start firing every 2 days from that moment."
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Generate Blog Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Blog Content": {
+      "main": [
+        [
+          {
+            "node": "Parse Blog JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Blog JSON": {
+      "main": [
+        [
+          {
+            "node": "Search Unsplash Photo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Unsplash Photo": {
+      "main": [
+        [
+          {
+            "node": "Create Sanity Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every 2 Days": {
+      "main": [
+        [
+          {
+            "node": "Generate Blog Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "955162c8-ddf0-4af1-82bf-1579e62e8c0d",
+  "meta": {
+    "instanceId": "55392c24e39756b5072aa926f1bc8d98f8451b4a995a6ee3c84d68ed376577ab"
+  },
+  "nodeGroups": [],
+  "id": "TsnKotkAm6fvrk2W",
+  "tags": []
+}

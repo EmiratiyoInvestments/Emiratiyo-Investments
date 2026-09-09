@@ -55,22 +55,26 @@ const BlogDetailPage = () => {
   }
   return <div>
       <main className="min-h-screen bg-white pt-24 pb-20">
-        <div className="max-w-4xl mx-auto px-6">          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#e83f25] transition-colors mb-8" style={{
+        <div className="max-w-4xl mx-auto px-6">
+          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#e83f25] transition-colors mb-8" style={{
           fontFamily: 'var(--font-body)'
         }}>
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
-          </Link>          <div className="flex flex-wrap gap-2 mb-4">
+          </Link>
+          <div className="flex flex-wrap gap-2 mb-4">
             {blog.categories?.map(cat => <span key={cat.title} className="text-xs font-semibold text-[#e83f25] uppercase tracking-wide bg-[#e83f25]/10 px-3 py-1 rounded-full" style={{
             fontFamily: 'var(--font-body)'
           }}>
                 {cat.title}
               </span>)}
-          </div>          <h1 className="text-4xl lg:text-5xl font-bold text-black mb-6 leading-tight" style={{
+          </div>
+          <h1 className="text-4xl lg:text-5xl font-bold text-black mb-6 leading-tight" style={{
           fontFamily: 'var(--font-display)'
         }}>
             {blog.title}
-          </h1>          <div className="flex flex-wrap items-center gap-6 mb-8 pb-8 border-b border-gray-200">
+          </h1>
+          <div className="flex flex-wrap items-center gap-6 mb-8 pb-8 border-b border-gray-200">
             {blog.author && <div className="flex items-center gap-3">
                 {blog.author.image ? <img src={urlFor(blog.author.image).width(48).height(48).url()} alt={blog.author.name} className="w-12 h-12 rounded-full object-cover" /> : <div className="w-12 h-12 rounded-full bg-[#e83f25] flex items-center justify-center text-white font-bold">
                     {blog.author.name?.charAt(0)}
@@ -104,9 +108,24 @@ const BlogDetailPage = () => {
                 {blog.readTime} min read
               </span>
             </div>
-          </div>          {blog.mainImage && <div className="relative h-72 lg:h-[450px] rounded-2xl overflow-hidden mb-10">
-              <img src={urlFor(blog.mainImage).width(1200).url()} alt={blog.mainImage.alt || blog.title} className="w-full h-full object-cover" />
-            </div>}          <div className="prose prose-lg max-w-none" style={{
+          </div>
+          {(blog.coverImageUrl || blog.mainImage) && (
+            <div className="mb-10">
+              <div className="relative h-72 lg:h-[450px] rounded-2xl overflow-hidden">
+                {blog.coverImageUrl ? (
+                  <img src={blog.coverImageUrl} alt={blog.title} className="w-full h-full object-cover" />
+                ) : (
+                  <img src={urlFor(blog.mainImage).width(1200).url()} alt={blog.mainImage.alt || blog.title} className="w-full h-full object-cover" />
+                )}
+              </div>
+              {blog.coverImageCredit && (
+                <p className="text-xs text-gray-400 mt-2 text-center" style={{ fontFamily: 'var(--font-body)' }}>
+                  {blog.coverImageCredit}
+                </p>
+              )}
+            </div>
+          )}
+          <div className="prose prose-lg max-w-none" style={{
           fontFamily: 'var(--font-body)'
         }}>
             {blog.body && <PortableText value={blog.body} components={{
@@ -179,14 +198,16 @@ const BlogDetailPage = () => {
               }) => <strong className="font-bold text-black">{children}</strong>
             }
           }} />}
-          </div>          {blog.tags?.length > 0 && <div className="flex items-center gap-3 flex-wrap mt-10 pt-8 border-t border-gray-200">
+          </div>
+          {blog.tags?.length > 0 && <div className="flex items-center gap-3 flex-wrap mt-10 pt-8 border-t border-gray-200">
               <Tag className="w-4 h-4 text-gray-400" />
               {blog.tags.map(tag => <span key={tag} className="text-sm text-gray-500 bg-[#f7f7f7] px-3 py-1 rounded-full" style={{
             fontFamily: 'var(--font-body)'
           }}>
                   #{tag}
                 </span>)}
-            </div>}          {blog.author?.bio && <div className="mt-10 p-8 bg-[#f7f7f7] rounded-2xl">
+            </div>}
+          {blog.author?.bio && <div className="mt-10 p-8 bg-[#f7f7f7] rounded-2xl">
               <div className="flex items-center gap-4 mb-4">
                 {blog.author.image ? <img src={urlFor(blog.author.image).width(64).height(64).url()} alt={blog.author.name} className="w-16 h-16 rounded-full object-cover" /> : <div className="w-16 h-16 rounded-full bg-[#e83f25] flex items-center justify-center text-white font-bold text-xl">
                     {blog.author.name?.charAt(0)}

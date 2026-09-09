@@ -8,6 +8,16 @@ export default {
     type: 'string',
     validation: Rule => Rule.required()
   }, {
+    name: 'coverImageUrl',
+    title: 'Cover Image URL',
+    type: 'url',
+    description: 'Direct image URL (currently sourced from Unsplash via automation)'
+  }, {
+    name: 'coverImageCredit',
+    title: 'Cover Image Credit',
+    type: 'string',
+    description: 'Photographer attribution text, e.g. "Photo by Jane Doe on Unsplash"'
+  }, {
     name: 'slug',
     title: 'Slug',
     type: 'slug',
